@@ -1,9 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
         xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+        xmlns:hometab="clr-namespace:PulseOximeterApp.ViewModels.HomeTab"
         xmlns:converters="clr-namespace:PulseOximeterApp.Infrastructure.Converters"
-        xmlns:viewmodels="clr-namespace:PulseOximeterApp.ViewModels" x:DataType="viewmodels:HomePageViewModel"
-        x:Class="PulseOximeterApp.Views.HomePage">
+        x:DataType="hometab:MeasurePageViewModel"
+        x:Class="PulseOximeterApp.Views.HomeTab.MeasurePage">
 
     <ContentPage.Resources>
         <converters:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
@@ -21,14 +22,8 @@
 
             <Grid Grid.Column="1" VerticalOptions="Center">
                 <StackLayout Spacing="20">
-                    <StackLayout>
-                        <Label Text="Проверьте нижеперечисленные пункты:" FontSize="Title"/>
-                        <Label Text="1. Включите Bluetooth."/>
-                        <Label Text="2. Включите местоположение."/>
-                        <Label Text="3. Подключите микроконтроллер к питанию."/>
-                    </StackLayout>
-
-                    <Button Text="Подключиться к пульсоксиметру" Command="{Binding ConnectToMicrocontroller}"/>
+                    <Button Text="Пульс" Command="{Binding PulseMeasure}"/>
+                    <Button Text="Сатурация" Command="{Binding SaturationMesure}"/>
                 </StackLayout>
             </Grid>
         </Grid>

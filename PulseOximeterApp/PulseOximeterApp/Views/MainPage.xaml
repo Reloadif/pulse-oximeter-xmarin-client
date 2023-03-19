@@ -1,19 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Shell xmlns="http://xamarin.com/schemas/2014/forms"
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-       xmlns:views="clr-namespace:PulseOximeterApp.Views"
+       xmlns:views="clr-namespace:PulseOximeterApp.Views" 
+       xmlns:viewmodels="clr-namespace:PulseOximeterApp.ViewModels" x:DataType="viewmodels:MainPageViewModel"
        x:Class="PulseOximeterApp.MainPage">
 
-    <FlyoutItem Title="Главная">
-        <ShellContent ContentTemplate="{DataTemplate views:HomePage}" />
-    </FlyoutItem>
+    <TabBar>
+        <Tab Title="Главная" Icon="home.png">
+            <ShellContent ContentTemplate="{DataTemplate views:HomePage}" IsEnabled="{Binding HomeTabIsEnabled}" />
+        </Tab>
 
-    <FlyoutItem Title="Статистика измерений">
-        <ShellContent ContentTemplate="{DataTemplate views:StatisticPage}" />
-    </FlyoutItem>
+        <Tab Title="Статистика измерений" Icon="statistic.png">
+            <ShellContent ContentTemplate="{DataTemplate views:StatisticPage}" IsEnabled="{Binding StatisticTabIsEnabled}" />
+        </Tab>
 
-    <FlyoutItem Title="Настройки">
-        <ShellContent ContentTemplate="{DataTemplate views:SettingPage}" />
-    </FlyoutItem>
+        <Tab Title="Настройки" Icon="setting.png">
+            <ShellContent ContentTemplate="{DataTemplate views:SettingPage}" IsEnabled="{Binding SettingTabIsEnabled}" />
+        </Tab>
+    </TabBar>
 
 </Shell>

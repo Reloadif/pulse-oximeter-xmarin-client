@@ -1,4 +1,5 @@
-﻿using Xamarin.Forms;
+﻿using PulseOximeterApp.ViewModels;
+using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace PulseOximeterApp.Views
@@ -9,6 +10,8 @@ namespace PulseOximeterApp.Views
         public HomePage()
         {
             InitializeComponent();
+
+            BindingContext = new HomePageViewModel();
         }
     }
 }
