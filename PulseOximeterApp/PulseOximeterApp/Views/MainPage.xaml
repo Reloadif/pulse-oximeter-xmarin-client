@@ -3,14 +3,14 @@
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
        xmlns:views="clr-namespace:PulseOximeterApp.Views" 
        xmlns:viewmodels="clr-namespace:PulseOximeterApp.ViewModels" x:DataType="viewmodels:MainPageViewModel"
-       x:Class="PulseOximeterApp.MainPage">
+       x:Class="PulseOximeterApp.MainPage" Shell.NavBarIsVisible="False">
 
     <TabBar>
         <Tab Title="Главная" Icon="home.png">
             <ShellContent ContentTemplate="{DataTemplate views:HomePage}" IsEnabled="{Binding HomeTabIsEnabled}" />
         </Tab>
 
-        <Tab Title="Статистика измерений" Icon="statistic.png">
+        <Tab Title="Статистика" Icon="statistic.png">
             <ShellContent ContentTemplate="{DataTemplate views:StatisticPage}" IsEnabled="{Binding StatisticTabIsEnabled}" />
         </Tab>
 
