@@ -6,16 +6,16 @@
        x:Class="PulseOximeterApp.MainPage" Shell.NavBarIsVisible="False">
 
     <TabBar>
-        <Tab Title="Главная" Icon="home.png">
-            <ShellContent ContentTemplate="{DataTemplate views:HomePage}" IsEnabled="{Binding HomeTabIsEnabled}" />
+        <Tab Title="Главная" Icon="home.png" IsEnabled="{Binding HomeTabIsEnabled}">
+            <ShellContent ContentTemplate="{DataTemplate views:HomePage}" />
         </Tab>
 
-        <Tab Title="Статистика" Icon="statistic.png">
-            <ShellContent ContentTemplate="{DataTemplate views:StatisticPage}" IsEnabled="{Binding StatisticTabIsEnabled}" />
+        <Tab Title="Статистика" Icon="statistic.png" IsEnabled="{Binding StatisticTabIsEnabled}">
+            <ShellContent ContentTemplate="{DataTemplate views:StatisticPage}" />
         </Tab>
 
-        <Tab Title="Настройки" Icon="setting.png">
-            <ShellContent ContentTemplate="{DataTemplate views:SettingPage}" IsEnabled="{Binding SettingTabIsEnabled}" />
+        <Tab Title="Настройки" Icon="setting.png" IsEnabled="{Binding SettingTabIsEnabled}">
+            <ShellContent ContentTemplate="{DataTemplate views:SettingPage}" />
         </Tab>
     </TabBar>
 

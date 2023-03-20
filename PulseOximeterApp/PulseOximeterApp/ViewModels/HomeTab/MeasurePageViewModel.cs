@@ -11,7 +11,7 @@ namespace PulseOximeterApp.ViewModels.HomeTab
         #region Fields
         private bool _isActivityIndicator;
 
-        private readonly MicrocontrollerConnector _microcontrollerConnector;
+        private readonly PulseOximeterService _pulseOximeterService;
         #endregion
 
         #region Properties
@@ -31,11 +31,14 @@ namespace PulseOximeterApp.ViewModels.HomeTab
 
         private async void ExecutePulseMeasure(object obj)
         {
+            (Application.Current.MainPage.BindingContext as MainPageViewModel).StatisticTabIsEnabled = false;
+            (Application.Current.MainPage.BindingContext as MainPageViewModel).SettingTabIsEnabled = false;
+
             IsActivityIndicator = true;
             await BeginInvokeOnMainThreadAsync<object>(() =>
             {
                 MeasurePulse = new MeasurePulsePage();
-                MeasurePulseVM = new MeasurePulsePageViewModel(_microcontrollerConnector.GetDevice);
+                MeasurePulseVM = new MeasurePulsePageViewModel(_pulseOximeterService);
                 MeasurePulseVM.OnClosing += OnMeasurePulseClosing;
                 MeasurePulse.BindingContext = MeasurePulseVM;
 
@@ -47,14 +50,17 @@ namespace PulseOximeterApp.ViewModels.HomeTab
         }
         #endregion
 
-        private async void OnMeasurePulseClosing()
+        private async void OnMeasurePulseClosing(bool isSave)
         {
+            await Shell.Current.Navigation.PopAsync();
 
+            (Application.Current.MainPage.BindingContext as MainPageViewModel).StatisticTabIsEnabled = true;
+            (Application.Current.MainPage.BindingContext as MainPageViewModel).SettingTabIsEnabled = true;
         }
 
-        public MeasurePageViewModel(MicrocontrollerConnector microcontrollerConnector)
+        public MeasurePageViewModel(PulseOximeterService pulseOximeterService)
         {
-            _microcontrollerConnector = microcontrollerConnector;
+            _pulseOximeterService = pulseOximeterService;
 
             PulseMeasure = new Command(ExecutePulseMeasure);
         }

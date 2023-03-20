@@ -33,7 +33,8 @@ namespace PulseOximeterApp.ViewModels
             if (await _microcontrollerConnector.Connect())
             {
                 var Measure = new MeasurePage();
-                var MeasureVM = new MeasurePageViewModel(_microcontrollerConnector);
+                var MeasureVM = new MeasurePageViewModel(new PulseOximeterService(_microcontrollerConnector.GetDevice));
+                Measure.BindingContext = MeasureVM;
                 await Shell.Current.Navigation.PushAsync(Measure);
             }
 
@@ -44,8 +45,14 @@ namespace PulseOximeterApp.ViewModels
         public HomePageViewModel()
         {
             _microcontrollerConnector = new MicrocontrollerConnector();
+            _microcontrollerConnector.OnException += OnExceptionMictrocontroller;
 
             ConnectToMicrocontroller = new Command(ExecuteConnectToMicrocontroller);
+        }
+
+        private async void OnExceptionMictrocontroller(string message)
+        {
+            await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("Alert", message, "OK");
         }
     }
 }
