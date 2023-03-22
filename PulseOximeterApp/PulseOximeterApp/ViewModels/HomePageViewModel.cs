@@ -1,4 +1,7 @@
-﻿using PulseOximeterApp.Services.BluetoothLE;
+﻿using Plugin.BLE;
+using Plugin.BLE.Abstractions.EventArgs;
+using PulseOximeterApp.Services.BluetoothLE;
+using PulseOximeterApp.Services.DependencyServices;
 using PulseOximeterApp.ViewModels.Base;
 using PulseOximeterApp.ViewModels.HomeTab;
 using PulseOximeterApp.Views.HomeTab;
@@ -10,9 +13,12 @@ namespace PulseOximeterApp.ViewModels
     internal class HomePageViewModel : BaseViewModel
     {
         #region Fields
-        private MicrocontrollerConnector _microcontrollerConnector;
+        private readonly MicrocontrollerConnector _microcontrollerConnector;
 
         private bool _isActivityIndicator;
+
+        private bool _isBluetoothOn;
+        private bool _isLocationOn;
         #endregion
 
         #region Properties
@@ -20,6 +26,30 @@ namespace PulseOximeterApp.ViewModels
         {
             get => _isActivityIndicator;
             set => Set(ref _isActivityIndicator, value);
+        }
+
+        public bool IsBluetoothOn
+        {
+            get => _isBluetoothOn;
+            set
+            {
+                if (Set(ref _isBluetoothOn, value))
+                {
+                    (ConnectToMicrocontroller as Command).ChangeCanExecute();
+                }
+            }
+        }
+        public bool IsLocationOn
+        {
+            get => _isLocationOn;
+            set
+            {
+                if (Set(ref _isLocationOn, value))
+                {
+                    
+                    (ConnectToMicrocontroller as Command).ChangeCanExecute();
+                }
+            }
         }
         #endregion
 
@@ -40,19 +70,41 @@ namespace PulseOximeterApp.ViewModels
 
             IsActivityIndicator = false;
         }
+        private bool CanExecuteConnectToMicrocontroller(object obj)
+        {
+            return _isBluetoothOn && _isLocationOn;
+        }
         #endregion
 
         public HomePageViewModel()
         {
-            _microcontrollerConnector = new MicrocontrollerConnector();
-            _microcontrollerConnector.OnException += OnExceptionMictrocontroller;
+            ConnectToMicrocontroller = new Command(ExecuteConnectToMicrocontroller, CanExecuteConnectToMicrocontroller);
 
-            ConnectToMicrocontroller = new Command(ExecuteConnectToMicrocontroller);
+            IsBluetoothOn = CrossBluetoothLE.Current.State == Plugin.BLE.Abstractions.Contracts.BluetoothState.On;
+            CrossBluetoothLE.Current.StateChanged += OnBluetoothLEStateChanged;
+
+            IsLocationOn = DependencyService.Get<IGpsDependencyService>().IsGpsTurnedOn();
+            DependencyService.Get<IGpsDependencyService>().GpsStatusChanged += OnLocationStateChanged;
+
+            _microcontrollerConnector = new MicrocontrollerConnector();
+            _microcontrollerConnector.ExceptionGenerated += OnExceptionMictrocontroller;
+        }
+        ~HomePageViewModel()
+        {
+            CrossBluetoothLE.Current.StateChanged -= OnBluetoothLEStateChanged;
         }
 
+        private void OnBluetoothLEStateChanged(object sender, BluetoothStateChangedArgs args)
+        {
+            IsBluetoothOn = args.NewState == Plugin.BLE.Abstractions.Contracts.BluetoothState.On;
+        }
+        private void OnLocationStateChanged(bool value)
+        {
+            IsLocationOn = value;
+        }
         private async void OnExceptionMictrocontroller(string message)
         {
-            await Xamarin.Forms.Application.Current.MainPage.DisplayAlert("Alert", message, "OK");
+            await Application.Current.MainPage.DisplayAlert("Alert", message, "OK");
         }
     }
 }

@@ -22,10 +22,39 @@
             <Grid Grid.Column="1" VerticalOptions="Center">
                 <StackLayout Spacing="20">
                     <StackLayout>
-                        <Label Text="Проверьте нижеперечисленные пункты:" FontSize="Title"/>
-                        <Label Text="1. Включите Bluetooth."/>
-                        <Label Text="2. Включите местоположение."/>
-                        <Label Text="3. Подключите микроконтроллер к питанию."/>
+                        <Label Text="Проверьте следующие пункты:" FontSize="Title"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="0.9*"/>
+                                <ColumnDefinition Width="0.1*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+
+                            <Label Text="1. Включите Bluetooth."/>
+
+                            <StackLayout Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center">
+                                <Path Data="M 1743.858 267.012 710.747 1300.124 176.005 765.382 0 941.387l710.747 710.871 1209.24-1209.116z" 
+                                      Aspect="Uniform" Fill="Black" HeightRequest="16" IsVisible="{Binding IsBluetoothOn}" />
+                                <Path Data="M 64 388L196 256 64 124 96 92 228 224 360 92 392 124 260 256 392 388 360 420 228 288 96 420 64 388Z"
+                                      Aspect="Uniform" Fill="Black" HeightRequest="16" IsVisible="{Binding IsBluetoothOn, Converter={StaticResource InverseBooleanConverter}}" />
+                            </StackLayout>
+
+
+                            <Label Grid.Row="1" Text="2. Включите местоположение."/>
+                            <StackLayout Grid.Column="1" Grid.Row="1" VerticalOptions="Center" HorizontalOptions="Center">
+                                <Path Data="M 1743.858 267.012 710.747 1300.124 176.005 765.382 0 941.387l710.747 710.871 1209.24-1209.116z" 
+                                      Aspect="Uniform" Fill="Black" HeightRequest="16" IsVisible="{Binding IsLocationOn}" />
+                                <Path Data="M 64 388L196 256 64 124 96 92 228 224 360 92 392 124 260 256 392 388 360 420 228 288 96 420 64 388Z"
+                                      Aspect="Uniform" Fill="Black" HeightRequest="16" IsVisible="{Binding IsLocationOn, Converter={StaticResource InverseBooleanConverter}}" />
+                            </StackLayout>
+
+                            <Label Grid.Row="2" Text="3. Подключите микроконтроллер к питанию." LineBreakMode="MiddleTruncation" />
+                        </Grid>
+                        
                     </StackLayout>
 
                     <Button Text="Подключиться к пульсоксиметру" Command="{Binding ConnectToMicrocontroller}"/>

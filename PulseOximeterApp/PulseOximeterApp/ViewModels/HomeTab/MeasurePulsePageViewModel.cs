@@ -104,7 +104,8 @@ namespace PulseOximeterApp.ViewModels.HomeTab
 
         private SKColor CalculateColorForChartEnty(int value)
         {
-            if (value < 80) return SKColor.Parse("2bf518");
+            if (value < 45) return SKColor.Parse("f24518");
+            else if (value < 80) return SKColor.Parse("2bf518");
             else if (value < 100) return SKColor.Parse("f1f518");
             else return SKColor.Parse("f24518");
         }

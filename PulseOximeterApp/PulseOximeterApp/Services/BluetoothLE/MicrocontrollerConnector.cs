@@ -19,7 +19,7 @@ namespace PulseOximeterApp.Services.BluetoothLE
             get => _device;
         }
 
-        public event Action<string> OnException;
+        public event Action<string> ExceptionGenerated;
 
         public MicrocontrollerConnector()
         {
@@ -39,7 +39,7 @@ namespace PulseOximeterApp.Services.BluetoothLE
             {
                 if (args.Device.Name.Equals(Config.Config.DeviceName))
                 {
-                    OnException.Invoke("Device got disconnected please scan again!");
+                    ExceptionGenerated.Invoke("Device got disconnected please scan again!");
                 }
             };
         }
@@ -55,12 +55,12 @@ namespace PulseOximeterApp.Services.BluetoothLE
             }
             catch (TaskCanceledException tce)
             {
-                OnException.Invoke("Scanning was cancelled!");
+                ExceptionGenerated.Invoke("Scanning was cancelled!");
                 return false;
             }
             catch (Exception e)
             {
-                OnException.Invoke("Error scanning for devices!");
+                ExceptionGenerated.Invoke("Error scanning for devices!");
                 return false;
             }
             finally
@@ -71,7 +71,7 @@ namespace PulseOximeterApp.Services.BluetoothLE
 
             if (_device is null)
             {
-                OnException.Invoke("Device not found!");
+                ExceptionGenerated.Invoke("Device not found!");
                 return false;
             }
             else
@@ -83,12 +83,12 @@ namespace PulseOximeterApp.Services.BluetoothLE
                 }
                 catch (DeviceConnectionException dce)
                 {
-                    OnException.Invoke("Error connecting to the device!");
+                    ExceptionGenerated.Invoke("Error connecting to the device!");
                     return false;
                 }
                 catch (TaskCanceledException tce)
                 {
-                    OnException.Invoke("Connection process was cancelled!");
+                    ExceptionGenerated.Invoke("Connection process was cancelled!");
                     return false;
                 }
             }
