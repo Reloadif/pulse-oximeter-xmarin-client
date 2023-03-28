@@ -4,16 +4,17 @@ using PulseOximeterApp.ViewModels.Base;
 using SkiaSharp;
 using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Threading;
 using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace PulseOximeterApp.ViewModels.HomeTab
 {
-    internal class MeasurePulsePageViewModel : BaseViewModel
+    internal class MeasureSaturationViewModel : BaseViewModel
     {
         #region Fields
-        private readonly IPulseService _pulseService;
+        private readonly ISaturationService _saturationService;
         private readonly IList<ChartEntry> _chartEntries;
         private LineChart _lineChart;
 
@@ -40,7 +41,7 @@ namespace PulseOximeterApp.ViewModels.HomeTab
         public bool IsCompleteMeasure
         {
             get => _isCompleteMeasure;
-            set => Set(ref _isCompleteMeasure, value); 
+            set => Set(ref _isCompleteMeasure, value);
         }
         #endregion
 
@@ -65,15 +66,15 @@ namespace PulseOximeterApp.ViewModels.HomeTab
             (Application.Current.MainPage.BindingContext as MainPageViewModel).StatisticTabIsEnabled = false;
             (Application.Current.MainPage.BindingContext as MainPageViewModel).SettingTabIsEnabled = false;
 
-            _pulseService.PulseNotify += OnPulseNotify;
+            _saturationService.SaturationNotify += OnSaturationNotify;
             _cancellationTokenSource = new CancellationTokenSource();
-            _pulseService.StartMeasurePulse(_cancellationTokenSource.Token);
+            _saturationService.StartMeasureSaturation(_cancellationTokenSource.Token);
         }
 
         public override void OnDisappearing()
         {
-            _cancellationTokenSource.Cancel();
-            _pulseService.PulseNotify -= OnPulseNotify;
+            if (!_cancellationTokenSource.IsCancellationRequested) _cancellationTokenSource.Cancel();
+            _saturationService.SaturationNotify -= OnSaturationNotify;
 
             (Application.Current.MainPage.BindingContext as MainPageViewModel).StatisticTabIsEnabled = true;
             (Application.Current.MainPage.BindingContext as MainPageViewModel).SettingTabIsEnabled = true;
@@ -82,9 +83,9 @@ namespace PulseOximeterApp.ViewModels.HomeTab
         }
         #endregion
 
-        public MeasurePulsePageViewModel(IPulseService pulseService)
+        public MeasureSaturationViewModel(ISaturationService saturationService)
         {
-            _pulseService = pulseService;
+            _saturationService = saturationService;
             _chartEntries = new List<ChartEntry>();
             _numberOfMeasure = 30;
             _valueOfCounter = _numberOfMeasure;
@@ -92,7 +93,7 @@ namespace PulseOximeterApp.ViewModels.HomeTab
             HeadBack = new Command(ExecuteHeadBack);
         }
 
-        private void OnPulseNotify(int value)
+        private void OnSaturationNotify(int value)
         {
             if (!_isCompleteMeasure)
             {
@@ -100,7 +101,7 @@ namespace PulseOximeterApp.ViewModels.HomeTab
 
                 _chartEntries.Add(new ChartEntry(value)
                 {
-                    Label = "BPM",
+                    Label = "Sp02",
                     ValueLabel = value.ToString(),
                     Color = CalculateColorForChartEnty(value),
                 });
@@ -121,9 +122,9 @@ namespace PulseOximeterApp.ViewModels.HomeTab
         {
             SKColor result = SKColor.Parse("f24518");
 
-            if (value < 45) result = SKColor.Parse("f24518");
-            else if (value < 80) result = SKColor.Parse("2bf518");
-            else if (value < 100) result = SKColor.Parse("f1f518");
+            if (value < 90) result = SKColor.Parse("f24518");
+            else if (value < 95) result = SKColor.Parse("2bf518");
+            else if (value <= 100) result = SKColor.Parse("f1f518");
 
             return result;
         }

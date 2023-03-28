@@ -11,6 +11,12 @@ namespace PulseOximeterApp.Droid.Services
 
         public event Action<bool> GpsStatusChanged;
 
+        public LocationReciever()
+        {
+            LocationManager locationManager = (LocationManager)Android.App.Application.Context.GetSystemService(Context.LocationService);
+            _newValue = locationManager.IsProviderEnabled(LocationManager.GpsProvider);
+        }
+
         public override void OnReceive(Context context, Intent intent)
         {
             if (LocationManager.ProvidersChangedAction.Equals(intent.Action))
@@ -21,7 +27,7 @@ namespace PulseOximeterApp.Droid.Services
 
                 if (_oldValue != _newValue)
                 {
-                    GpsStatusChanged.Invoke(true);
+                    GpsStatusChanged.Invoke(_newValue);
                 }
             }
         }

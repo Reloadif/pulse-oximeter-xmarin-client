@@ -1,18 +1,15 @@
-﻿using PulseOximeterApp.ViewModels;
-using PulseOximeterApp.ViewModels.Base;
+﻿using PulseOximeterApp.ViewModels.Base;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace PulseOximeterApp.Views
+namespace PulseOximeterApp.Views.HomeTab
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class HomePage : ContentPage
+    public partial class MeasureSaturationPage : ContentPage
     {
-        public HomePage()
+        public MeasureSaturationPage()
         {
             InitializeComponent();
-
-            BindingContext = new HomePageViewModel();
         }
 
         protected override void OnAppearing()

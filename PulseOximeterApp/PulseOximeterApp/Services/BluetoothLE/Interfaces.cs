@@ -5,14 +5,14 @@ namespace PulseOximeterApp.Services.BluetoothLE
 {
     internal interface IPulseService
     {
-        event Action<int> OnPulseNotify;
+        event Action<int> PulseNotify;
 
         void StartMeasurePulse(CancellationToken token);
     }
 
     internal interface ISaturationService
     {
-        event Action<int> OnSaturationNotify;
+        event Action<int> SaturationNotify;
 
         void StartMeasureSaturation(CancellationToken token);
     }

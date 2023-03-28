@@ -6,10 +6,8 @@ using Xamarin.Forms;
 
 namespace PulseOximeterApp.ViewModels.Base
 {
-    public class BaseViewModel : INotifyPropertyChanged, IDisposable
+    public class BaseViewModel : INotifyPropertyChanged
     {
-        private bool _disposed;
-
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -25,25 +23,6 @@ namespace PulseOximeterApp.ViewModels.Base
             OnPropertyChanged(propertyName);
             return true;
         }
-
-        protected virtual void Dispose(bool Disposing)
-        {
-            // Освобождение неуправляемых ресурсов
-
-            if (!Disposing || _disposed) return;
-            _disposed = true;
-
-            // Освобождение управляемых ресурсов
-        }
-        public void Dispose()
-        {
-            Dispose(true);
-        }
-
-        //~BaseViewModel()
-        //{
-        //    Dispose(false);
-        //}
 
         protected Task<T> BeginInvokeOnMainThreadAsync<T>(Func<T> a)
         {
@@ -63,6 +42,15 @@ namespace PulseOximeterApp.ViewModels.Base
             });
 
             return task.Task;
+        }
+
+        public virtual void OnAppearing()
+        {
+            // No default implementation. 
+        }
+        public virtual void OnDisappearing()
+        {
+            // No default implementation. 
         }
     }
 }

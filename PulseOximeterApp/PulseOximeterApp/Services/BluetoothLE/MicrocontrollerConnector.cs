@@ -1,9 +1,11 @@
 ﻿using Plugin.BLE;
 using Plugin.BLE.Abstractions.Contracts;
+using Plugin.BLE.Abstractions.EventArgs;
 using Plugin.BLE.Abstractions.Exceptions;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace PulseOximeterApp.Services.BluetoothLE
 {
@@ -26,22 +28,14 @@ namespace PulseOximeterApp.Services.BluetoothLE
             _adapter = CrossBluetoothLE.Current.Adapter;
             _device = null;
 
-            _adapter.DeviceDiscovered += (sender, args) =>
-            {
-                if (args.Device.Name != null && args.Device.Name.Equals(Config.Config.DeviceName))
-                {
-                    _device = args.Device;
-                    _cancelTokenSource.Cancel();
-                }
-            };
+            _adapter.DeviceDiscovered += OnDeviceDiscovered;
+            _adapter.DeviceConnectionLost += OnDeviceConnectionLost;
+        }
 
-            _adapter.DeviceDisconnected += (sender, args) =>
-            {
-                if (args.Device.Name.Equals(Config.Config.DeviceName))
-                {
-                    ExceptionGenerated.Invoke("Device got disconnected please scan again!");
-                }
-            };
+        ~MicrocontrollerConnector()
+        {
+            _adapter.DeviceDiscovered -= OnDeviceDiscovered;
+            _adapter.DeviceConnectionLost -= OnDeviceConnectionLost;
         }
 
         public async Task<bool> Connect()
@@ -91,6 +85,26 @@ namespace PulseOximeterApp.Services.BluetoothLE
                     ExceptionGenerated.Invoke("Connection process was cancelled!");
                     return false;
                 }
+            }
+        }
+
+        private void OnDeviceDiscovered(object sender, DeviceEventArgs args)
+        {
+            if (args.Device.Name != null && args.Device.Name.Equals(Config.Config.DeviceName))
+            {
+                _device = args.Device;
+                _cancelTokenSource.Cancel();
+            }
+        }
+        private void OnDeviceConnectionLost(object sender, DeviceEventArgs args)
+        {
+            if (args.Device.Name.Equals(Config.Config.DeviceName))
+            {
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    await Shell.Current.DisplayAlert("Alert", "Connection to device lost, please connect again!", "OK");
+                    await Shell.Current.Navigation.PopToRootAsync();
+                });
             }
         }
     }
