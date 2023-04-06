@@ -1,9 +1,12 @@
 ﻿using Microcharts;
+using PulseOximeterApp.Models;
+using PulseOximeterApp.Models.HeartRate;
 using PulseOximeterApp.Services.BluetoothLE;
 using PulseOximeterApp.ViewModels.Base;
 using SkiaSharp;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -14,14 +17,15 @@ namespace PulseOximeterApp.ViewModels.HomeTab
     {
         #region Fields
         private readonly IPulseService _pulseService;
+        private readonly IList<double> _cardioIntervals;
         private readonly IList<ChartEntry> _chartEntries;
         private LineChart _lineChart;
-
-        private CancellationTokenSource _cancellationTokenSource;
 
         private readonly int _numberOfMeasure;
         private int _valueOfCounter;
         private bool _isCompleteMeasure;
+
+        private BaevskyIndicators _baevskyIndicators;
         #endregion
 
         #region Properties
@@ -41,6 +45,12 @@ namespace PulseOximeterApp.ViewModels.HomeTab
         {
             get => _isCompleteMeasure;
             set => Set(ref _isCompleteMeasure, value); 
+        }
+
+        public BaevskyIndicators Baevsky
+        {
+            get => _baevskyIndicators;
+            set => Set(ref _baevskyIndicators, value);
         }
         #endregion
 
@@ -66,13 +76,12 @@ namespace PulseOximeterApp.ViewModels.HomeTab
             (Application.Current.MainPage.BindingContext as MainPageViewModel).SettingTabIsEnabled = false;
 
             _pulseService.PulseNotify += OnPulseNotify;
-            _cancellationTokenSource = new CancellationTokenSource();
-            _pulseService.StartMeasurePulse(_cancellationTokenSource.Token);
+            _pulseService.StartMeasurePulse();
         }
 
         public override void OnDisappearing()
         {
-            _cancellationTokenSource.Cancel();
+            if (!IsCompleteMeasure) _pulseService.StopMeasurePulse();
             _pulseService.PulseNotify -= OnPulseNotify;
 
             (Application.Current.MainPage.BindingContext as MainPageViewModel).StatisticTabIsEnabled = true;
@@ -85,8 +94,9 @@ namespace PulseOximeterApp.ViewModels.HomeTab
         public MeasurePulsePageViewModel(IPulseService pulseService)
         {
             _pulseService = pulseService;
+            _cardioIntervals = new List<double>();
             _chartEntries = new List<ChartEntry>();
-            _numberOfMeasure = 30;
+            _numberOfMeasure = 80;
             _valueOfCounter = _numberOfMeasure;
 
             HeadBack = new Command(ExecuteHeadBack);
@@ -94,25 +104,29 @@ namespace PulseOximeterApp.ViewModels.HomeTab
 
         private void OnPulseNotify(int value)
         {
-            if (!_isCompleteMeasure)
+            if (CounterValue > 0)
             {
                 CounterValue -= 1;
+                _cardioIntervals.Add(value / 1000d);
 
-                _chartEntries.Add(new ChartEntry(value)
+                int beatPerMinute = Convert.ToInt32(60 / (value / 1000f));
+                _chartEntries.Add(new ChartEntry(beatPerMinute)
                 {
                     Label = "BPM",
-                    ValueLabel = value.ToString(),
-                    Color = CalculateColorForChartEnty(value),
+                    ValueLabel = beatPerMinute.ToString(),
+                    Color = CalculateColorForChartEnty(beatPerMinute),
                 });
 
-                if (_chartEntries.Count > _numberOfMeasure)
+                if (CounterValue == 0)
                 {
-                    _cancellationTokenSource.Cancel();
-                    IsCompleteMeasure = true;
+                    _pulseService.StopMeasurePulse();
                     MainChart = new LineChart()
                     {
                         Entries = _chartEntries
                     };
+
+                    Baevsky = new BaevskyIndicators(new HeartRateVariability(_cardioIntervals));
+                    IsCompleteMeasure = true;
                 }
             }
         }

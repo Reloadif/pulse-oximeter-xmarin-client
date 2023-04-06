@@ -14,9 +14,9 @@
 
         <Grid IsVisible="{Binding IsActivityIndicator, Converter={StaticResource InverseBooleanConverter}}">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.1*"/>
-                <ColumnDefinition Width="0.8*"/>
-                <ColumnDefinition Width="0.1*"/>
+                <ColumnDefinition Width="0.05*"/>
+                <ColumnDefinition Width="0.9*"/>
+                <ColumnDefinition Width="0.05*"/>
             </Grid.ColumnDefinitions>
 
             <Grid Grid.Column="1" VerticalOptions="Center">

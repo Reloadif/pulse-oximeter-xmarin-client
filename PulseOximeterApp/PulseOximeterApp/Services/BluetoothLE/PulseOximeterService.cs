@@ -1,8 +1,6 @@
 ﻿using Plugin.BLE.Abstractions.Contracts;
 using Plugin.BLE.Abstractions.EventArgs;
 using System;
-using System.ComponentModel;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace PulseOximeterApp.Services.BluetoothLE
@@ -13,7 +11,7 @@ namespace PulseOximeterApp.Services.BluetoothLE
         private IService _pulseOximeterService;
 
         private ICharacteristic _measurementSelection;
-        private ICharacteristic _heartBeatCharacteristic;
+        private ICharacteristic _lastBeatCharacteristic;
         private ICharacteristic _saturationCharacteristic;
 
         private event Action<int> _pulseNotify;
@@ -23,18 +21,13 @@ namespace PulseOximeterApp.Services.BluetoothLE
         {
             add
             {
-                _heartBeatCharacteristic.ValueUpdated += OnHeartBeatValueUpdate;
+                _lastBeatCharacteristic.ValueUpdated += OnHeartBeatValueUpdate;
                 _pulseNotify += value;
             }
             remove
             {
-                _heartBeatCharacteristic.ValueUpdated -= OnHeartBeatValueUpdate;
+                _lastBeatCharacteristic.ValueUpdated -= OnHeartBeatValueUpdate;
                 _pulseNotify -= value;
-
-                Task.Run(async () =>
-                {
-                    await _measurementSelection.WriteAsync(BitConverter.GetBytes(0));
-                }).GetAwaiter().GetResult();
             }
         }
         public event Action<int> SaturationNotify
@@ -48,23 +41,29 @@ namespace PulseOximeterApp.Services.BluetoothLE
             {
                 _saturationCharacteristic.ValueUpdated -= OnSaturationValueUpdate;
                 _saturationNotify -= value;
-
-                Task.Run(async () =>
-                {
-                    await _measurementSelection.WriteAsync(BitConverter.GetBytes(0));
-                }).GetAwaiter().GetResult();
             }
         }
 
-        public async void StartMeasurePulse(CancellationToken token)
+        public async void StartMeasurePulse()
         {
             await _measurementSelection.WriteAsync(BitConverter.GetBytes(1));
-            await _heartBeatCharacteristic.StartUpdatesAsync(token);
+            await _lastBeatCharacteristic.StartUpdatesAsync();
         }
-        public async void StartMeasureSaturation(CancellationToken token)
+        public async void StopMeasurePulse()
+        {
+            await _measurementSelection.WriteAsync(BitConverter.GetBytes(0));
+            await _lastBeatCharacteristic.StopUpdatesAsync();
+        }
+
+        public async void StartMeasureSaturation()
         {
             await _measurementSelection.WriteAsync(BitConverter.GetBytes(2));
-            await _saturationCharacteristic.StartUpdatesAsync(token);
+            await _saturationCharacteristic.StartUpdatesAsync();
+        }
+        public async void StopMeasureSaturation()
+        {
+            await _measurementSelection.WriteAsync(BitConverter.GetBytes(0));
+            await _saturationCharacteristic.StopUpdatesAsync();
         }
 
         public PulseOximeterService(IDevice connectedDevice)
@@ -75,7 +74,7 @@ namespace PulseOximeterApp.Services.BluetoothLE
             {
                 _pulseOximeterService = await _connectedDevice.GetServiceAsync(Guid.Parse(Config.Config.PulseOximeterService));
 
-                _heartBeatCharacteristic = await _pulseOximeterService.GetCharacteristicAsync(Guid.Parse(Config.Config.HeartBeatCharacteristic));
+                _lastBeatCharacteristic = await _pulseOximeterService.GetCharacteristicAsync(Guid.Parse(Config.Config.LastBeatCharacteristic));
                 _saturationCharacteristic = await _pulseOximeterService.GetCharacteristicAsync(Guid.Parse(Config.Config.OxygenSatuartionCharacteristic));
                 _measurementSelection = await _pulseOximeterService.GetCharacteristicAsync(Guid.Parse(Config.Config.MeasurementSelectionCharacteristic));
             }).GetAwaiter().GetResult();

@@ -6,7 +6,7 @@ using Xamarin.Forms;
 
 namespace PulseOximeterApp.ViewModels.HomeTab
 {
-    internal class MeasurePageViewModel : BaseViewModel
+    internal class MeasurementPageViewModel : BaseViewModel
     {
         #region Fields
         private bool _isActivityIndicator;
@@ -25,7 +25,7 @@ namespace PulseOximeterApp.ViewModels.HomeTab
         public MeasurePulsePageViewModel MeasurePulseVM { get; private set; }
 
         public MeasureSaturationPage MeasureSaturation { get; private set; }
-        public MeasureSaturationViewModel MeasureSaturationVM { get; private set; }
+        public MeasureSaturationPageViewModel MeasureSaturationVM { get; private set; }
         #endregion
 
         #region Commands
@@ -61,7 +61,7 @@ namespace PulseOximeterApp.ViewModels.HomeTab
                 if (MeasureSaturationVM != null) MeasureSaturationVM.Closing -= OnMeasureSaturationClosing;
 
                 MeasureSaturation = new MeasureSaturationPage();
-                MeasureSaturationVM = new MeasureSaturationViewModel(_pulseOximeterService);
+                MeasureSaturationVM = new MeasureSaturationPageViewModel(_pulseOximeterService);
                 MeasureSaturationVM.Closing += OnMeasureSaturationClosing;
                 MeasureSaturation.BindingContext = MeasureSaturationVM;
 
@@ -83,7 +83,7 @@ namespace PulseOximeterApp.ViewModels.HomeTab
             await Shell.Current.Navigation.PopAsync();
         }
 
-        public MeasurePageViewModel(PulseOximeterService pulseOximeterService)
+        public MeasurementPageViewModel(PulseOximeterService pulseOximeterService)
         {
             _pulseOximeterService = pulseOximeterService;
 
