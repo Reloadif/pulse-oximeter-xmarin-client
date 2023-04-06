@@ -61,10 +61,10 @@ namespace PulseOximeterApp.ViewModels
 
             if (await _microcontrollerConnector.Connect())
             {
-                var Measure = new MeasurePage();
-                var MeasureVM = new MeasurementPageViewModel(new PulseOximeterService(_microcontrollerConnector.GetDevice));
-                Measure.BindingContext = MeasureVM;
-                await Shell.Current.Navigation.PushAsync(Measure);
+                var Measurement = new MeasurementPage();
+                var MeasurementVM = new MeasurementPageViewModel(new PulseOximeterService(_microcontrollerConnector.GetDevice));
+                Measurement.BindingContext = MeasurementVM;
+                await Shell.Current.Navigation.PushAsync(Measurement);
             }
 
             IsActivityIndicator = false;

@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentView xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="PulseOximeterApp.Infrastructure.CustomControls.CustomIntCounter">
+             x:Class="PulseOximeterApp.Infrastructure.CustomControls.CustomVisualizationCounter">
 
     <Grid>
-        <Ellipse Stroke="Black" StrokeThickness="5"/>
+        <Ellipse x:Name="XamlStrokeEllipse" Stroke="Black" StrokeThickness="5"/>
         <Label x:Name="XamlCounterLabel" FontSize="50" VerticalOptions="Center" HorizontalOptions="Center"/>
     </Grid>
 

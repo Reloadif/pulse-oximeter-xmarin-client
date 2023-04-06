@@ -26,7 +26,7 @@
             </Grid.RowDefinitions>
             
             <StackLayout Grid.Row="1" VerticalOptions="Center" HorizontalOptions="Center">
-                <customControls:CustomIntCounter HeightRequest="150" WidthRequest="150" Value="{Binding CounterValue}"/>
+                <customControls:CustomVisualizationCounter HeightRequest="150" WidthRequest="150" Value="{Binding CounterValue}"/>
             </StackLayout>
 
             <Label Grid.Row="2" Text="Держите палец на датчике" FontSize="20" HorizontalOptions="Center"/>
@@ -34,16 +34,24 @@
         
         <Grid Grid.Column="1" IsVisible="{Binding IsCompleteMeasure}">
             <Grid.RowDefinitions>
-                <RowDefinition Height="0.05*"/>
+                <RowDefinition Height="0.1*"/>
                 <RowDefinition Height="0.5*"/>
-                <RowDefinition Height="0.05*"/>
-                <RowDefinition Height="0.25*"/>
-                <RowDefinition Height="0.15*"/>
+                <RowDefinition Height="0.3*"/>
             </Grid.RowDefinitions>
+
+            <Grid VerticalOptions="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Button Text="Назад" Command="{Binding HeadBack}"/>
+                <Button Grid.Column="1" Text="Сохранить"/>
+            </Grid>
 
             <microcharts:ChartView Grid.Row="1" Chart="{Binding MainChart}" />
 
-            <Grid Grid.Row="3">
+            <Grid Grid.Row="2" VerticalOptions="Center">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="0.8*"/>
                     <ColumnDefinition Width="0.2*"/>
@@ -56,22 +64,17 @@
                 </Grid.RowDefinitions>
 
                 <Label Text="Индекс вегетативного равновесия:"/>
-                <Label Grid.Column="1" Text="{Binding Baevsky.ABI}"/>
+                <Label Grid.Column="1" HorizontalTextAlignment="End" Text="{Binding Baevsky.ABI}"/>
 
                 <Label Grid.Row="1" Text="Вегетативный показатель ритма:"/>
-                <Label Grid.Column="1" Grid.Row="1" Text="{Binding Baevsky.VRI}"/>
+                <Label Grid.Column="1" Grid.Row="1" HorizontalTextAlignment="End" Text="{Binding Baevsky.VRI}"/>
 
                 <Label Grid.Row="2" Text="Показатель адекватности процессов регуляции:"/>
-                <Label Grid.Column="1" Grid.Row="2" Text="{Binding Baevsky.IARP}"/>
+                <Label Grid.Column="1" Grid.Row="2" HorizontalTextAlignment="End" Text="{Binding Baevsky.IARP}"/>
 
                 <Label Grid.Row="3" Text="Индекс напряжения регуляторных систем:"/>
-                <Label Grid.Column="1" Grid.Row="3" Text="{Binding Baevsky.VI}"/>
+                <Label Grid.Column="1" Grid.Row="3" HorizontalTextAlignment="End" Text="{Binding Baevsky.VI}"/>
             </Grid>
-
-            <StackLayout Grid.Row="4" VerticalOptions="Center" HorizontalOptions="Center" Orientation="Horizontal" Spacing="20">
-                <Button Text="Назад" Command="{Binding HeadBack}"/>
-                <Button Text="Сохранить"/>
-            </StackLayout>
         </Grid>
     </Grid>
 

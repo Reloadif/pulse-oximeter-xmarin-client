@@ -4,7 +4,7 @@
         xmlns:hometab="clr-namespace:PulseOximeterApp.ViewModels.HomeTab"
         xmlns:converters="clr-namespace:PulseOximeterApp.Infrastructure.Converters"
         x:DataType="hometab:MeasurementPageViewModel"
-        x:Class="PulseOximeterApp.Views.HomeTab.MeasurePage">
+        x:Class="PulseOximeterApp.Views.HomeTab.MeasurementPage">
 
     <ContentPage.Resources>
         <converters:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
@@ -22,8 +22,8 @@
 
             <Grid Grid.Column="1" VerticalOptions="Center">
                 <StackLayout Spacing="20">
-                    <Button Text="Пульс" Command="{Binding PulseMeasure}"/>
-                    <Button Text="Сатурация" Command="{Binding SaturationMesure}"/>
+                    <Button Padding="20" Text="Пульс" Command="{Binding PulseMeasure}"/>
+                    <Button Padding="20" Text="Сатурация" Command="{Binding SaturationMesure}"/>
                 </StackLayout>
             </Grid>
         </Grid>

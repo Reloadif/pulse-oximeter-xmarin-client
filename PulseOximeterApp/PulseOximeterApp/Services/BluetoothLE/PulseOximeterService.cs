@@ -17,6 +17,11 @@ namespace PulseOximeterApp.Services.BluetoothLE
         private event Action<int> _pulseNotify;
         private event Action<int> _saturationNotify;
 
+        public bool IsDeviceConnected
+        {
+            get => _connectedDevice.State == Plugin.BLE.Abstractions.DeviceState.Connected;
+        }
+
         public event Action<int> PulseNotify
         {
             add
@@ -46,22 +51,30 @@ namespace PulseOximeterApp.Services.BluetoothLE
 
         public async void StartMeasurePulse()
         {
+            if (!IsDeviceConnected) return;
+
             await _measurementSelection.WriteAsync(BitConverter.GetBytes(1));
             await _lastBeatCharacteristic.StartUpdatesAsync();
         }
         public async void StopMeasurePulse()
         {
+            if (!IsDeviceConnected) return;
+
             await _measurementSelection.WriteAsync(BitConverter.GetBytes(0));
             await _lastBeatCharacteristic.StopUpdatesAsync();
         }
 
         public async void StartMeasureSaturation()
         {
+            if (!IsDeviceConnected) return;
+
             await _measurementSelection.WriteAsync(BitConverter.GetBytes(2));
             await _saturationCharacteristic.StartUpdatesAsync();
         }
         public async void StopMeasureSaturation()
         {
+            if (!IsDeviceConnected) return;
+
             await _measurementSelection.WriteAsync(BitConverter.GetBytes(0));
             await _saturationCharacteristic.StopUpdatesAsync();
         }

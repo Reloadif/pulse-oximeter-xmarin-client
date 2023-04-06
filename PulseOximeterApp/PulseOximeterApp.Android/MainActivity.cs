@@ -4,6 +4,7 @@ using Android.Content.PM;
 using Android.Locations;
 using Android.OS;
 using Android.Runtime;
+using AndroidX.AppCompat.App;
 using PulseOximeterApp.Droid.Services;
 
 namespace PulseOximeterApp.Droid
@@ -31,6 +32,8 @@ namespace PulseOximeterApp.Droid
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             LoadApplication(new App());
+
+            AppCompatDelegate.DefaultNightMode = AppCompatDelegate.ModeNightNo;
 
             Instance = this;
         }

@@ -6,9 +6,9 @@ using Xamarin.Forms.Xaml;
 namespace PulseOximeterApp.Views.HomeTab
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class MeasurePage : ContentPage
+    public partial class MeasurementPage : ContentPage
     {
-        public MeasurePage()
+        public MeasurementPage()
         {
             InitializeComponent();
         }

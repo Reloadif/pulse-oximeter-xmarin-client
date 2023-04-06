@@ -23,7 +23,8 @@
                 <StackLayout Spacing="20">
                     <StackLayout>
                         <Label Text="Проверьте следующие пункты:" FontSize="Title"/>
-                        <Grid>
+                        
+                        <Grid RowSpacing="5">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="0.9*"/>
                                 <ColumnDefinition Width="0.1*"/>
@@ -35,7 +36,6 @@
                             </Grid.RowDefinitions>
 
                             <Label Text="1. Включите Bluetooth."/>
-
                             <StackLayout Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center">
                                 <Path Data="M 1743.858 267.012 710.747 1300.124 176.005 765.382 0 941.387l710.747 710.871 1209.24-1209.116z" 
                                       Aspect="Uniform" Fill="Green" HeightRequest="16" IsVisible="{Binding IsBluetoothOn}" />
@@ -54,10 +54,9 @@
 
                             <Label Grid.Row="2" Text="3. Подключите микроконтроллер к питанию." LineBreakMode="MiddleTruncation" />
                         </Grid>
-                        
                     </StackLayout>
 
-                    <Button Text="Подключиться к пульсоксиметру" Command="{Binding ConnectToMicrocontroller}"/>
+                    <Button Padding="20" Text="Подключиться к пульсоксиметру" Command="{Binding ConnectToMicrocontroller}"/>
                 </StackLayout>
             </Grid>
         </Grid>

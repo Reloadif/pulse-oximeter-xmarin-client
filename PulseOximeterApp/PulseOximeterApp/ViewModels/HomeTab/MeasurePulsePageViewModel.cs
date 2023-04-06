@@ -7,7 +7,6 @@ using SkiaSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -21,6 +20,7 @@ namespace PulseOximeterApp.ViewModels.HomeTab
         private readonly IList<ChartEntry> _chartEntries;
         private LineChart _lineChart;
 
+        private readonly int _pulseBufferSize;
         private readonly int _numberOfMeasure;
         private int _valueOfCounter;
         private bool _isCompleteMeasure;
@@ -96,7 +96,8 @@ namespace PulseOximeterApp.ViewModels.HomeTab
             _pulseService = pulseService;
             _cardioIntervals = new List<double>();
             _chartEntries = new List<ChartEntry>();
-            _numberOfMeasure = 80;
+            _pulseBufferSize = 4;
+            _numberOfMeasure = 50;
             _valueOfCounter = _numberOfMeasure;
 
             HeadBack = new Command(ExecuteHeadBack);
@@ -109,13 +110,17 @@ namespace PulseOximeterApp.ViewModels.HomeTab
                 CounterValue -= 1;
                 _cardioIntervals.Add(value / 1000d);
 
-                int beatPerMinute = Convert.ToInt32(60 / (value / 1000f));
-                _chartEntries.Add(new ChartEntry(beatPerMinute)
+                if (_chartEntries.Count <= 30 && _cardioIntervals.Count % _pulseBufferSize == 0)
                 {
-                    Label = "BPM",
-                    ValueLabel = beatPerMinute.ToString(),
-                    Color = CalculateColorForChartEnty(beatPerMinute),
-                });
+                    int beatPerMinute = Convert.ToInt32(_cardioIntervals.ToList().GetRange(_cardioIntervals.Count - _pulseBufferSize, _pulseBufferSize).Sum(v => 60 / v) / _pulseBufferSize);
+                    _chartEntries.Add(new ChartEntry(beatPerMinute)
+                    {
+                        Label = "BPM",
+                        ValueLabel = beatPerMinute.ToString(),
+                        Color = CalculateColorForChartEnty(beatPerMinute),
+                    });
+                }
+                
 
                 if (CounterValue == 0)
                 {

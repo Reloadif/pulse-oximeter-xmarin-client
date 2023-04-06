@@ -36,17 +36,12 @@ namespace PulseOximeterApp.ViewModels.HomeTab
         {
             IsActivityIndicator = true;
 
-            await BeginInvokeOnMainThreadAsync<object>(() =>
-            {
-                if (MeasurePulseVM != null) MeasurePulseVM.Closing -= OnMeasurePulseClosing;
+            if (MeasurePulseVM != null) MeasurePulseVM.Closing -= OnMeasurePulseClosing;
 
-                MeasurePulse = new MeasurePulsePage();
-                MeasurePulseVM = new MeasurePulsePageViewModel(_pulseOximeterService);
-                MeasurePulseVM.Closing += OnMeasurePulseClosing;
-                MeasurePulse.BindingContext = MeasurePulseVM;
-
-                return null;
-            });
+            MeasurePulse = new MeasurePulsePage();
+            MeasurePulseVM = new MeasurePulsePageViewModel(_pulseOximeterService);
+            MeasurePulseVM.Closing += OnMeasurePulseClosing;
+            MeasurePulse.BindingContext = MeasurePulseVM;
 
             await Shell.Current.Navigation.PushAsync(MeasurePulse);
             IsActivityIndicator = false;
@@ -56,17 +51,12 @@ namespace PulseOximeterApp.ViewModels.HomeTab
         {
             IsActivityIndicator = true;
 
-            await BeginInvokeOnMainThreadAsync<object>(() =>
-            {
-                if (MeasureSaturationVM != null) MeasureSaturationVM.Closing -= OnMeasureSaturationClosing;
+            if (MeasureSaturationVM != null) MeasureSaturationVM.Closing -= OnMeasureSaturationClosing;
 
-                MeasureSaturation = new MeasureSaturationPage();
-                MeasureSaturationVM = new MeasureSaturationPageViewModel(_pulseOximeterService);
-                MeasureSaturationVM.Closing += OnMeasureSaturationClosing;
-                MeasureSaturation.BindingContext = MeasureSaturationVM;
-
-                return null;
-            });
+            MeasureSaturation = new MeasureSaturationPage();
+            MeasureSaturationVM = new MeasureSaturationPageViewModel(_pulseOximeterService);
+            MeasureSaturationVM.Closing += OnMeasureSaturationClosing;
+            MeasureSaturation.BindingContext = MeasureSaturationVM;
 
             await Shell.Current.Navigation.PushAsync(MeasureSaturation);
             IsActivityIndicator = false;

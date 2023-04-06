@@ -20,16 +20,20 @@
 
   <ItemGroup>
     <Folder Include="Data\" />
+    <Folder Include="Views\SettingTab\" />
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Infrastructure\CustomControls\CustomVisualizationCounter.xaml.cs">
+      <DependentUpon>CustomVisualizationCounter.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\HomeTab\MeasurementPage.xaml.cs">
       <DependentUpon>MeasurementPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Infrastructure\CustomControls\CustomIntCounter.xaml">
+    <EmbeddedResource Update="Infrastructure\CustomControls\CustomVisualizationCounter.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\HomePage.xaml">

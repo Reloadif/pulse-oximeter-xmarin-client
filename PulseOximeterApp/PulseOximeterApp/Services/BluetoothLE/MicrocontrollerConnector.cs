@@ -40,6 +40,8 @@ namespace PulseOximeterApp.Services.BluetoothLE
 
         public async Task<bool> Connect()
         {
+            if (_device != null && _device.State != Plugin.BLE.Abstractions.DeviceState.Disconnected) return true;
+
             _device = null;
             _cancelTokenSource = new CancellationTokenSource();
 
