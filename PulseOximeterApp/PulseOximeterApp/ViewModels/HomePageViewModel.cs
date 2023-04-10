@@ -1,7 +1,7 @@
 ﻿using Plugin.BLE;
 using Plugin.BLE.Abstractions.EventArgs;
+using PulseOximeterApp.Infrastructure.DependencyServices;
 using PulseOximeterApp.Services.BluetoothLE;
-using PulseOximeterApp.Services.DependencyServices;
 using PulseOximeterApp.ViewModels.Base;
 using PulseOximeterApp.ViewModels.HomeTab;
 using PulseOximeterApp.Views.HomeTab;
@@ -113,7 +113,7 @@ namespace PulseOximeterApp.ViewModels
         }
         private async void OnExceptionMictrocontroller(string message)
         {
-            await Shell.Current.DisplayAlert("Alert", message, "OK");
+            await DependencyService.Get<IMessageService>().ShowAlertAsync(message);
         }
     }
 }

@@ -4,9 +4,8 @@ using PulseOximeterApp.ViewModels.Base;
 using SkiaSharp;
 using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Threading;
 using System.Windows.Input;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace PulseOximeterApp.ViewModels.HomeTab
@@ -84,7 +83,7 @@ namespace PulseOximeterApp.ViewModels.HomeTab
         {
             _saturationService = saturationService;
             _chartEntries = new List<ChartEntry>();
-            _numberOfMeasure = 30;
+            _numberOfMeasure = Preferences.Get("NumberOfOxigenMeasure", 30);
             _valueOfCounter = _numberOfMeasure;
 
             HeadBack = new Command(ExecuteHeadBack);

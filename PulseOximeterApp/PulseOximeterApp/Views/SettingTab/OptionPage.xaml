@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:PulseOximeterApp.ViewModels.SettingTab" x:DataType="viewmodels:OptionPageViewModel"
+             xmlns:behaviors="clr-namespace:PulseOximeterApp.Infrastructure.Behaviors"
+             x:Class="PulseOximeterApp.Views.SettingTab.OptionPage">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.05*"/>
+            <ColumnDefinition Width="0.9*"/>
+            <ColumnDefinition Width="0.05*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="1">
+            <StackLayout>
+                <Grid>
+                    <Label VerticalOptions="Center" Text="Количество измерений пульса:"/>
+                    <Entry HorizontalOptions="End" HorizontalTextAlignment="Center" WidthRequest="50" Keyboard="Numeric" Text="{Binding NumberOfPulseMeasure, Mode=TwoWay}">
+                        <Entry.Behaviors>
+                            <behaviors:IntegerValidationBehavior MinValue="30" MaxValue="600" />
+                        </Entry.Behaviors>
+                    </Entry>
+                </Grid>
+
+                <Rectangle Fill="DarkGray" HeightRequest="2"/>
+
+                <Grid>
+                    <Label VerticalOptions="Center" Text="Количество измерений оксиденации:"/>
+                    <Entry HorizontalOptions="End" HorizontalTextAlignment="Center" WidthRequest="50" Keyboard="Numeric" Text="{Binding NumberOfOxigenMeasure, Mode=TwoWay}">
+                        <Entry.Behaviors>
+                            <behaviors:IntegerValidationBehavior MinValue="30" MaxValue="600" />
+                        </Entry.Behaviors>
+                    </Entry>
+                </Grid>
+            </StackLayout>
+        </Grid>
+    </Grid>
+</ContentPage>

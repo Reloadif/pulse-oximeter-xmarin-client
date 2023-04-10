@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace PulseOximeterApp.ViewModels.HomeTab
@@ -97,7 +98,7 @@ namespace PulseOximeterApp.ViewModels.HomeTab
             _cardioIntervals = new List<double>();
             _chartEntries = new List<ChartEntry>();
             _pulseBufferSize = 4;
-            _numberOfMeasure = 50;
+            _numberOfMeasure = Preferences.Get("NumberOfPulseMeasure", 30);
             _valueOfCounter = _numberOfMeasure;
 
             HeadBack = new Command(ExecuteHeadBack);

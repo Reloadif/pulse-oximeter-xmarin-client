@@ -6,8 +6,9 @@ namespace PulseOximeterApp
     {
         public App()
         {
-            InitializeComponent();
+            DependencyService.Register<Infrastructure.DependencyServices.IMessageService, Infrastructure.DependencyServices.MessageService>();
 
+            InitializeComponent();
             MainPage = new MainPage();
         }
 

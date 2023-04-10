@@ -1,7 +1,7 @@
 ﻿using Android.Content;
 using Android.Locations;
 using PulseOximeterApp.Droid.Services.DependencyServices;
-using PulseOximeterApp.Services.DependencyServices;
+using PulseOximeterApp.Infrastructure.DependencyServices;
 using System;
 
 [assembly: Xamarin.Forms.Dependency(typeof(GpsDependencyService))]

@@ -51,12 +51,12 @@ namespace PulseOximeterApp.Services.BluetoothLE
             }
             catch (TaskCanceledException tce)
             {
-                ExceptionGenerated.Invoke("Scanning was cancelled!");
+                ExceptionGenerated.Invoke("Сканирование было отменено!");
                 return false;
             }
             catch (Exception e)
             {
-                ExceptionGenerated.Invoke("Error scanning for devices!");
+                ExceptionGenerated.Invoke("Ошибка сканирования устройств!");
                 return false;
             }
             finally
@@ -67,7 +67,7 @@ namespace PulseOximeterApp.Services.BluetoothLE
 
             if (_device is null)
             {
-                ExceptionGenerated.Invoke("Device not found!");
+                ExceptionGenerated.Invoke("Устройство не найдено!");
                 return false;
             }
             else
@@ -79,12 +79,12 @@ namespace PulseOximeterApp.Services.BluetoothLE
                 }
                 catch (DeviceConnectionException dce)
                 {
-                    ExceptionGenerated.Invoke("Error connecting to the device!");
+                    ExceptionGenerated.Invoke("Ошибка подключения к устройству!");
                     return false;
                 }
                 catch (TaskCanceledException tce)
                 {
-                    ExceptionGenerated.Invoke("Connection process was cancelled!");
+                    ExceptionGenerated.Invoke("Процесс подключения был отменен!");
                     return false;
                 }
             }
@@ -104,7 +104,7 @@ namespace PulseOximeterApp.Services.BluetoothLE
             {
                 Device.BeginInvokeOnMainThread(async () =>
                 {
-                    await Shell.Current.DisplayAlert("Alert", "Connection to device lost, please connect again!", "OK");
+                    await Shell.Current.DisplayAlert("Внимание", "Потеряно соединение с устройством, подключитесь снова!", "OK");
                     await Shell.Current.Navigation.PopToRootAsync();
                 });
             }
