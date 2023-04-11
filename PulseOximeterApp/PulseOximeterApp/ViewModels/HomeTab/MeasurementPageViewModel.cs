@@ -1,6 +1,9 @@
-﻿using PulseOximeterApp.Services.BluetoothLE;
+﻿using PulseOximeterApp.Data.DataBase;
+using PulseOximeterApp.Services.BluetoothLE;
 using PulseOximeterApp.ViewModels.Base;
 using PulseOximeterApp.Views.HomeTab;
+using System;
+using System.Linq;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -65,11 +68,33 @@ namespace PulseOximeterApp.ViewModels.HomeTab
 
         private async void OnMeasurePulseClosing(bool isSave)
         {
+            if (isSave)
+            {
+                await App.StatisticDataBase.SavePulseStatisticAsync(new PulseStatistic()
+                {
+                    MeasurementPoints = ConverterMeasurementPoints.To(MeasurePulseVM.MainChart.Entries.Select(e => Convert.ToInt32(e.Value)).ToList()),
+                    PointsCount = MeasurePulseVM.MainChart.Entries.Count(),
+                    ABI = MeasurePulseVM.Baevsky.ABI,
+                    VRI = MeasurePulseVM.Baevsky.VRI,
+                    IARP = MeasurePulseVM.Baevsky.IARP,
+                    VI = MeasurePulseVM.Baevsky.VI,
+                });
+            }
+
             await Shell.Current.Navigation.PopAsync();
         }
 
         private async void OnMeasureSaturationClosing(bool isSave)
         {
+            if (isSave)
+            {
+                await App.StatisticDataBase.SaveSaturationStatisticAsync(new SaturationStatistic()
+                {
+                    MeasurementPoints = ConverterMeasurementPoints.To(MeasurePulseVM.MainChart.Entries.Select(e => Convert.ToInt32(e.Value)).ToList()),
+                    PointsCount = MeasurePulseVM.MainChart.Entries.Count(),
+                });
+            }
+
             await Shell.Current.Navigation.PopAsync();
         }
 

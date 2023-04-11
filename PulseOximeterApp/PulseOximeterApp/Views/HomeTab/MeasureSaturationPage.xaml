@@ -35,7 +35,7 @@
         <Grid Grid.Column="1" IsVisible="{Binding IsCompleteMeasure}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="0.1*"/>
-                <RowDefinition Height="0.5*"/>
+                <RowDefinition Height="0.6*"/>
                 <RowDefinition Height="0.3*"/>
             </Grid.RowDefinitions>
 
@@ -46,7 +46,7 @@
                 </Grid.ColumnDefinitions>
 
                 <Button Text="Назад" Command="{Binding HeadBack}"/>
-                <Button Grid.Column="1" Text="Сохранить"/>
+                <Button Grid.Column="1" Text="Сохранить" Command="{Binding SaveBack}"/>
             </Grid>
 
             <microcharts:ChartView Grid.Row="1" Chart="{Binding MainChart}" />

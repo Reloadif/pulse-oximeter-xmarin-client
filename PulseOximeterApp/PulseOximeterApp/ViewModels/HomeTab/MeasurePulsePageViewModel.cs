@@ -1,9 +1,9 @@
 ﻿using Microcharts;
 using PulseOximeterApp.Models;
 using PulseOximeterApp.Models.HeartRate;
+using PulseOximeterApp.Services;
 using PulseOximeterApp.Services.BluetoothLE;
 using PulseOximeterApp.ViewModels.Base;
-using SkiaSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -66,6 +66,13 @@ namespace PulseOximeterApp.ViewModels.HomeTab
         {
             Closing.Invoke(false);
         }
+
+        public ICommand SaveBack { get; private set; }
+
+        private void ExecuteSaveBack(object obj)
+        {
+            Closing.Invoke(true);
+        }
         #endregion
 
         #region Base Methods
@@ -102,6 +109,7 @@ namespace PulseOximeterApp.ViewModels.HomeTab
             _valueOfCounter = _numberOfMeasure;
 
             HeadBack = new Command(ExecuteHeadBack);
+            SaveBack = new Command(ExecuteSaveBack);
         }
 
         private void OnPulseNotify(int value)
@@ -118,7 +126,7 @@ namespace PulseOximeterApp.ViewModels.HomeTab
                     {
                         Label = "BPM",
                         ValueLabel = beatPerMinute.ToString(),
-                        Color = CalculateColorForChartEnty(beatPerMinute),
+                        Color = ChartEntryColorConverter.FromPulse(beatPerMinute),
                     });
                 }
                 
@@ -135,17 +143,6 @@ namespace PulseOximeterApp.ViewModels.HomeTab
                     IsCompleteMeasure = true;
                 }
             }
-        }
-
-        private SKColor CalculateColorForChartEnty(int value)
-        {
-            SKColor result = SKColor.Parse("f24518");
-
-            if (value < 45) result = SKColor.Parse("f24518");
-            else if (value < 80) result = SKColor.Parse("2bf518");
-            else if (value < 100) result = SKColor.Parse("f1f518");
-
-            return result;
         }
     }
 }

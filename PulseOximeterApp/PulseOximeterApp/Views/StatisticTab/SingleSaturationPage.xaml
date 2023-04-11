@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:statisticTab="clr-namespace:PulseOximeterApp.ViewModels.StatisticTab" x:DataType="statisticTab:SingleSaturationPageViewModel"
+             xmlns:microcharts="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms"
+             x:Class="PulseOximeterApp.Views.StatisticTab.SingleSaturationPage">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.05*"/>
+            <ColumnDefinition Width="0.9*"/>
+            <ColumnDefinition Width="0.05*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.6*"/>
+                <RowDefinition Height="0.4*"/>
+            </Grid.RowDefinitions>
+
+            <microcharts:ChartView Chart="{Binding MainChart}" />
+        </Grid>
+    </Grid>
+    
+</ContentPage>

@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
         xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-        xmlns:microcharts="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms"
         xmlns:hometab="clr-namespace:PulseOximeterApp.ViewModels.HomeTab" x:DataType="hometab:MeasurePulsePageViewModel"
         xmlns:customControls="clr-namespace:PulseOximeterApp.Infrastructure.CustomControls"
         xmlns:converters="clr-namespace:PulseOximeterApp.Infrastructure.Converters"
+        xmlns:microcharts="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms"
         x:Class="PulseOximeterApp.Views.HomeTab.MeasurePulsePage">
 
     <ContentPage.Resources>
@@ -35,7 +35,7 @@
         <Grid Grid.Column="1" IsVisible="{Binding IsCompleteMeasure}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="0.1*"/>
-                <RowDefinition Height="0.5*"/>
+                <RowDefinition Height="0.6*"/>
                 <RowDefinition Height="0.3*"/>
             </Grid.RowDefinitions>
 
@@ -46,7 +46,7 @@
                 </Grid.ColumnDefinitions>
 
                 <Button Text="Назад" Command="{Binding HeadBack}"/>
-                <Button Grid.Column="1" Text="Сохранить"/>
+                <Button Grid.Column="1" Text="Сохранить" Command="{Binding SaveBack}"/>
             </Grid>
 
             <microcharts:ChartView Grid.Row="1" Chart="{Binding MainChart}" />

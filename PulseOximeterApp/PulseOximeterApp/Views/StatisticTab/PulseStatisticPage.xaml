@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:PulseOximeterApp.ViewModels.StatisticTab" x:DataType="viewmodels:PulseStatisticPageViewModel"
+             xmlns:behaviors="clr-namespace:PulseOximeterApp.Infrastructure.Behaviors"
+             xmlns:converters="clr-namespace:PulseOximeterApp.Infrastructure.Converters"
+             xmlns:database="clr-namespace:PulseOximeterApp.Data.DataBase"
+             x:Class="PulseOximeterApp.Views.StatisticTab.PulseStatisticPage">
+
+    <ContentPage.Resources>
+        <converters:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
+    </ContentPage.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.05*"/>
+            <ColumnDefinition Width="0.9*"/>
+            <ColumnDefinition Width="0.05*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="1">
+            <StackLayout VerticalOptions="Center" HorizontalOptions="Center" IsVisible="{Binding IsCollectionEmpty}">
+                <Label Text="Пусто" FontSize="Title"/>
+            </StackLayout>
+
+            <StackLayout IsVisible="{Binding IsCollectionEmpty, Converter={StaticResource InverseBooleanConverter}}">
+                <CollectionView ItemsSource="{Binding PulseCollection}" SelectionMode="Single">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="database:PulseStatistic">
+                            <Grid Padding="10">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+
+                                <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                                    <Label Text="Измирение №"/>
+                                    <Label Text="{Binding ID}"/>
+                                </StackLayout>
+
+                                <StackLayout Grid.Row="1" Orientation="Horizontal" HorizontalOptions="Center">
+                                    <Label Text="КИ: "/>
+                                    <Label Text="{Binding PointsCount}"/>
+                                </StackLayout>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+
+                    <CollectionView.Behaviors>
+                        <behaviors:CollectionViewItemSelectionBehavior Command="{Binding CollectionItemSelected}"/>
+                    </CollectionView.Behaviors>
+                </CollectionView>
+            </StackLayout>
+        </Grid>
+    </Grid>
+</ContentPage>

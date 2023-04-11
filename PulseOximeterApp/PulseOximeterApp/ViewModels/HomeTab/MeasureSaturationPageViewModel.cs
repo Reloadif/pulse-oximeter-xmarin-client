@@ -1,7 +1,7 @@
 ﻿using Microcharts;
+using PulseOximeterApp.Services;
 using PulseOximeterApp.Services.BluetoothLE;
 using PulseOximeterApp.ViewModels.Base;
-using SkiaSharp;
 using System;
 using System.Collections.Generic;
 using System.Windows.Input;
@@ -53,6 +53,13 @@ namespace PulseOximeterApp.ViewModels.HomeTab
         {
             Closing.Invoke(false);
         }
+
+        public ICommand SaveBack { get; private set; }
+
+        private void ExecuteSaveBack(object obj)
+        {
+            Closing.Invoke(true);
+        }
         #endregion
 
         #region Base Methods
@@ -87,6 +94,7 @@ namespace PulseOximeterApp.ViewModels.HomeTab
             _valueOfCounter = _numberOfMeasure;
 
             HeadBack = new Command(ExecuteHeadBack);
+            SaveBack = new Command(ExecuteSaveBack);
         }
 
         private void OnSaturationNotify(int value)
@@ -98,7 +106,7 @@ namespace PulseOximeterApp.ViewModels.HomeTab
                 {
                     Label = "Sp02",
                     ValueLabel = value.ToString(),
-                    Color = CalculateColorForChartEnty(value),
+                    Color = ChartEntryColorConverter.FromSaturation(value),
                 });
 
                 if (CounterValue == 0)
@@ -111,17 +119,6 @@ namespace PulseOximeterApp.ViewModels.HomeTab
                     IsCompleteMeasure = true;
                 }
             }
-        }
-
-        private SKColor CalculateColorForChartEnty(int value)
-        {
-            SKColor result = SKColor.Parse("f24518");
-
-            if (value < 90) result = SKColor.Parse("f24518");
-            else if (value < 95) result = SKColor.Parse("f1f518");
-            else if (value <= 100) result = SKColor.Parse("2bf518");
-
-            return result;
         }
     }
 }
