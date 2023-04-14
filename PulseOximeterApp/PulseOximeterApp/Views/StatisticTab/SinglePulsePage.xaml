@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:statisticTab="clr-namespace:PulseOximeterApp.ViewModels.StatisticTab" x:DataType="statisticTab:SinglePulsePageViewModel"
+             xmlns:microcharts="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms"
+             x:Class="PulseOximeterApp.Views.StatisticTab.SinglePulsePage">
+
+    <ContentPage.Style>
+        <Style TargetType="ContentPage">
+            <Setter Property="BackgroundColor" Value="#f7f7f7"/>
+        </Style>
+    </ContentPage.Style>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.025*"/>
+            <ColumnDefinition Width="0.95*"/>
+            <ColumnDefinition Width="0.025*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.025*"/>
+            <RowDefinition Height="0.95*"/>
+            <RowDefinition Height="0.025*"/>
+        </Grid.RowDefinitions>
+
+        <ScrollView Grid.Column="1" Grid.Row="1">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.6*"/>
+                    <RowDefinition Height="0.4*"/>
+                </Grid.RowDefinitions>
+
+                <Frame Opacity="0.95">
+                    <microcharts:ChartView Chart="{Binding MainChart}" />
+                </Frame>
+
+                <Frame Grid.Row="1">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.8*"/>
+                            <ColumnDefinition Width="0.2*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <Label Text="Индекс вегетативного равновесия:"/>
+                        <Label Grid.Column="1" Text="{Binding Statistic.ABI}"/>
+
+                        <Label Grid.Row="1" Text="Вегетативный показатель ритма:"/>
+                        <Label Grid.Column="1" Grid.Row="1" Text="{Binding Statistic.VRI}"/>
+
+                        <Label Grid.Row="2" Text="Показатель адекватности процессов регуляции:"/>
+                        <Label Grid.Column="1" Grid.Row="2" Text="{Binding Statistic.IARP}"/>
+
+                        <Label Grid.Row="3" Text="Индекс напряжения регуляторных систем:"/>
+                        <Label Grid.Column="1" Grid.Row="3" Text="{Binding Statistic.VI}"/>
+                    </Grid>
+                </Frame>
+            </Grid>
+        </ScrollView>
+        
+    </Grid>
+    
+</ContentPage>

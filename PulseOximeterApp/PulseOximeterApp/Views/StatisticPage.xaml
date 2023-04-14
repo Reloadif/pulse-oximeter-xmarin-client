@@ -1,12 +1,37 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:PulseOximeterApp.ViewModels" x:DataType="viewmodels:StatisticPageViewModel"
+             xmlns:converters="clr-namespace:PulseOximeterApp.Infrastructure.Converters"
              x:Class="PulseOximeterApp.Views.StatisticPage">
-    <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
-    </ContentPage.Content>
+
+    <ContentPage.Resources>
+        <converters:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
+    </ContentPage.Resources>
+
+    <ContentPage.Style>
+        <Style TargetType="ContentPage">
+            <Setter Property="BackgroundColor" Value="#f7f7f7"/>
+        </Style>
+    </ContentPage.Style>
+
+    <Grid>
+        <ActivityIndicator Scale="0.15" IsRunning="{Binding IsActivityIndicator}"/>
+
+        <Grid IsVisible="{Binding IsActivityIndicator, Converter={StaticResource InverseBooleanConverter}}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.025*"/>
+                <ColumnDefinition Width="0.95*"/>
+                <ColumnDefinition Width="0.025*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="1" VerticalOptions="Center">
+                <StackLayout Spacing="20">
+                    <Button Text="Пульс" Padding="20" CornerRadius="10" BorderWidth="1" BorderColor="Black" BackgroundColor="White" Command="{Binding GoPulseStatistic}"/>
+                    <Button Text="Сатурация" Padding="20" CornerRadius="10" BorderWidth="1" BorderColor="Black" BackgroundColor="White" Command="{Binding GoSaturationStatistic}"/>
+                </StackLayout>
+            </Grid>
+        </Grid>
+    </Grid>
+
 </ContentPage>

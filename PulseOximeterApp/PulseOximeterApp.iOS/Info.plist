@@ -51,5 +51,10 @@
         <!--Description of the Bluetooth request message (required on iOS 13)-->
         <key>NSBluetoothAlwaysUsageDescription</key>
         <string>YOUR CUSTOM MESSAGE</string>
+
+		<key>UIAppFonts</key>
+		<array>
+			<string>Fonts/MaterialIcons-Regular.ttf</string>
+		</array>
     </dict>
 </plist>

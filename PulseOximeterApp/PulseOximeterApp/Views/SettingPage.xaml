@@ -1,12 +1,28 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:PulseOximeterApp.ViewModels" x:DataType="viewmodels:SettingPageViewModel"
              x:Class="PulseOximeterApp.Views.SettingPage">
-    <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
-    </ContentPage.Content>
+
+    <ContentPage.Style>
+        <Style TargetType="ContentPage">
+            <Setter Property="BackgroundColor" Value="#f7f7f7"/>
+        </Style>
+    </ContentPage.Style>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.025*"/>
+            <ColumnDefinition Width="0.95*"/>
+            <ColumnDefinition Width="0.025*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="1" VerticalOptions="Center">
+            <StackLayout Spacing="20">
+                <Button Text="Параметры" Padding="20" CornerRadius="10" BorderWidth="1" BorderColor="Black" BackgroundColor="White" Command="{Binding GoOptionPage}"/>
+                <Button Text="Память" Padding="20" CornerRadius="10" BorderWidth="1" BorderColor="Black" BackgroundColor="White" IsEnabled="False"/>
+            </StackLayout>
+        </Grid>
+    </Grid>
+
 </ContentPage>

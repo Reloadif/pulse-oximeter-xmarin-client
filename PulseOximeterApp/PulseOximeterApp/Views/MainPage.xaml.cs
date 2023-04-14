@@ -16,5 +16,17 @@ namespace PulseOximeterApp
 
             BindingContext = new MainPageViewModel();
         }
+
+        protected override void OnNavigating(ShellNavigatingEventArgs args)
+        {
+            base.OnNavigating(args);
+
+            if (args.Source == ShellNavigationSource.PopToRoot) return;
+
+            if (args.Source == ShellNavigationSource.ShellSectionChanged && StatisticTab.Navigation.NavigationStack.Count > 0)
+            {
+                StatisticTab.Navigation.PopToRootAsync();
+            }
+        }
     }
 }

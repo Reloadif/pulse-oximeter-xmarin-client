@@ -4,9 +4,9 @@ using PulseOximeterApp.ViewModels.Base;
 using SkiaSharp;
 using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Threading;
+using System.Linq;
 using System.Windows.Input;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace PulseOximeterApp.ViewModels.HomeTab
@@ -15,25 +15,30 @@ namespace PulseOximeterApp.ViewModels.HomeTab
     {
         #region Fields
         private readonly ISaturationService _saturationService;
-        private readonly IList<ChartEntry> _chartEntries;
-        private LineChart _lineChart;
+        private readonly IList<int> _saturationValues;
+        private DonutChart _donutChart;
 
-        private readonly int _numberOfMeasure;
-        private int _valueOfCounter;
+        private readonly int _numberMeasure;
+        private int _counterValue;
         private bool _isCompleteMeasure;
         #endregion
 
         #region Properties
-        public LineChart MainChart
+        public DonutChart MainChart
         {
-            get => _lineChart;
-            set => Set(ref _lineChart, value);
+            get => _donutChart;
+            set => Set(ref _donutChart, value);
+        }
+
+        public int NumberMeasure
+        {
+            get => _numberMeasure;
         }
 
         public int CounterValue
         {
-            get => _valueOfCounter;
-            set => Set(ref _valueOfCounter, value);
+            get => _counterValue;
+            set => Set(ref _counterValue, value);
         }
 
         public bool IsCompleteMeasure
@@ -53,6 +58,13 @@ namespace PulseOximeterApp.ViewModels.HomeTab
         private void ExecuteHeadBack(object obj)
         {
             Closing.Invoke(false);
+        }
+
+        public ICommand SaveBack { get; private set; }
+
+        private void ExecuteSaveBack(object obj)
+        {
+            Closing.Invoke(true);
         }
         #endregion
 
@@ -83,44 +95,61 @@ namespace PulseOximeterApp.ViewModels.HomeTab
         public MeasureSaturationPageViewModel(ISaturationService saturationService)
         {
             _saturationService = saturationService;
-            _chartEntries = new List<ChartEntry>();
-            _numberOfMeasure = 30;
-            _valueOfCounter = _numberOfMeasure;
+            _saturationValues = new List<int>();
+            _numberMeasure = _counterValue = Preferences.Get("NumberOfOxigenMeasure", 30);
 
             HeadBack = new Command(ExecuteHeadBack);
+            SaveBack = new Command(ExecuteSaveBack);
         }
 
+        #region Event Handler
         private void OnSaturationNotify(int value)
         {
             if (CounterValue > 0)
             {
                 CounterValue -= 1;
-                _chartEntries.Add(new ChartEntry(value)
-                {
-                    Label = "Sp02",
-                    ValueLabel = value.ToString(),
-                    Color = CalculateColorForChartEnty(value),
-                });
+                _saturationValues.Add(value);
 
                 if (CounterValue == 0)
                 {
                     _saturationService.StopMeasureSaturation();
-                    MainChart = new LineChart()
+                    MainChart = new DonutChart()
                     {
-                        Entries = _chartEntries
+                        Entries = CalculateChartEntries(),
                     };
                     IsCompleteMeasure = true;
                 }
             }
         }
+        #endregion
 
-        private SKColor CalculateColorForChartEnty(int value)
+        private IList<ChartEntry> CalculateChartEntries()
         {
-            SKColor result = SKColor.Parse("f24518");
+            List<ChartEntry> result = new List<ChartEntry>();
 
-            if (value < 90) result = SKColor.Parse("f24518");
-            else if (value < 95) result = SKColor.Parse("f1f518");
-            else if (value <= 100) result = SKColor.Parse("2bf518");
+            int L90 = _saturationValues.Where(sv => sv < 90).Count();
+            result.Add(new ChartEntry(L90)
+            {
+                Label = "< 90%",
+                ValueLabel = L90.ToString(),
+                Color = SKColor.Parse("f24518"),
+            });
+
+            int LE95 = _saturationValues.Where(sv => 90 <= sv && sv < 95).Count();
+            result.Add(new ChartEntry(LE95)
+            {
+                Label = "90% <=...< 95%",
+                ValueLabel = LE95.ToString(),
+                Color = SKColor.Parse("f1f518"),
+            });
+
+            int LE100 = _saturationValues.Where(sv => 95 <= sv && sv <= 100).Count();
+            result.Add(new ChartEntry(LE100)
+            {
+                Label = "95% <=...<= 100%",
+                ValueLabel = LE100.ToString(),
+                Color = SKColor.Parse("2bf518"),
+            });
 
             return result;
         }

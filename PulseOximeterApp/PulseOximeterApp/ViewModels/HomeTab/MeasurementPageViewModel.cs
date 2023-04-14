@@ -1,6 +1,9 @@
-﻿using PulseOximeterApp.Services.BluetoothLE;
+﻿using PulseOximeterApp.Data.DataBase;
+using PulseOximeterApp.Services.BluetoothLE;
 using PulseOximeterApp.ViewModels.Base;
 using PulseOximeterApp.Views.HomeTab;
+using System;
+using System.Linq;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -36,17 +39,12 @@ namespace PulseOximeterApp.ViewModels.HomeTab
         {
             IsActivityIndicator = true;
 
-            await BeginInvokeOnMainThreadAsync<object>(() =>
-            {
-                if (MeasurePulseVM != null) MeasurePulseVM.Closing -= OnMeasurePulseClosing;
+            if (MeasurePulseVM != null) MeasurePulseVM.Closing -= OnMeasurePulseClosing;
 
-                MeasurePulse = new MeasurePulsePage();
-                MeasurePulseVM = new MeasurePulsePageViewModel(_pulseOximeterService);
-                MeasurePulseVM.Closing += OnMeasurePulseClosing;
-                MeasurePulse.BindingContext = MeasurePulseVM;
-
-                return null;
-            });
+            MeasurePulse = new MeasurePulsePage();
+            MeasurePulseVM = new MeasurePulsePageViewModel(_pulseOximeterService);
+            MeasurePulseVM.Closing += OnMeasurePulseClosing;
+            MeasurePulse.BindingContext = MeasurePulseVM;
 
             await Shell.Current.Navigation.PushAsync(MeasurePulse);
             IsActivityIndicator = false;
@@ -56,32 +54,17 @@ namespace PulseOximeterApp.ViewModels.HomeTab
         {
             IsActivityIndicator = true;
 
-            await BeginInvokeOnMainThreadAsync<object>(() =>
-            {
-                if (MeasureSaturationVM != null) MeasureSaturationVM.Closing -= OnMeasureSaturationClosing;
+            if (MeasureSaturationVM != null) MeasureSaturationVM.Closing -= OnMeasureSaturationClosing;
 
-                MeasureSaturation = new MeasureSaturationPage();
-                MeasureSaturationVM = new MeasureSaturationPageViewModel(_pulseOximeterService);
-                MeasureSaturationVM.Closing += OnMeasureSaturationClosing;
-                MeasureSaturation.BindingContext = MeasureSaturationVM;
-
-                return null;
-            });
+            MeasureSaturation = new MeasureSaturationPage();
+            MeasureSaturationVM = new MeasureSaturationPageViewModel(_pulseOximeterService);
+            MeasureSaturationVM.Closing += OnMeasureSaturationClosing;
+            MeasureSaturation.BindingContext = MeasureSaturationVM;
 
             await Shell.Current.Navigation.PushAsync(MeasureSaturation);
             IsActivityIndicator = false;
         }
         #endregion
-
-        private async void OnMeasurePulseClosing(bool isSave)
-        {
-            await Shell.Current.Navigation.PopAsync();
-        }
-
-        private async void OnMeasureSaturationClosing(bool isSave)
-        {
-            await Shell.Current.Navigation.PopAsync();
-        }
 
         public MeasurementPageViewModel(PulseOximeterService pulseOximeterService)
         {
@@ -90,5 +73,39 @@ namespace PulseOximeterApp.ViewModels.HomeTab
             PulseMeasure = new Command(ExecutePulseMeasure);
             SaturationMesure = new Command(ExecuteSaturationMesure);
         }
+
+        #region Event Handler
+        private async void OnMeasurePulseClosing(bool isSave)
+        {
+            if (isSave)
+            {
+                await App.StatisticDataBase.SavePulseStatisticAsync(new PulseStatistic()
+                {
+                    MeasurementPoints = ConverterMeasurementPoints.To(MeasurePulseVM.MainChart.Entries.Select(e => Convert.ToInt32(e.Value)).ToList()),
+                    PointsCount = MeasurePulseVM.NumberMeasure,
+                    ABI = MeasurePulseVM.Baevsky.ABI,
+                    VRI = MeasurePulseVM.Baevsky.VRI,
+                    IARP = MeasurePulseVM.Baevsky.IARP,
+                    VI = MeasurePulseVM.Baevsky.VI,
+                });
+            }
+
+            await Shell.Current.Navigation.PopAsync();
+        }
+
+        private async void OnMeasureSaturationClosing(bool isSave)
+        {
+            if (isSave)
+            {
+                await App.StatisticDataBase.SaveSaturationStatisticAsync(new SaturationStatistic()
+                {
+                    MeasurementPoints = ConverterMeasurementPoints.To(MeasureSaturationVM.MainChart.Entries.Select(e => Convert.ToInt32(e.Value)).ToList()),
+                    PointsCount = MeasureSaturationVM.NumberMeasure,
+                });
+            }
+
+            await Shell.Current.Navigation.PopAsync();
+        }
+        #endregion
     }
 }

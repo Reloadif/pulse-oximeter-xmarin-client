@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:PulseOximeterApp.ViewModels.StatisticTab" x:DataType="viewmodels:PulseStatisticPageViewModel"
+             xmlns:behaviors="clr-namespace:PulseOximeterApp.Infrastructure.Behaviors"
+             xmlns:cusomControls="clr-namespace:PulseOximeterApp.Infrastructure.CustomControls"
+             xmlns:converters="clr-namespace:PulseOximeterApp.Infrastructure.Converters"
+             xmlns:database="clr-namespace:PulseOximeterApp.Data.DataBase"
+             x:Class="PulseOximeterApp.Views.StatisticTab.PulseStatisticPage">
+
+    <ContentPage.Resources>
+        <converters:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
+    </ContentPage.Resources>
+
+    <ContentPage.Style>
+        <Style TargetType="ContentPage">
+            <Setter Property="BackgroundColor" Value="#f7f7f7"/>
+        </Style>
+    </ContentPage.Style>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.025*"/>
+            <ColumnDefinition Width="0.95*"/>
+            <ColumnDefinition Width="0.025*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.025*"/>
+            <RowDefinition Height="0.95*"/>
+            <RowDefinition Height="0.025*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Column="1" Grid.Row="1">
+            <StackLayout VerticalOptions="Center" HorizontalOptions="Center" IsVisible="{Binding IsCollectionEmpty}">
+                <Label Text="Пусто" FontSize="Title"/>
+            </StackLayout>
+
+            <StackLayout IsVisible="{Binding IsCollectionEmpty, Converter={StaticResource InverseBooleanConverter}}">
+                <CollectionView SelectionMode="Single" ItemsSource="{Binding PulseCollection}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="database:PulseStatistic">
+                            <Grid>
+                                <Frame Margin="2" Padding="8" CornerRadius="10" IsClippedToBounds="True">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
+
+                                        <Grid>
+                                            <StackLayout Orientation="Horizontal">
+                                                <Label Text="Статистика №" FontSize="18"/>
+                                                <Label FontSize="18" Text="{Binding ID}"/>
+                                            </StackLayout>
+
+                                            <cusomControls:IconLabel HorizontalOptions="End" Text="monitor_heart" FontSize="18">
+                                                <cusomControls:IconLabel.Behaviors>
+                                                    <behaviors:GoogleMaterialFontBehavior />
+                                                </cusomControls:IconLabel.Behaviors>
+                                            </cusomControls:IconLabel>
+                                        </Grid>
+
+                                        <StackLayout Grid.Row="1" Orientation="Horizontal">
+                                            <Label Text="Количество измерений:" FontSize="12"/>
+                                            <Label FontSize="12" Text="{Binding PointsCount}"/>
+                                        </StackLayout>
+                                    </Grid>
+                                </Frame>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+
+                    <CollectionView.Behaviors>
+                        <behaviors:CollectionViewItemSelectionBehavior Command="{Binding CollectionItemSelected}"/>
+                    </CollectionView.Behaviors>
+                </CollectionView>
+            </StackLayout>
+        </Grid>
+    </Grid>
+</ContentPage>
