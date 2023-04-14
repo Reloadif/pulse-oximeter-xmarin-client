@@ -90,8 +90,8 @@ namespace PulseOximeterApp.ViewModels.HomeTab
             {
                 await App.StatisticDataBase.SaveSaturationStatisticAsync(new SaturationStatistic()
                 {
-                    MeasurementPoints = ConverterMeasurementPoints.To(MeasurePulseVM.MainChart.Entries.Select(e => Convert.ToInt32(e.Value)).ToList()),
-                    PointsCount = MeasurePulseVM.MainChart.Entries.Count(),
+                    MeasurementPoints = ConverterMeasurementPoints.To(MeasureSaturationVM.MainChart.Entries.Select(e => Convert.ToInt32(e.Value)).ToList()),
+                    PointsCount = MeasureSaturationVM.MainChart.Entries.Count(),
                 });
             }
 

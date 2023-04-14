@@ -30,6 +30,7 @@
                                 <Grid.RowDefinitions>
                                     <RowDefinition/>
                                     <RowDefinition/>
+                                    <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
 
                                 <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
@@ -41,6 +42,8 @@
                                     <Label Text="КИ: "/>
                                     <Label Text="{Binding PointsCount}"/>
                                 </StackLayout>
+
+                                <Rectangle Grid.Row="2" Fill="DarkGray" HeightRequest="2"/>
                             </Grid>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>

@@ -21,8 +21,8 @@
 
             <Grid Grid.Column="1" VerticalOptions="Center">
                 <StackLayout Spacing="20">
-                    <Button Padding="20" Text="Пульс" Command="{Binding GoPulseStatistic}"/>
-                    <Button Padding="20" Text="Сатурация" IsEnabled="False" Command="{Binding GoSaturationStatistic}"/>
+                    <Button Padding="20" Text="Пульс" BorderWidth="1" BorderColor="Black" BackgroundColor="Transparent" Command="{Binding GoPulseStatistic}"/>
+                    <Button Padding="20" Text="Сатурация" BorderWidth="1" BorderColor="Black" BackgroundColor="Transparent" Command="{Binding GoSaturationStatistic}"/>
                 </StackLayout>
             </Grid>
         </Grid>

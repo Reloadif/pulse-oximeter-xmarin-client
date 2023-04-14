@@ -31,7 +31,7 @@ namespace PulseOximeterApp.ViewModels.StatisticTab
 
         private async void ExecuteCollectionItemSelected(object obj)
         {
-            await Shell.Current.Navigation.PushAsync(new SaturationStatisticPage { BindingContext = new SingleSaturationPageViewModel(obj as SaturationStatistic) });
+            await Shell.Current.Navigation.PushAsync(new SingleSaturationPage { BindingContext = new SingleSaturationPageViewModel(obj as SaturationStatistic) });
         }
         #endregion
 

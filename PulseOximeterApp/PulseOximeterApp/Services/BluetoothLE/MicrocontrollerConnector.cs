@@ -105,6 +105,12 @@ namespace PulseOximeterApp.Services.BluetoothLE
                 Device.BeginInvokeOnMainThread(async () =>
                 {
                     await Shell.Current.DisplayAlert("Внимание", "Потеряно соединение с устройством, подключитесь снова!", "OK");
+
+                    var items = Shell.Current.CurrentItem.Items;
+                    if (Shell.Current.CurrentItem.CurrentItem != items[0]) 
+                    {
+                        Shell.Current.CurrentItem.CurrentItem = items[0];
+                    }
                     await Shell.Current.Navigation.PopToRootAsync();
                 });
             }
