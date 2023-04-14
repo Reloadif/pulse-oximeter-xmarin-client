@@ -10,7 +10,7 @@
             <ShellContent ContentTemplate="{DataTemplate views:HomePage}" />
         </Tab>
 
-        <Tab Title="Статистика" Icon="statistic.png" IsEnabled="{Binding StatisticTabIsEnabled}">
+        <Tab x:Name="StatisticTab" Title="Статистика" Icon="statistic.png" IsEnabled="{Binding StatisticTabIsEnabled}">
             <ShellContent ContentTemplate="{DataTemplate views:StatisticPage}" />
         </Tab>
 

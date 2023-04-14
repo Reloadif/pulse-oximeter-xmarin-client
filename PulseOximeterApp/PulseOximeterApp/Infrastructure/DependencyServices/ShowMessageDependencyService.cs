@@ -3,7 +3,7 @@ using Xamarin.Forms;
 
 namespace PulseOximeterApp.Infrastructure.DependencyServices
 {
-    public class MessageService : IMessageService
+    public class ShowMessageDependencyService : IShowMessageDependencyService
     {
         public async Task ShowAlertAsync(string message)
         {

@@ -66,6 +66,15 @@ namespace PulseOximeterApp.ViewModels.HomeTab
         }
         #endregion
 
+        public MeasurementPageViewModel(PulseOximeterService pulseOximeterService)
+        {
+            _pulseOximeterService = pulseOximeterService;
+
+            PulseMeasure = new Command(ExecutePulseMeasure);
+            SaturationMesure = new Command(ExecuteSaturationMesure);
+        }
+
+        #region Event Handler
         private async void OnMeasurePulseClosing(bool isSave)
         {
             if (isSave)
@@ -73,7 +82,7 @@ namespace PulseOximeterApp.ViewModels.HomeTab
                 await App.StatisticDataBase.SavePulseStatisticAsync(new PulseStatistic()
                 {
                     MeasurementPoints = ConverterMeasurementPoints.To(MeasurePulseVM.MainChart.Entries.Select(e => Convert.ToInt32(e.Value)).ToList()),
-                    PointsCount = MeasurePulseVM.MainChart.Entries.Count(),
+                    PointsCount = MeasurePulseVM.NumberMeasure,
                     ABI = MeasurePulseVM.Baevsky.ABI,
                     VRI = MeasurePulseVM.Baevsky.VRI,
                     IARP = MeasurePulseVM.Baevsky.IARP,
@@ -91,19 +100,12 @@ namespace PulseOximeterApp.ViewModels.HomeTab
                 await App.StatisticDataBase.SaveSaturationStatisticAsync(new SaturationStatistic()
                 {
                     MeasurementPoints = ConverterMeasurementPoints.To(MeasureSaturationVM.MainChart.Entries.Select(e => Convert.ToInt32(e.Value)).ToList()),
-                    PointsCount = MeasureSaturationVM.MainChart.Entries.Count(),
+                    PointsCount = MeasureSaturationVM.NumberMeasure,
                 });
             }
 
             await Shell.Current.Navigation.PopAsync();
         }
-
-        public MeasurementPageViewModel(PulseOximeterService pulseOximeterService)
-        {
-            _pulseOximeterService = pulseOximeterService;
-
-            PulseMeasure = new Command(ExecutePulseMeasure);
-            SaturationMesure = new Command(ExecuteSaturationMesure);
-        }
+        #endregion
     }
 }

@@ -2,6 +2,7 @@
 using PulseOximeterApp.ViewModels.Base;
 using PulseOximeterApp.Views.StatisticTab;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -49,7 +50,7 @@ namespace PulseOximeterApp.ViewModels.StatisticTab
 
         public PulseStatisticPageViewModel()
         {
-            PulseCollection = new ObservableCollection<PulseStatistic>(App.StatisticDataBase.GetPulseStatisticsAsync().GetAwaiter().GetResult());
+            PulseCollection = new ObservableCollection<PulseStatistic>(App.StatisticDataBase.GetPulseStatisticsAsync().GetAwaiter().GetResult().OrderByDescending(s => s.ID));
 
             CollectionItemSelected = new Command(ExecuteCollectionItemSelected);
         }

@@ -45,7 +45,7 @@ namespace PulseOximeterApp.ViewModels.SettingTab
         {
             if (_oldNumberOfPulseMeasure != _numberOfPulseMeasure || _oldNumberOfOxigenMeasure != _numberOfOxigenMeasure)
             {
-                if (await DependencyService.Get<IMessageService>().ShowQuestionAsync("Подтвердить действие", "Сохранить изменения?"))
+                if (await DependencyService.Get<IShowMessageDependencyService>().ShowQuestionAsync("Подтвердить действие", "Сохранить изменения?"))
                 {
                     Preferences.Set("NumberOfPulseMeasure", _numberOfPulseMeasure);
                     Preferences.Set("NumberOfOxigenMeasure", _numberOfOxigenMeasure);

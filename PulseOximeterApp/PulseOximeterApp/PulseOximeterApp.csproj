@@ -21,8 +21,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Infrastructure\CustomControls\CustomVisualizationCounter.xaml.cs">
-      <DependentUpon>CustomVisualizationCounter.xaml</DependentUpon>
+    <Compile Update="Infrastructure\CustomControls\VisualizationCounter.xaml.cs">
+      <DependentUpon>VisualizationCounter.xaml</DependentUpon>
     </Compile>
     <Compile Update="Views\HomeTab\MeasurementPage.xaml.cs">
       <DependentUpon>MeasurementPage.xaml</DependentUpon>
@@ -33,7 +33,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Infrastructure\CustomControls\CustomVisualizationCounter.xaml">
+    <EmbeddedResource Update="Infrastructure\CustomControls\VisualizationCounter.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\HomePage.xaml">

@@ -11,71 +11,88 @@
         <converters:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
     </ContentPage.Resources>
 
+    <ContentPage.Style>
+        <Style TargetType="ContentPage">
+            <Setter Property="BackgroundColor" Value="#f7f7f7"/>
+        </Style>
+    </ContentPage.Style>
+
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.05*"/>
-            <ColumnDefinition Width="0.9*"/>
-            <ColumnDefinition Width="0.05*"/>
+            <ColumnDefinition Width="0.025*"/>
+            <ColumnDefinition Width="0.95*"/>
+            <ColumnDefinition Width="0.025*"/>
         </Grid.ColumnDefinitions>
 
-        <Grid Grid.Column="1" IsVisible="{Binding IsCompleteMeasure, Converter={StaticResource InverseBooleanConverter}}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.025*"/>
+            <RowDefinition Height="0.95*"/>
+            <RowDefinition Height="0.025*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Column="1" Grid.Row="1" IsVisible="{Binding IsCompleteMeasure, Converter={StaticResource InverseBooleanConverter}}">
             <Grid.RowDefinitions>
-                <RowDefinition Height="0.3*"/>
-                <RowDefinition Height="0.3*"/>
-                <RowDefinition Height="0.3*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            
+
             <StackLayout Grid.Row="1" VerticalOptions="Center" HorizontalOptions="Center">
-                <customControls:CustomVisualizationCounter HeightRequest="150" WidthRequest="150" Value="{Binding CounterValue}"/>
+                <customControls:VisualizationCounter HeightRequest="150" WidthRequest="150" Value="{Binding CounterValue}"/>
             </StackLayout>
 
             <Label Grid.Row="2" Text="Держите палец на датчике" FontSize="20" HorizontalOptions="Center"/>
         </Grid>
-        
-        <Grid Grid.Column="1" IsVisible="{Binding IsCompleteMeasure}">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="0.1*"/>
-                <RowDefinition Height="0.6*"/>
-                <RowDefinition Height="0.3*"/>
-            </Grid.RowDefinitions>
 
-            <Grid VerticalOptions="Center">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-
-                <Button Text="Назад" Command="{Binding HeadBack}"/>
-                <Button Grid.Column="1" Text="Сохранить" Command="{Binding SaveBack}"/>
-            </Grid>
-
-            <microcharts:ChartView Grid.Row="1" Chart="{Binding MainChart}" />
-
-            <Grid Grid.Row="2" VerticalOptions="Center">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="0.8*"/>
-                    <ColumnDefinition Width="0.2*"/>
-                </Grid.ColumnDefinitions>
+        <ScrollView Grid.Column="1" Grid.Row="1" IsVisible="{Binding IsCompleteMeasure}">
+            <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                    <RowDefinition/>
+                    <RowDefinition Height="0.1*"/>
+                    <RowDefinition Height="0.6*"/>
+                    <RowDefinition Height="0.3*"/>
                 </Grid.RowDefinitions>
 
-                <Label Text="Индекс вегетативного равновесия:"/>
-                <Label Grid.Column="1" HorizontalTextAlignment="End" Text="{Binding Baevsky.ABI}"/>
+                <Grid VerticalOptions="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
 
-                <Label Grid.Row="1" Text="Вегетативный показатель ритма:"/>
-                <Label Grid.Column="1" Grid.Row="1" HorizontalTextAlignment="End" Text="{Binding Baevsky.VRI}"/>
+                    <Button Text="Назад" Command="{Binding HeadBack}"/>
+                    <Button Grid.Column="1" Text="Сохранить" Command="{Binding SaveBack}"/>
+                </Grid>
 
-                <Label Grid.Row="2" Text="Показатель адекватности процессов регуляции:"/>
-                <Label Grid.Column="1" Grid.Row="2" HorizontalTextAlignment="End" Text="{Binding Baevsky.IARP}"/>
+                <Frame Grid.Row="1">
+                    <microcharts:ChartView Chart="{Binding MainChart}" />
+                </Frame>
 
-                <Label Grid.Row="3" Text="Индекс напряжения регуляторных систем:"/>
-                <Label Grid.Column="1" Grid.Row="3" HorizontalTextAlignment="End" Text="{Binding Baevsky.VI}"/>
+                <Frame Grid.Row="2">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.8*"/>
+                            <ColumnDefinition Width="0.2*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <Label Text="Индекс вегетативного равновесия:"/>
+                        <Label Grid.Column="1" Text="{Binding Baevsky.ABI}"/>
+
+                        <Label Grid.Row="1" Text="Вегетативный показатель ритма:"/>
+                        <Label Grid.Column="1" Grid.Row="1" Text="{Binding Baevsky.VRI}"/>
+
+                        <Label Grid.Row="2" Text="Показатель адекватности процессов регуляции:"/>
+                        <Label Grid.Column="1" Grid.Row="2" Text="{Binding Baevsky.IARP}"/>
+
+                        <Label Grid.Row="3" Text="Индекс напряжения регуляторных систем:"/>
+                        <Label Grid.Column="1" Grid.Row="3" Text="{Binding Baevsky.VI}"/>
+                    </Grid>
+                </Frame>
             </Grid>
-        </Grid>
+        </ScrollView>
     </Grid>
-
 </ContentPage>

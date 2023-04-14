@@ -9,7 +9,7 @@ using Xamarin.Forms;
 
 namespace PulseOximeterApp.Services.BluetoothLE
 {
-    internal class MicrocontrollerConnector
+    public class MicrocontrollerConnector
     {
         private readonly IAdapter _adapter;
         private IDevice _device;
@@ -105,13 +105,7 @@ namespace PulseOximeterApp.Services.BluetoothLE
                 Device.BeginInvokeOnMainThread(async () =>
                 {
                     await Shell.Current.DisplayAlert("Внимание", "Потеряно соединение с устройством, подключитесь снова!", "OK");
-
-                    var items = Shell.Current.CurrentItem.Items;
-                    if (Shell.Current.CurrentItem.CurrentItem != items[0]) 
-                    {
-                        Shell.Current.CurrentItem.CurrentItem = items[0];
-                    }
-                    await Shell.Current.Navigation.PopToRootAsync();
+                    await Shell.Current.CurrentItem.Items[0].Navigation.PopToRootAsync();
                 });
             }
         }

@@ -13,8 +13,6 @@ namespace PulseOximeterApp.ViewModels
     internal class HomePageViewModel : BaseViewModel
     {
         #region Fields
-        private readonly MicrocontrollerConnector _microcontrollerConnector = new MicrocontrollerConnector();
-
         private bool _isActivityIndicator;
 
         private bool _isBluetoothOn;
@@ -59,10 +57,10 @@ namespace PulseOximeterApp.ViewModels
         {
             IsActivityIndicator = true;
 
-            if (await _microcontrollerConnector.Connect())
+            if (await App.Microcontroller.Connect())
             {
                 var Measurement = new MeasurementPage();
-                var MeasurementVM = new MeasurementPageViewModel(new PulseOximeterService(_microcontrollerConnector.GetDevice));
+                var MeasurementVM = new MeasurementPageViewModel(new PulseOximeterService(App.Microcontroller.GetDevice));
                 Measurement.BindingContext = MeasurementVM;
                 await Shell.Current.Navigation.PushAsync(Measurement);
             }
@@ -82,14 +80,14 @@ namespace PulseOximeterApp.ViewModels
 
             CrossBluetoothLE.Current.StateChanged += OnBluetoothLEStateChanged;
             DependencyService.Get<IGpsDependencyService>().GpsStatusChanged += OnLocationStateChanged;
-            _microcontrollerConnector.ExceptionGenerated += OnExceptionMictrocontroller;
+            App.Microcontroller.ExceptionGenerated += OnExceptionGenerated;
         }
 
         public override void OnDisappearing()
         {
             CrossBluetoothLE.Current.StateChanged -= OnBluetoothLEStateChanged;
             DependencyService.Get<IGpsDependencyService>().GpsStatusChanged -= OnLocationStateChanged;
-            _microcontrollerConnector.ExceptionGenerated -= OnExceptionMictrocontroller;
+            App.Microcontroller.ExceptionGenerated -= OnExceptionGenerated;
 
             base.OnDisappearing();
         }
@@ -103,6 +101,7 @@ namespace PulseOximeterApp.ViewModels
             IsLocationOn = DependencyService.Get<IGpsDependencyService>().IsGpsTurnedOn();
         }
 
+        #region Event Handlers
         private void OnBluetoothLEStateChanged(object sender, BluetoothStateChangedArgs args)
         {
             IsBluetoothOn = args.NewState == Plugin.BLE.Abstractions.Contracts.BluetoothState.On;
@@ -111,9 +110,10 @@ namespace PulseOximeterApp.ViewModels
         {
             IsLocationOn = value;
         }
-        private async void OnExceptionMictrocontroller(string message)
+        private async void OnExceptionGenerated(string message)
         {
-            await DependencyService.Get<IMessageService>().ShowAlertAsync(message);
+            await DependencyService.Get<IShowMessageDependencyService>().ShowAlertAsync(message);
         }
+        #endregion
     }
 }

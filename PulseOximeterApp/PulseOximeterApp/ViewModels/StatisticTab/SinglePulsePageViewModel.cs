@@ -50,7 +50,7 @@ namespace PulseOximeterApp.ViewModels.StatisticTab
             { 
                 Entries = ConverterMeasurementPoints.From(pulseStatistic.MeasurementPoints).Select(mp => new ChartEntry(mp)
                 {
-                    Label = "BPM",
+                    Label = "ЧСС",
                     ValueLabel = mp.ToString(),
                     Color = ChartEntryColorConverter.FromPulse(mp),
                 }).ToList(),

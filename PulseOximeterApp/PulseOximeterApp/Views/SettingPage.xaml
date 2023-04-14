@@ -4,17 +4,23 @@
              xmlns:viewmodels="clr-namespace:PulseOximeterApp.ViewModels" x:DataType="viewmodels:SettingPageViewModel"
              x:Class="PulseOximeterApp.Views.SettingPage">
 
+    <ContentPage.Style>
+        <Style TargetType="ContentPage">
+            <Setter Property="BackgroundColor" Value="#f7f7f7"/>
+        </Style>
+    </ContentPage.Style>
+
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.05*"/>
-            <ColumnDefinition Width="0.9*"/>
-            <ColumnDefinition Width="0.05*"/>
+            <ColumnDefinition Width="0.025*"/>
+            <ColumnDefinition Width="0.95*"/>
+            <ColumnDefinition Width="0.025*"/>
         </Grid.ColumnDefinitions>
 
         <Grid Grid.Column="1" VerticalOptions="Center">
             <StackLayout Spacing="20">
-                <Button Padding="20" Text="Параметры" Command="{Binding GoOptionPage}"/>
-                <Button Padding="20" Text="Память" IsEnabled="False"/>
+                <Button Text="Параметры" Padding="20" CornerRadius="10" BorderWidth="1" BorderColor="Black" BackgroundColor="White" Command="{Binding GoOptionPage}"/>
+                <Button Text="Память" Padding="20" CornerRadius="10" BorderWidth="1" BorderColor="Black" BackgroundColor="White" IsEnabled="False"/>
             </StackLayout>
         </Grid>
     </Grid>

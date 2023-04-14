@@ -45,7 +45,7 @@ namespace PulseOximeterApp.Droid.Services.DependencyServices
 
         private void OnGpsStatusChanged(bool value)
         {
-            GpsStatusChanged.Invoke(value);
+            GpsStatusChanged?.Invoke(value);
         }
     }
 }

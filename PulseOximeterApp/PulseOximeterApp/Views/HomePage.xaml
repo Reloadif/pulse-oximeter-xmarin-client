@@ -9,26 +9,39 @@
         <converters:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
     </ContentPage.Resources>
 
+    <ContentPage.Style>
+        <Style TargetType="ContentPage">
+            <Setter Property="BackgroundColor" Value="#f7f7f7"/>
+        </Style>
+    </ContentPage.Style>
+
     <Grid>
-        <ActivityIndicator Scale="0.15" IsRunning="{Binding IsActivityIndicator}"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.025*"/>
+            <ColumnDefinition Width="0.95*"/>
+            <ColumnDefinition Width="0.025*"/>
+        </Grid.ColumnDefinitions>
 
-        <Grid IsVisible="{Binding IsActivityIndicator, Converter={StaticResource InverseBooleanConverter}}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.05*"/>
-                <ColumnDefinition Width="0.9*"/>
-                <ColumnDefinition Width="0.05*"/>
-            </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.025*"/>
+            <RowDefinition Height="0.95*"/>
+            <RowDefinition Height="0.025*"/>
+        </Grid.RowDefinitions>
 
-            <Grid Grid.Column="1" VerticalOptions="Center">
-                <StackLayout Spacing="20">
+        <Grid Grid.Column="1" Grid.Row="1">
+            <ActivityIndicator Scale="0.15" IsRunning="{Binding IsActivityIndicator}"/>
+
+            <Grid VerticalOptions="Center" IsVisible="{Binding IsActivityIndicator, Converter={StaticResource InverseBooleanConverter}}">
+                <StackLayout Spacing="30">
                     <StackLayout>
-                        <Label Text="Проверьте следующие пункты:" FontSize="Title"/>
-                        
-                        <Grid RowSpacing="5">
+                        <Label Text="Проверьте следующие пункты:" FontSize="28"/>
+
+                        <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="0.9*"/>
-                                <ColumnDefinition Width="0.1*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="16"/>
                             </Grid.ColumnDefinitions>
+                            
                             <Grid.RowDefinitions>
                                 <RowDefinition/>
                                 <RowDefinition/>
@@ -56,10 +69,9 @@
                         </Grid>
                     </StackLayout>
 
-                    <Button Padding="20" Text="Подключиться к пульсоксиметру" Command="{Binding ConnectToMicrocontroller}"/>
+                    <Button Text="Подключиться к пульсоксиметру" Padding="20" CornerRadius="5" Command="{Binding ConnectToMicrocontroller}"/>
                 </StackLayout>
             </Grid>
         </Grid>
     </Grid>
-
 </ContentPage>

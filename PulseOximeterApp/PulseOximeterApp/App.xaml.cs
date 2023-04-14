@@ -1,14 +1,32 @@
 ﻿using System.IO;
-using System.Reflection;
 using System;
 using Xamarin.Forms;
 using PulseOximeterApp.Data.DataBase;
+using PulseOximeterApp.Services.BluetoothLE;
+using PulseOximeterApp.Infrastructure.DependencyServices;
 
 namespace PulseOximeterApp
 {
     public partial class App : Application
     {
+        #region Fields
+        private static MicrocontrollerConnector _microcontrollerConnector;
         private static StatisticDB _statisticDB;
+        #endregion
+
+        #region Properties
+        public static MicrocontrollerConnector Microcontroller
+        {
+            get
+            {
+                if (_microcontrollerConnector is null)
+                {
+                    _microcontrollerConnector = new MicrocontrollerConnector();
+                }
+
+                return _microcontrollerConnector;
+            }
+        }
 
         public static StatisticDB StatisticDataBase
         {
@@ -22,10 +40,11 @@ namespace PulseOximeterApp
                 return _statisticDB;
             }
         }
+        #endregion
 
         public App()
         {
-            DependencyService.Register<Infrastructure.DependencyServices.IMessageService, Infrastructure.DependencyServices.MessageService>();
+            DependencyService.Register<IShowMessageDependencyService, ShowMessageDependencyService>();
 
             InitializeComponent();
             MainPage = new MainPage();

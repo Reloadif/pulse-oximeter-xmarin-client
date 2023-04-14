@@ -9,23 +9,29 @@
         <converters:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
     </ContentPage.Resources>
 
+    <ContentPage.Style>
+        <Style TargetType="ContentPage">
+            <Setter Property="BackgroundColor" Value="#f7f7f7"/>
+        </Style>
+    </ContentPage.Style>
+
     <Grid>
         <ActivityIndicator Scale="0.15" IsRunning="{Binding IsActivityIndicator}"/>
 
         <Grid IsVisible="{Binding IsActivityIndicator, Converter={StaticResource InverseBooleanConverter}}">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.05*"/>
-                <ColumnDefinition Width="0.9*"/>
-                <ColumnDefinition Width="0.05*"/>
+                <ColumnDefinition Width="0.025*"/>
+                <ColumnDefinition Width="0.95*"/>
+                <ColumnDefinition Width="0.025*"/>
             </Grid.ColumnDefinitions>
 
             <Grid Grid.Column="1" VerticalOptions="Center">
                 <StackLayout Spacing="20">
-                    <Button Padding="20" Text="Пульс" BorderWidth="1" BorderColor="Black" BackgroundColor="Transparent" Command="{Binding GoPulseStatistic}"/>
-                    <Button Padding="20" Text="Сатурация" BorderWidth="1" BorderColor="Black" BackgroundColor="Transparent" Command="{Binding GoSaturationStatistic}"/>
+                    <Button Text="Пульс" Padding="20" CornerRadius="10" BorderWidth="1" BorderColor="Black" BackgroundColor="White" Command="{Binding GoPulseStatistic}"/>
+                    <Button Text="Сатурация" Padding="20" CornerRadius="10" BorderWidth="1" BorderColor="Black" BackgroundColor="White" Command="{Binding GoSaturationStatistic}"/>
                 </StackLayout>
             </Grid>
         </Grid>
     </Grid>
-    
+
 </ContentPage>

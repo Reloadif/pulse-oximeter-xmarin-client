@@ -4,10 +4,10 @@ using Xamarin.Forms.Xaml;
 namespace PulseOximeterApp.Infrastructure.CustomControls
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class CustomVisualizationCounter : ContentView
+    public partial class VisualizationCounter : ContentView
     {
         #region BindableProperty
-        public static readonly BindableProperty ValueProperty = BindableProperty.Create(nameof(Value), typeof(int), typeof(CustomVisualizationCounter), 0, propertyChanged: OnValuePropertyChanged);
+        public static readonly BindableProperty ValueProperty = BindableProperty.Create(nameof(Value), typeof(int), typeof(VisualizationCounter), 0, propertyChanged: OnValuePropertyChanged);
 
         public int Value
         {
@@ -19,25 +19,25 @@ namespace PulseOximeterApp.Infrastructure.CustomControls
         {
             if (!oldValue.Equals(0))
             {
-                (bindable as CustomVisualizationCounter).HandleValuePropertyChanged();
+                (bindable as VisualizationCounter).HandleValuePropertyChanged();
             }
         }
         #endregion
 
-        private double XamlStrokeEllipseScale;
+        private double _xamlStrokeEllipseScale;
 
-        public CustomVisualizationCounter()
+        public VisualizationCounter()
         {
             InitializeComponent();
 
             XamlCounterLabel.SetBinding(Label.TextProperty, new Binding("Value", source: this));
-            XamlStrokeEllipseScale = XamlStrokeEllipse.Scale;
+            _xamlStrokeEllipseScale = XamlStrokeEllipse.Scale;
         }
 
         private async void HandleValuePropertyChanged()
         {
-            await XamlStrokeEllipse.ScaleTo(XamlStrokeEllipseScale * 1.15);
-            await XamlStrokeEllipse.ScaleTo(XamlStrokeEllipseScale);
+            await XamlStrokeEllipse.ScaleTo(_xamlStrokeEllipseScale * 1.15);
+            await XamlStrokeEllipse.ScaleTo(_xamlStrokeEllipseScale);
         }
     }
 }

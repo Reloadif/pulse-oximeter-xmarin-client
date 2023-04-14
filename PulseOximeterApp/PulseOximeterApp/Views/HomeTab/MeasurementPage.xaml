@@ -10,20 +10,26 @@
         <converters:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
     </ContentPage.Resources>
 
+    <ContentPage.Style>
+        <Style TargetType="ContentPage">
+            <Setter Property="BackgroundColor" Value="#f7f7f7"/>
+        </Style>
+    </ContentPage.Style>
+
     <Grid>
-        <ActivityIndicator Scale="0.15" IsRunning="{Binding IsActivityIndicator}"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.025*"/>
+            <ColumnDefinition Width="0.95*"/>
+            <ColumnDefinition Width="0.025*"/>
+        </Grid.ColumnDefinitions>
 
-        <Grid IsVisible="{Binding IsActivityIndicator, Converter={StaticResource InverseBooleanConverter}}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.05*"/>
-                <ColumnDefinition Width="0.9*"/>
-                <ColumnDefinition Width="0.05*"/>
-            </Grid.ColumnDefinitions>
+        <Grid Grid.Column="1">
+            <ActivityIndicator Scale="0.15" IsRunning="{Binding IsActivityIndicator}"/>
 
-            <Grid Grid.Column="1" VerticalOptions="Center">
+            <Grid VerticalOptions="Center" IsVisible="{Binding IsActivityIndicator, Converter={StaticResource InverseBooleanConverter}}">
                 <StackLayout Spacing="20">
-                    <Button Padding="20" Text="Пульс" Command="{Binding PulseMeasure}"/>
-                    <Button Padding="20" Text="Сатурация" Command="{Binding SaturationMesure}"/>
+                    <Button Text="Пульс" CornerRadius="5" Command="{Binding PulseMeasure}"/>
+                    <Button Text="Сатурация" CornerRadius="5" Command="{Binding SaturationMesure}"/>
                 </StackLayout>
             </Grid>
         </Grid>

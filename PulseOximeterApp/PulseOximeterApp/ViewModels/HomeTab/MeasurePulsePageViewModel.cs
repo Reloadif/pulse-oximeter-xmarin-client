@@ -18,12 +18,10 @@ namespace PulseOximeterApp.ViewModels.HomeTab
         #region Fields
         private readonly IPulseService _pulseService;
         private readonly IList<double> _cardioIntervals;
-        private readonly IList<ChartEntry> _chartEntries;
         private LineChart _lineChart;
 
-        private readonly int _pulseBufferSize;
-        private readonly int _numberOfMeasure;
-        private int _valueOfCounter;
+        private readonly int _numberMeasure;
+        private int _counterValue;
         private bool _isCompleteMeasure;
 
         private BaevskyIndicators _baevskyIndicators;
@@ -36,16 +34,21 @@ namespace PulseOximeterApp.ViewModels.HomeTab
             set => Set(ref _lineChart, value);
         }
 
+        public int NumberMeasure
+        {
+            get => _numberMeasure;
+        }
+
         public int CounterValue
         {
-            get => _valueOfCounter;
-            set => Set(ref _valueOfCounter, value);
+            get => _counterValue;
+            set => Set(ref _counterValue, value);
         }
 
         public bool IsCompleteMeasure
         {
             get => _isCompleteMeasure;
-            set => Set(ref _isCompleteMeasure, value); 
+            set => Set(ref _isCompleteMeasure, value);
         }
 
         public BaevskyIndicators Baevsky
@@ -102,16 +105,15 @@ namespace PulseOximeterApp.ViewModels.HomeTab
         public MeasurePulsePageViewModel(IPulseService pulseService)
         {
             _pulseService = pulseService;
+
             _cardioIntervals = new List<double>();
-            _chartEntries = new List<ChartEntry>();
-            _pulseBufferSize = 4;
-            _numberOfMeasure = Preferences.Get("NumberOfPulseMeasure", 30);
-            _valueOfCounter = _numberOfMeasure;
+            _numberMeasure = _counterValue = Preferences.Get("NumberOfPulseMeasure", 30);
 
             HeadBack = new Command(ExecuteHeadBack);
             SaveBack = new Command(ExecuteSaveBack);
         }
 
+        #region Event Handler
         private void OnPulseNotify(int value)
         {
             if (CounterValue > 0)
@@ -119,30 +121,38 @@ namespace PulseOximeterApp.ViewModels.HomeTab
                 CounterValue -= 1;
                 _cardioIntervals.Add(value / 1000d);
 
-                if (_chartEntries.Count <= 30 && _cardioIntervals.Count % _pulseBufferSize == 0)
-                {
-                    int beatPerMinute = Convert.ToInt32(_cardioIntervals.ToList().GetRange(_cardioIntervals.Count - _pulseBufferSize, _pulseBufferSize).Sum(v => 60 / v) / _pulseBufferSize);
-                    _chartEntries.Add(new ChartEntry(beatPerMinute)
-                    {
-                        Label = "BPM",
-                        ValueLabel = beatPerMinute.ToString(),
-                        Color = ChartEntryColorConverter.FromPulse(beatPerMinute),
-                    });
-                }
-                
-
                 if (CounterValue == 0)
                 {
                     _pulseService.StopMeasurePulse();
                     MainChart = new LineChart()
                     {
-                        Entries = _chartEntries
+                        Entries = CalculateChartEntries(),
                     };
 
                     Baevsky = new BaevskyIndicators(new HeartRateVariability(_cardioIntervals));
                     IsCompleteMeasure = true;
                 }
             }
+        }
+        #endregion
+
+        private IList<ChartEntry> CalculateChartEntries()
+        {
+            List<int> interim = _cardioIntervals.Select(ci => Convert.ToInt32(60 / ci)).ToList();
+            List<int> result = new List<int>();
+
+            int elementsInBatch = interim.Count / 30;
+            for (int i = 0; i < 30; ++i)
+            {
+                result.Add(interim.GetRange(i * elementsInBatch, elementsInBatch).Sum() / elementsInBatch);
+            }
+
+            return result.Select(v => new ChartEntry(v)
+            {
+                Label = "ЧСС",
+                ValueLabel = v.ToString(),
+                Color = ChartEntryColorConverter.FromPulse(v),
+            }).ToList();
         }
     }
 }

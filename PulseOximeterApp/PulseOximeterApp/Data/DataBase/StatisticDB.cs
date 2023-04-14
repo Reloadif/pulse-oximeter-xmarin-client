@@ -15,8 +15,8 @@ namespace PulseOximeterApp.Data.DataBase
         {
             _db = new SQLiteAsyncConnection(connectionString);
 
-            _db.CreateTableAsync<PulseStatistic>().Wait();
-            _db.CreateTableAsync<SaturationStatistic>().Wait();
+            _db.CreateTableAsync<PulseStatistic>().GetAwaiter().GetResult();
+            _db.CreateTableAsync<SaturationStatistic>().GetAwaiter().GetResult();
         }
 
         public void ClearPulseStatisticTable()

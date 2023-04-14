@@ -6,6 +6,7 @@ namespace PulseOximeterApp.Infrastructure.Behaviors
 {
     public class IntegerValidationBehavior : Behavior<Entry>
     {
+        #region BindableProperty
         public static readonly BindableProperty MinValueProperty = BindableProperty.Create(
                 nameof(MinValue),
                 typeof(int),
@@ -31,6 +32,7 @@ namespace PulseOximeterApp.Infrastructure.Behaviors
             get => (int)GetValue(MaxValueProperty);
             set => SetValue(MaxValueProperty, value);
         }
+        #endregion
 
         protected override void OnAttachedTo(Entry entry)
         {

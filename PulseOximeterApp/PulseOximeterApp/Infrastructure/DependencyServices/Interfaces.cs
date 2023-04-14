@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace PulseOximeterApp.Infrastructure.DependencyServices
 {
-    public interface IMessageService
+    public interface IShowMessageDependencyService
     {
         Task ShowAlertAsync(string message);
         Task<bool> ShowQuestionAsync(string title, string message);
