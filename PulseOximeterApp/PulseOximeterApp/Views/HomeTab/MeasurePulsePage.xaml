@@ -17,35 +17,35 @@
         </Style>
     </ContentPage.Style>
 
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.025*"/>
-            <ColumnDefinition Width="0.95*"/>
-            <ColumnDefinition Width="0.025*"/>
-        </Grid.ColumnDefinitions>
+    <ScrollView>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.025*"/>
+                <ColumnDefinition Width="0.95*"/>
+                <ColumnDefinition Width="0.025*"/>
+            </Grid.ColumnDefinitions>
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="0.025*"/>
-            <RowDefinition Height="0.95*"/>
-            <RowDefinition Height="0.025*"/>
-        </Grid.RowDefinitions>
-
-        <Grid Grid.Column="1" Grid.Row="1" IsVisible="{Binding IsCompleteMeasure, Converter={StaticResource InverseBooleanConverter}}">
             <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="0.025*"/>
+                <RowDefinition Height="0.95*"/>
+                <RowDefinition Height="0.025*"/>
             </Grid.RowDefinitions>
 
-            <StackLayout Grid.Row="1" VerticalOptions="Center" HorizontalOptions="Center">
-                <customControls:VisualizationCounter HeightRequest="150" WidthRequest="150" Value="{Binding CounterValue}"/>
-            </StackLayout>
+            <Grid Grid.Column="1" Grid.Row="1" IsVisible="{Binding IsCompleteMeasure, Converter={StaticResource InverseBooleanConverter}}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
 
-            <Label Grid.Row="2" Text="Держите палец на датчике" FontSize="20" HorizontalOptions="Center"/>
-        </Grid>
+                <StackLayout Grid.Row="1" VerticalOptions="Center" HorizontalOptions="Center">
+                    <customControls:VisualizationCounter HeightRequest="150" WidthRequest="150" Value="{Binding CounterValue}"/>
+                </StackLayout>
 
-        <ScrollView Grid.Column="1" Grid.Row="1" IsVisible="{Binding IsCompleteMeasure}">
-            <Grid>
+                <Label Grid.Row="2" Text="Держите палец на датчике" FontSize="20" HorizontalOptions="Center"/>
+            </Grid>
+
+            <Grid Grid.Column="1" Grid.Row="1" IsVisible="{Binding IsCompleteMeasure}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="0.1*"/>
                     <RowDefinition Height="0.6*"/>
@@ -93,6 +93,6 @@
                     </Grid>
                 </Frame>
             </Grid>
-        </ScrollView>
-    </Grid>
+        </Grid>
+    </ScrollView>
 </ContentPage>

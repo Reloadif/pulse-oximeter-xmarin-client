@@ -1,5 +1,6 @@
 ﻿using PulseOximeterApp.Data.DataBase;
 using PulseOximeterApp.Services.BluetoothLE;
+using PulseOximeterApp.Services.DataBase;
 using PulseOximeterApp.ViewModels.Base;
 using PulseOximeterApp.Views.HomeTab;
 using System;
@@ -81,6 +82,7 @@ namespace PulseOximeterApp.ViewModels.HomeTab
             {
                 await App.StatisticDataBase.SavePulseStatisticAsync(new PulseStatistic()
                 {
+                    AddedDate = DateTime.Now.ToString(),
                     MeasurementPoints = ConverterMeasurementPoints.To(MeasurePulseVM.MainChart.Entries.Select(e => Convert.ToInt32(e.Value)).ToList()),
                     PointsCount = MeasurePulseVM.NumberMeasure,
                     ABI = MeasurePulseVM.Baevsky.ABI,
@@ -99,6 +101,7 @@ namespace PulseOximeterApp.ViewModels.HomeTab
             {
                 await App.StatisticDataBase.SaveSaturationStatisticAsync(new SaturationStatistic()
                 {
+                    AddedDate = DateTime.Now.ToString(),
                     MeasurementPoints = ConverterMeasurementPoints.To(MeasureSaturationVM.MainChart.Entries.Select(e => Convert.ToInt32(e.Value)).ToList()),
                     PointsCount = MeasureSaturationVM.NumberMeasure,
                 });

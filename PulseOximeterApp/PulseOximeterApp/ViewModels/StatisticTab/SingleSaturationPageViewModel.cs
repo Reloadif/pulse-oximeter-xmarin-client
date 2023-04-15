@@ -1,9 +1,9 @@
 ﻿using Microcharts;
 using PulseOximeterApp.Data.DataBase;
+using PulseOximeterApp.Services.DataBase;
 using PulseOximeterApp.ViewModels.Base;
 using SkiaSharp;
 using System.Linq;
-using static SQLite.SQLite3;
 
 namespace PulseOximeterApp.ViewModels.StatisticTab
 {
@@ -67,15 +67,15 @@ namespace PulseOximeterApp.ViewModels.StatisticTab
 
             if (_colorCounter == 0)
             {
-                result = "< 90%";
+                result = "Очень низкий";
             }
             else if (_colorCounter == 1)
             {
-                result = "90% <=...< 95%";
+                result = "Низкий";
             }
             else if (_colorCounter == 2)
             {
-                result = "95% <=...<= 100%";
+                result = "В норме";
             }
 
             return result;

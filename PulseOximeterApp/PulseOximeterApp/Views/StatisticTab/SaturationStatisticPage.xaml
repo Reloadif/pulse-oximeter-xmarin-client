@@ -6,6 +6,7 @@
              xmlns:cusomControls="clr-namespace:PulseOximeterApp.Infrastructure.CustomControls"
              xmlns:converters="clr-namespace:PulseOximeterApp.Infrastructure.Converters"
              xmlns:database="clr-namespace:PulseOximeterApp.Data.DataBase"
+             xmlns:groupCollection="clr-namespace:PulseOximeterApp.Models.GroupCollection"
              x:Class="PulseOximeterApp.Views.StatisticTab.SaturationStatisticPage">
 
     <ContentPage.Resources>
@@ -32,16 +33,33 @@
         </Grid.RowDefinitions>
 
         <Grid Grid.Column="1" Grid.Row="1">
-            <StackLayout VerticalOptions="Center" HorizontalOptions="Center" IsVisible="{Binding IsCollectionEmpty}">
-                <Label Text="Пусто" FontSize="Title"/>
-            </StackLayout>
+            <CollectionView x:Name="collectionView" SelectionMode="Single" IsGrouped="True" ItemsSource="{Binding SaturationCollection}">
+                <CollectionView.GroupHeaderTemplate>
+                    <DataTemplate x:DataType="groupCollection:SaturationStatisticGroup">
+                        <Label  Margin="0, 0, 0, 5" FontSize="20" FontAttributes="Bold" Text="{Binding Title}"/>
+                    </DataTemplate>
+                </CollectionView.GroupHeaderTemplate>
+                
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <SwipeView BackgroundColor="#f7f7f7">
+                            <SwipeView.RightItems>
+                                <SwipeItems>
+                                    <SwipeItemView BackgroundColor="#f7f7f7" Command="{Binding Source={x:Reference collectionView}, Path=BindingContext.DeleteCollectionItem}"
+                                                   CommandParameter="{Binding Source={RelativeSource Self}, Path=BindingContext}">
+                                        <Frame Margin="2, 5, 2, 5" Padding="8" CornerRadius="10" IsClippedToBounds="True">
+                                            <cusomControls:IconLabel HorizontalTextAlignment="Center" VerticalTextAlignment="Center" TextIcon="delete_forever" FontSize="40" TextColor="Red">
+                                                <cusomControls:IconLabel.Behaviors>
+                                                    <behaviors:GoogleMaterialFontBehavior />
+                                                </cusomControls:IconLabel.Behaviors>
+                                            </cusomControls:IconLabel>
+                                        </Frame>
+                                    </SwipeItemView>
+                                </SwipeItems>
+                            </SwipeView.RightItems>
 
-            <StackLayout IsVisible="{Binding IsCollectionEmpty, Converter={StaticResource InverseBooleanConverter}}">
-                <CollectionView ItemsSource="{Binding SaturationCollection}" SelectionMode="Single">
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate x:DataType="database:SaturationStatistic">
-                            <Grid>
-                                <Frame Margin="2" Padding="8" CornerRadius="10" IsClippedToBounds="True">
+                            <Grid x:DataType="database:SaturationStatistic">
+                                <Frame Margin="2, 5, 2, 5" Padding="8" CornerRadius="10" IsClippedToBounds="True">
                                     <Grid>
                                         <Grid.RowDefinitions>
                                             <RowDefinition/>
@@ -54,7 +72,7 @@
                                                 <Label FontSize="18" Text="{Binding ID}"/>
                                             </StackLayout>
 
-                                            <cusomControls:IconLabel HorizontalOptions="End" Text="looks_two" FontSize="18">
+                                            <cusomControls:IconLabel HorizontalOptions="End" TextIcon="looks_two" FontSize="18">
                                                 <cusomControls:IconLabel.Behaviors>
                                                     <behaviors:GoogleMaterialFontBehavior/>
                                                 </cusomControls:IconLabel.Behaviors>
@@ -68,14 +86,18 @@
                                     </Grid>
                                 </Frame>
                             </Grid>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
+                        </SwipeView>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
 
-                    <CollectionView.Behaviors>
-                        <behaviors:CollectionViewItemSelectionBehavior Command="{Binding CollectionItemSelected}"/>
-                    </CollectionView.Behaviors>
-                </CollectionView>
-            </StackLayout>
+                <CollectionView.EmptyView>
+                    <Label HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Text="Пусто" FontSize="24"/>
+                </CollectionView.EmptyView>
+
+                <CollectionView.Behaviors>
+                    <behaviors:CollectionViewItemSelectionBehavior Command="{Binding CollectionItemSelected}"/>
+                </CollectionView.Behaviors>
+            </CollectionView>
         </Grid>
     </Grid>
 </ContentPage>

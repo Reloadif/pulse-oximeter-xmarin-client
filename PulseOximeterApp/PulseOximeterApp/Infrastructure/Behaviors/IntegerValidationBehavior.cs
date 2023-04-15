@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
 
 namespace PulseOximeterApp.Infrastructure.Behaviors
 {
@@ -37,24 +35,13 @@ namespace PulseOximeterApp.Infrastructure.Behaviors
         protected override void OnAttachedTo(Entry entry)
         {
             base.OnAttachedTo(entry);
-            entry.TextChanged += OnEntryTextChanged;
             entry.Unfocused += OnEntryUnfocus;
         }
 
         protected override void OnDetachingFrom(Entry entry)
         {
-            entry.TextChanged -= OnEntryTextChanged;
             entry.Unfocused -= OnEntryUnfocus;
             base.OnDetachingFrom(entry);
-        }
-
-        private void OnEntryTextChanged(object sender, TextChangedEventArgs args)
-        {
-            if (!string.IsNullOrWhiteSpace(args.NewTextValue))
-            {
-                bool isValid = args.NewTextValue.ToCharArray().All(x => char.IsDigit(x));
-                ((Entry)sender).Text = isValid ? args.NewTextValue : args.NewTextValue.Remove(args.NewTextValue.Length - 1);
-            }
         }
 
         private void OnEntryUnfocus(object sender, FocusEventArgs args)
@@ -62,13 +49,13 @@ namespace PulseOximeterApp.Infrastructure.Behaviors
             Entry entry = sender as Entry;
             string text = entry.Text;
 
-            if (!string.IsNullOrWhiteSpace(text))
+            if (!string.IsNullOrWhiteSpace(text) && int.TryParse(text,out var value))
             {
-                if (Convert.ToInt32(text) < MinValue)
+                if (value < MinValue)
                 {
                     entry.Text = MinValue.ToString();
                 }
-                else if (Convert.ToInt32(text) > MaxValue)
+                else if (value > MaxValue)
                 {
                     entry.Text = MaxValue.ToString();
                 }

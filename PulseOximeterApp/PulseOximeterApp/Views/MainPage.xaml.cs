@@ -21,9 +21,9 @@ namespace PulseOximeterApp
         {
             base.OnNavigating(args);
 
-            if (args.Source == ShellNavigationSource.PopToRoot) return;
+            if (args.Source != ShellNavigationSource.ShellSectionChanged) return;
 
-            if (args.Source == ShellNavigationSource.ShellSectionChanged && StatisticTab.Navigation.NavigationStack.Count > 0)
+            if (StatisticTab.Navigation.NavigationStack.Count > 0)
             {
                 StatisticTab.Navigation.PopToRootAsync();
             }

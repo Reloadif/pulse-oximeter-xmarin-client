@@ -130,24 +130,27 @@ namespace PulseOximeterApp.ViewModels.HomeTab
             int L90 = _saturationValues.Where(sv => sv < 90).Count();
             result.Add(new ChartEntry(L90)
             {
-                Label = "< 90%",
+                Label = "Очень низкий",
                 ValueLabel = L90.ToString(),
+                ValueLabelColor = SKColor.Parse("f24518"),
                 Color = SKColor.Parse("f24518"),
             });
 
             int LE95 = _saturationValues.Where(sv => 90 <= sv && sv < 95).Count();
             result.Add(new ChartEntry(LE95)
             {
-                Label = "90% <=...< 95%",
+                Label = "Низкий",
                 ValueLabel = LE95.ToString(),
+                ValueLabelColor = SKColor.Parse("f1f518"),
                 Color = SKColor.Parse("f1f518"),
             });
 
             int LE100 = _saturationValues.Where(sv => 95 <= sv && sv <= 100).Count();
             result.Add(new ChartEntry(LE100)
             {
-                Label = "95% <=...<= 100%",
+                Label = "В норме",
                 ValueLabel = LE100.ToString(),
+                ValueLabelColor = SKColor.Parse("2bf518"),
                 Color = SKColor.Parse("2bf518"),
             });
 

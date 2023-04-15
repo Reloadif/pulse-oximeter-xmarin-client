@@ -1,6 +1,8 @@
 ﻿using PulseOximeterApp.Data.DataBase;
+using PulseOximeterApp.Models.GroupCollection;
 using PulseOximeterApp.ViewModels.Base;
 using PulseOximeterApp.Views.StatisticTab;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
@@ -11,28 +13,34 @@ namespace PulseOximeterApp.ViewModels.StatisticTab
     class SaturationStatisticPageViewModel : BaseViewModel
     {
         #region Fields
-        private ObservableCollection<SaturationStatistic> _saturationCollection;
+        private ObservableCollection<SaturationStatisticGroup> _saturationCollection;
         #endregion
 
         #region Properties
-        public ObservableCollection<SaturationStatistic> SaturationCollection
+        public ObservableCollection<SaturationStatisticGroup> SaturationCollection
         {
             get => _saturationCollection;
             set => Set(ref _saturationCollection, value);
-        }
-
-        public bool IsCollectionEmpty
-        {
-            get => SaturationCollection.Count == 0;
         }
         #endregion
 
         #region Commands
         public ICommand CollectionItemSelected { get; private set; }
+        public ICommand DeleteCollectionItem { get; private set; }
 
         private async void ExecuteCollectionItemSelected(object obj)
         {
             await Shell.Current.Navigation.PushAsync(new SingleSaturationPage { BindingContext = new SingleSaturationPageViewModel(obj as SaturationStatistic) });
+        }
+
+        private async void ExecuteDeleteCollectionItem(object obj)
+        {
+            if (obj is SaturationStatistic)
+            {
+                var saturationStatistic = obj as SaturationStatistic;
+                await App.StatisticDataBase.DeleteSaturationStatisticAsync(saturationStatistic);
+                RemoveSaturationStatisticFromCollection(saturationStatistic);
+            }
         }
         #endregion
 
@@ -50,9 +58,20 @@ namespace PulseOximeterApp.ViewModels.StatisticTab
 
         public SaturationStatisticPageViewModel()
         {
-            SaturationCollection = new ObservableCollection<SaturationStatistic>(App.StatisticDataBase.GetSaturationStatisticsAsync().GetAwaiter().GetResult().OrderByDescending(s => s.ID));
+            SaturationCollection = new ObservableCollection<SaturationStatisticGroup>(App.StatisticDataBase.GetSaturationStatisticsAsync().GetAwaiter().GetResult().
+                OrderByDescending(s => s.ID).
+                GroupBy(s => DateTime.Parse(s.AddedDate).ToString("D"),
+                (key, group) => new SaturationStatisticGroup(key, new ObservableCollection<SaturationStatistic>(group.ToList())))
+                );
 
             CollectionItemSelected = new Command(ExecuteCollectionItemSelected);
+            DeleteCollectionItem = new Command(ExecuteDeleteCollectionItem);
+        }
+
+        private void RemoveSaturationStatisticFromCollection(SaturationStatistic pulseStatistic)
+        {
+            var pulseGroup = _saturationCollection.Where(pg => pg.Title == DateTime.Parse(pulseStatistic.AddedDate).ToString("D")).FirstOrDefault();
+            pulseGroup.Remove(pulseStatistic);
         }
     }
 }

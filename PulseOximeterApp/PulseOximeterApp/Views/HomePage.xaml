@@ -2,6 +2,8 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
         xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
         xmlns:viewmodels="clr-namespace:PulseOximeterApp.ViewModels" x:DataType="viewmodels:HomePageViewModel"
+        xmlns:behaviors="clr-namespace:PulseOximeterApp.Infrastructure.Behaviors"
+        xmlns:cusomControls="clr-namespace:PulseOximeterApp.Infrastructure.CustomControls"
         xmlns:converters="clr-namespace:PulseOximeterApp.Infrastructure.Converters"
         x:Class="PulseOximeterApp.Views.HomePage">
 
@@ -39,9 +41,9 @@
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="16"/>
+                                <ColumnDefinition Width="20"/>
                             </Grid.ColumnDefinitions>
-                            
+
                             <Grid.RowDefinitions>
                                 <RowDefinition/>
                                 <RowDefinition/>
@@ -49,21 +51,42 @@
                             </Grid.RowDefinitions>
 
                             <Label Text="1. Включите Bluetooth."/>
-                            <StackLayout Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Center">
-                                <Path Data="M 1743.858 267.012 710.747 1300.124 176.005 765.382 0 941.387l710.747 710.871 1209.24-1209.116z" 
-                                      Aspect="Uniform" Fill="Green" HeightRequest="16" IsVisible="{Binding IsBluetoothOn}" />
-                                <Path Data="M 64 388L196 256 64 124 96 92 228 224 360 92 392 124 260 256 392 388 360 420 228 288 96 420 64 388Z"
-                                      Aspect="Uniform" Fill="Red" HeightRequest="16" IsVisible="{Binding IsBluetoothOn, Converter={StaticResource InverseBooleanConverter}}" />
-                            </StackLayout>
-
+                            <Grid Grid.Column="1">
+                                <cusomControls:IconLabel FontSize="20" HasAnimation="True" TextIcon="{Binding BluetoothIcon}">
+                                    <cusomControls:IconLabel.Triggers>
+                                        <DataTrigger TargetType="cusomControls:IconLabel" 
+                                                     Binding="{Binding Source={RelativeSource Self}, Path=TextIcon}" Value="done">
+                                            <Setter Property="TextColor" Value="Green" />
+                                        </DataTrigger>
+                                        <DataTrigger TargetType="cusomControls:IconLabel" 
+                                                     Binding="{Binding Source={RelativeSource Self}, Path=TextIcon}" Value="close">
+                                            <Setter Property="TextColor" Value="Red" />
+                                        </DataTrigger>
+                                    </cusomControls:IconLabel.Triggers>
+                                    <cusomControls:IconLabel.Behaviors>
+                                        <behaviors:GoogleMaterialFontBehavior/>
+                                    </cusomControls:IconLabel.Behaviors>
+                                </cusomControls:IconLabel>
+                            </Grid>
 
                             <Label Grid.Row="1" Text="2. Включите местоположение."/>
-                            <StackLayout Grid.Column="1" Grid.Row="1" VerticalOptions="Center" HorizontalOptions="Center">
-                                <Path Data="M 1743.858 267.012 710.747 1300.124 176.005 765.382 0 941.387l710.747 710.871 1209.24-1209.116z" 
-                                      Aspect="Uniform" Fill="Green" HeightRequest="16" IsVisible="{Binding IsLocationOn}" />
-                                <Path Data="M 64 388L196 256 64 124 96 92 228 224 360 92 392 124 260 256 392 388 360 420 228 288 96 420 64 388Z"
-                                      Aspect="Uniform" Fill="Red" HeightRequest="16" IsVisible="{Binding IsLocationOn, Converter={StaticResource InverseBooleanConverter}}" />
-                            </StackLayout>
+                            <Grid Grid.Column="1" Grid.Row="1">
+                                <cusomControls:IconLabel FontSize="20" HasAnimation="True" TextIcon="{Binding LocationIcon}">
+                                    <cusomControls:IconLabel.Triggers>
+                                        <DataTrigger TargetType="cusomControls:IconLabel" 
+                                                     Binding="{Binding Source={RelativeSource Self}, Path=TextIcon}" Value="done">
+                                            <Setter Property="TextColor" Value="Green" />
+                                        </DataTrigger>
+                                        <DataTrigger TargetType="cusomControls:IconLabel" 
+                                                     Binding="{Binding Source={RelativeSource Self}, Path=TextIcon}" Value="close">
+                                            <Setter Property="TextColor" Value="Red" />
+                                        </DataTrigger>
+                                    </cusomControls:IconLabel.Triggers>
+                                    <cusomControls:IconLabel.Behaviors>
+                                        <behaviors:GoogleMaterialFontBehavior/>
+                                    </cusomControls:IconLabel.Behaviors>
+                                </cusomControls:IconLabel>
+                            </Grid>
 
                             <Label Grid.Row="2" Text="3. Подключите микроконтроллер к питанию." LineBreakMode="MiddleTruncation" />
                         </Grid>

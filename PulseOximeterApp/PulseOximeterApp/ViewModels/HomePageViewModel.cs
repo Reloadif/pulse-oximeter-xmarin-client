@@ -33,6 +33,7 @@ namespace PulseOximeterApp.ViewModels
             {
                 if (Set(ref _isBluetoothOn, value))
                 {
+                    OnPropertyChanged(nameof(BluetoothIcon));
                     (ConnectToMicrocontroller as Command).ChangeCanExecute();
                 }
             }
@@ -44,9 +45,20 @@ namespace PulseOximeterApp.ViewModels
             {
                 if (Set(ref _isLocationOn, value))
                 {
+                    OnPropertyChanged(nameof(LocationIcon));
                     (ConnectToMicrocontroller as Command).ChangeCanExecute();
                 }
             }
+        }
+
+        public string BluetoothIcon
+        {
+            get => _isBluetoothOn ? "done" : "close";
+        }
+
+        public string LocationIcon
+        {
+            get => _isLocationOn ? "done" : "close";
         }
         #endregion
 

@@ -144,7 +144,7 @@ namespace PulseOximeterApp.ViewModels.HomeTab
             int elementsInBatch = interim.Count / 30;
             for (int i = 0; i < 30; ++i)
             {
-                result.Add(interim.GetRange(i * elementsInBatch, elementsInBatch).Sum() / elementsInBatch);
+                result.Add(CalculateAverageBPM(interim, i, elementsInBatch));
             }
 
             return result.Select(v => new ChartEntry(v)
@@ -153,6 +153,23 @@ namespace PulseOximeterApp.ViewModels.HomeTab
                 ValueLabel = v.ToString(),
                 Color = ChartEntryColorConverter.FromPulse(v),
             }).ToList();
+        }
+
+        private int CalculateAverageBPM(List<int> values, int currentV, int valuesInBatch) 
+        {
+            int result = 0;
+            valuesInBatch = valuesInBatch >= 4 ? valuesInBatch : 4;
+
+            if (currentV + valuesInBatch <= values.Count - 1)
+            {
+                result = values.GetRange(currentV, valuesInBatch).Sum() / valuesInBatch;
+            }
+            else
+            {
+                result = values.GetRange(currentV - valuesInBatch, valuesInBatch).Sum() / valuesInBatch;
+            }
+
+            return result;
         }
     }
 }
