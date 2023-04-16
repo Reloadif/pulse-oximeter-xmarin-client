@@ -157,7 +157,7 @@ namespace PulseOximeterApp.ViewModels.HomeTab
 
         private int CalculateAverageBPM(List<int> values, int currentV, int valuesInBatch) 
         {
-            int result = 0;
+            int result;
             valuesInBatch = valuesInBatch >= 4 ? valuesInBatch : 4;
 
             if (currentV + valuesInBatch <= values.Count - 1)

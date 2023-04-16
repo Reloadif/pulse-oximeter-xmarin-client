@@ -46,9 +46,9 @@
 
         <Grid Grid.Column="1" Grid.Row="1" IsVisible="{Binding IsCompleteMeasure}">
             <Grid.RowDefinitions>
-                <RowDefinition Height="0.1*"/>
-                <RowDefinition Height="0.6*"/>
-                <RowDefinition Height="0.1*"/>
+                <RowDefinition Height="0.2*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
             <Grid VerticalOptions="Center">
@@ -57,8 +57,8 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
 
-                <Button Text="Назад" Command="{Binding HeadBack}"/>
-                <Button Grid.Column="1" Text="Сохранить" Command="{Binding SaveBack}"/>
+                <Button Text="Назад" CornerRadius="5" Command="{Binding HeadBack}"/>
+                <Button Grid.Column="1" Text="Сохранить" CornerRadius="5" Command="{Binding SaveBack}"/>
             </Grid>
 
             <Frame Grid.Row="1">

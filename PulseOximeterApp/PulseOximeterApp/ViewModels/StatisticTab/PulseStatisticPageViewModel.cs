@@ -71,7 +71,17 @@ namespace PulseOximeterApp.ViewModels.StatisticTab
         private void RemovePulseStatisticFromCollection(PulseStatistic pulseStatistic)
         {
             var pulseGroup = _pulseCollection.Where(pg => pg.Title == DateTime.Parse(pulseStatistic.AddedDate).ToString("D")).FirstOrDefault();
+
             pulseGroup.Remove(pulseStatistic);
+            if (pulseGroup.Count == 0)
+            {
+                PulseCollection.Remove(pulseGroup);
+
+                if (PulseCollection.Count == 0) 
+                {
+                    PulseCollection = null;
+                }
+            }
         }
     }
 }

@@ -68,10 +68,20 @@ namespace PulseOximeterApp.ViewModels.StatisticTab
             DeleteCollectionItem = new Command(ExecuteDeleteCollectionItem);
         }
 
-        private void RemoveSaturationStatisticFromCollection(SaturationStatistic pulseStatistic)
+        private void RemoveSaturationStatisticFromCollection(SaturationStatistic saturationStatistic)
         {
-            var pulseGroup = _saturationCollection.Where(pg => pg.Title == DateTime.Parse(pulseStatistic.AddedDate).ToString("D")).FirstOrDefault();
-            pulseGroup.Remove(pulseStatistic);
+            var pulseGroup = _saturationCollection.Where(pg => pg.Title == DateTime.Parse(saturationStatistic.AddedDate).ToString("D")).FirstOrDefault();
+
+            pulseGroup.Remove(saturationStatistic);
+            if (pulseGroup.Count == 0)
+            {
+                _saturationCollection.Remove(pulseGroup);
+
+                if (_saturationCollection.Count == 0)
+                {
+                    SaturationCollection = null;
+                }
+            }
         }
     }
 }

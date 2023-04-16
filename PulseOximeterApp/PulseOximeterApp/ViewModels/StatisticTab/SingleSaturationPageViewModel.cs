@@ -1,9 +1,8 @@
 ﻿using Microcharts;
 using PulseOximeterApp.Data.DataBase;
-using PulseOximeterApp.Services.DataBase;
+using PulseOximeterApp.Services;
 using PulseOximeterApp.ViewModels.Base;
-using SkiaSharp;
-using System.Linq;
+using System.Collections.Generic;
 
 namespace PulseOximeterApp.ViewModels.StatisticTab
 {
@@ -11,9 +10,7 @@ namespace PulseOximeterApp.ViewModels.StatisticTab
     {
         #region Fields
         private SaturationStatistic _statistic;
-        private DonutChart _donutChart;
-
-        private int _colorCounter;
+        private BarChart _mainChart;
         #endregion
 
         #region Properties
@@ -23,10 +20,10 @@ namespace PulseOximeterApp.ViewModels.StatisticTab
             set => Set(ref _statistic, value);
         }
 
-        public DonutChart MainChart
+        public BarChart MainChart
         {
-            get => _donutChart;
-            set => Set(ref _donutChart, value);
+            get => _mainChart;
+            set => Set(ref _mainChart, value);
         }
         #endregion
 
@@ -48,49 +45,34 @@ namespace PulseOximeterApp.ViewModels.StatisticTab
         public SingleSaturationPageViewModel(SaturationStatistic saturationStatistic)
         {
             Statistic = saturationStatistic;
-            _colorCounter = 0;
 
-            MainChart = new DonutChart
+            MainChart = new BarChart()
             {
-                Entries = ConverterMeasurementPoints.From(saturationStatistic.MeasurementPoints).Select(mp => new ChartEntry(mp)
+                LabelOrientation = Orientation.Horizontal,
+                ValueLabelOrientation = Orientation.Horizontal,
+                LabelTextSize = 30,
+                Entries = new List<ChartEntry>()
                 {
-                    Label = GetLabel(),
-                    ValueLabel = mp.ToString(),
-                    Color = GetColor(),
-                }).ToList(),
+                    new ChartEntry(Statistic.VeryLow)
+                    {
+                        Label = "Очень низкий",
+                        ValueLabel = Statistic.VeryLow.ToString(),
+                        Color = ChartEntryColor.SaturationVeryLow,
+                    },
+                    new ChartEntry(Statistic.Low)
+                    {
+                        Label = "Низкий",
+                        ValueLabel = Statistic.Low.ToString(),
+                        Color = ChartEntryColor.SaturationLow,
+                    },
+                    new ChartEntry(Statistic.Normal)
+                    {
+                        Label = "В норме",
+                        ValueLabel = Statistic.Normal.ToString(),
+                        Color = ChartEntryColor.SaturationNormal,
+                    },
+                }
             };
-        }
-
-        private string GetLabel()
-        {
-            string result = "";
-
-            if (_colorCounter == 0)
-            {
-                result = "Очень низкий";
-            }
-            else if (_colorCounter == 1)
-            {
-                result = "Низкий";
-            }
-            else if (_colorCounter == 2)
-            {
-                result = "В норме";
-            }
-
-            return result;
-        }
-
-        private SKColor GetColor()
-        {
-            SKColor result = SKColor.Parse("f24518");
-
-            if (_colorCounter == 0) result = SKColor.Parse("f24518");
-            else if (_colorCounter == 1) result = SKColor.Parse("f1f518");
-            else if (_colorCounter == 2) result = SKColor.Parse("2bf518");
-
-            _colorCounter += 1;
-            return result;
         }
     }
 }

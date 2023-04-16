@@ -1,5 +1,4 @@
 ﻿using SQLite;
-using System.Collections.Generic;
 
 namespace PulseOximeterApp.Data.DataBase
 {
@@ -24,7 +23,9 @@ namespace PulseOximeterApp.Data.DataBase
         public int ID { get; set; }
         public string AddedDate { get; set; }
 
-        public string MeasurementPoints { get; set; }
         public int PointsCount { get; set; }
+        public int VeryLow { get; set; }
+        public int Low { get; set; }
+        public int Normal { get; set; }
     }
 }

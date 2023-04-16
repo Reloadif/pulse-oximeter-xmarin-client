@@ -1,5 +1,6 @@
 ﻿using Microcharts;
 using PulseOximeterApp.Data.DataBase;
+using PulseOximeterApp.Models.HeartRate;
 using PulseOximeterApp.Services;
 using PulseOximeterApp.Services.DataBase;
 using PulseOximeterApp.ViewModels.Base;
@@ -12,6 +13,7 @@ namespace PulseOximeterApp.ViewModels.StatisticTab
         #region Fields
         private PulseStatistic _statistic;
         private LineChart _lineChart;
+        private BaevskyIndicators _baevsky;
         #endregion
 
         #region Properties
@@ -25,6 +27,12 @@ namespace PulseOximeterApp.ViewModels.StatisticTab
         {
             get => _lineChart;
             set => Set(ref _lineChart, value);
+        }
+
+        public BaevskyIndicators Baevsky
+        {
+            get => _baevsky;
+            set => Set(ref _baevsky, value);
         }
         #endregion
 
@@ -48,7 +56,7 @@ namespace PulseOximeterApp.ViewModels.StatisticTab
             Statistic = pulseStatistic;
 
             MainChart = new LineChart 
-            { 
+            {
                 Entries = ConverterMeasurementPoints.From(pulseStatistic.MeasurementPoints).Select(mp => new ChartEntry(mp)
                 {
                     Label = "ЧСС",
@@ -56,6 +64,7 @@ namespace PulseOximeterApp.ViewModels.StatisticTab
                     Color = ChartEntryColorConverter.FromPulse(mp),
                 }).ToList(),
             };
+            Baevsky = new BaevskyIndicators(Statistic.ABI, Statistic.VRI, Statistic.IARP, Statistic.VI);
         }
     }
 }
