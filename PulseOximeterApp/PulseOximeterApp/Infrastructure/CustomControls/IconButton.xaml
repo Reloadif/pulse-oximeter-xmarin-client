@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:behaviors="clr-namespace:PulseOximeterApp.Infrastructure.Behaviors"
+             xmlns:cusomControls="clr-namespace:PulseOximeterApp.Infrastructure.CustomControls"
+             x:Class="PulseOximeterApp.Infrastructure.CustomControls.IconButton">
+
+    <Frame x:Name="XamlWrapperFrame">
+        <Grid x:Name="XamlMainGrid" BackgroundColor="Transparent">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.2*"/>
+                <ColumnDefinition Width="0.8*"/>
+            </Grid.ColumnDefinitions>
+
+            <cusomControls:IconLabel x:Name="XamlIcon" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" BackgroundColor="Transparent">
+                <cusomControls:IconLabel.Behaviors>
+                    <behaviors:GoogleMaterialFontBehavior />
+                </cusomControls:IconLabel.Behaviors>
+            </cusomControls:IconLabel>
+            <Label x:Name="XamlText" Grid.Column="1" VerticalTextAlignment="Center" HorizontalTextAlignment="Center" BackgroundColor="Transparent" FontAttributes="Bold"/>
+        </Grid>
+    </Frame>
+
+</ContentView>

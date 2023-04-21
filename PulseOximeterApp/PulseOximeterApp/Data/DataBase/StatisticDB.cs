@@ -19,14 +19,14 @@ namespace PulseOximeterApp.Data.DataBase
             _db.CreateTableAsync<SaturationStatistic>().GetAwaiter().GetResult();
         }
 
-        public void ClearPulseStatisticTable()
+        public Task<int> ClearPulseStatisticTable()
         {
-            _db.DeleteAllAsync<PulseStatistic>().GetAwaiter().GetResult();
+            return _db.DeleteAllAsync<PulseStatistic>();
         }
 
-        public void ClearSaturationStatisticTable()
+        public Task<int> ClearSaturationStatisticTable()
         {
-            _db.DeleteAllAsync<SaturationStatistic>().GetAwaiter().GetResult();
+            return _db.DeleteAllAsync<SaturationStatistic>();
         }
 
         #region PulseRecord

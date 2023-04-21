@@ -19,10 +19,20 @@ namespace PulseOximeterApp.ViewModels
 
         private async void ExecuteGoOptionPage(object obj)
         {
-            var Option = new OptionPage();
-            var OptionVM = new OptionPageViewModel();
-            Option.BindingContext = OptionVM;
-            await Shell.Current.Navigation.PushAsync(Option);
+            var option = new OptionPage();
+            var optionVM = new OptionPageViewModel();
+            option.BindingContext = optionVM;
+            await Shell.Current.Navigation.PushAsync(option);
+        }
+
+        public ICommand GoMemoryPage { get; private set; }
+
+        private async void ExecuteGoMemoryPage(object obj)
+        {
+            var memory = new MemoryPage();
+            var memoryVM = new MemoryPageViewModel();
+            memory.BindingContext = memoryVM;
+            await Shell.Current.Navigation.PushAsync(memory);
         }
         #endregion
 
@@ -41,6 +51,7 @@ namespace PulseOximeterApp.ViewModels
         public SettingPageViewModel()
         {
             GoOptionPage = new Command(ExecuteGoOptionPage);
+            GoMemoryPage = new Command(ExecuteGoMemoryPage);
         }
     }
 }

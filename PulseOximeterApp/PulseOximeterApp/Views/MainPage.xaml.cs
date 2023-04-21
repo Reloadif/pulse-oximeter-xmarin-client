@@ -23,9 +23,14 @@ namespace PulseOximeterApp
 
             if (args.Source != ShellNavigationSource.ShellSectionChanged) return;
 
-            if (StatisticTab.Navigation.NavigationStack.Count > 0)
+            if (StatisticTab.Navigation.NavigationStack.Count > 1)
             {
                 StatisticTab.Navigation.PopToRootAsync();
+            }
+
+            if (SettingTab.Navigation.NavigationStack.Count > 1)
+            {
+                SettingTab.Navigation.PopToRootAsync();
             }
         }
     }
