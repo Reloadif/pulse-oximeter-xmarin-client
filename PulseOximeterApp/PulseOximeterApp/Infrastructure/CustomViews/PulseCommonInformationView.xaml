@@ -13,6 +13,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <Label Grid.ColumnSpan="2" HorizontalTextAlignment="Center" Text="Общая информация" FontSize="18" FontAttributes="Bold"/>
@@ -24,7 +25,7 @@
         <Label x:Name="XamlNormalPulseMeasurement" Grid.Column="1" Grid.Row="2"  VerticalTextAlignment="End"/>
 
         <Label Grid.Row="3" Text="Рекомендация:"/>
-        <Label x:Name="XamlRecommendation" Grid.Column="1" Grid.Row="3"  VerticalTextAlignment="End"/>
+        <Label x:Name="XamlRecommendation" Grid.ColumnSpan="2" Grid.Row="4"/>
     </Grid>
     
 </ContentView>
