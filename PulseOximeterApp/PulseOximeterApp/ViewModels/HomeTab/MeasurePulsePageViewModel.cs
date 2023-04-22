@@ -25,6 +25,7 @@ namespace PulseOximeterApp.ViewModels.HomeTab
         private bool _isCompleteMeasure;
 
         private BaevskyIndicators _baevskyIndicators;
+        private PulseCommonInformation _commonInformation;
         #endregion
 
         #region Properties
@@ -55,6 +56,12 @@ namespace PulseOximeterApp.ViewModels.HomeTab
         {
             get => _baevskyIndicators;
             set => Set(ref _baevskyIndicators, value);
+        }
+
+        public PulseCommonInformation CommonInformation
+        {
+            get => _commonInformation;
+            set => Set(ref _commonInformation, value);
         }
         #endregion
 
@@ -130,6 +137,7 @@ namespace PulseOximeterApp.ViewModels.HomeTab
                     };
 
                     Baevsky = new BaevskyIndicators(new HeartRateVariability(_cardioIntervals));
+                    CommonInformation = new PulseCommonInformation(MainChart.Entries.Select(e => Convert.ToInt32(e.Value)).ToList());
                     IsCompleteMeasure = true;
                 }
             }
@@ -151,7 +159,7 @@ namespace PulseOximeterApp.ViewModels.HomeTab
             {
                 Label = "ЧСС",
                 ValueLabel = v.ToString(),
-                Color = ChartEntryColorConverter.FromPulse(v),
+                Color = ChartEntryToSKColorConverter.FromPulse(v),
             }).ToList();
         }
 

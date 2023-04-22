@@ -3,10 +3,15 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewmodels="clr-namespace:PulseOximeterApp.ViewModels.StatisticTab" x:DataType="viewmodels:PulseStatisticPageViewModel"
              xmlns:behaviors="clr-namespace:PulseOximeterApp.Infrastructure.Behaviors"
+             xmlns:converters="clr-namespace:PulseOximeterApp.Infrastructure.Converters"
              xmlns:cusomControls="clr-namespace:PulseOximeterApp.Infrastructure.CustomControls"
              xmlns:database="clr-namespace:PulseOximeterApp.Data.DataBase"
              xmlns:groupCollection="clr-namespace:PulseOximeterApp.Models.GroupCollection"
              x:Class="PulseOximeterApp.Views.StatisticTab.PulseStatisticPage">
+
+    <ContentPage.Resources>
+        <converters:StatisticStatusToColorConverter x:Key="StatisticStatusToColorConverter"/>
+    </ContentPage.Resources>
 
     <ContentPage.Style>
         <Style TargetType="ContentPage">
@@ -67,7 +72,7 @@
                                                 <Label FontSize="18" Text="{Binding ID}"/>
                                             </StackLayout>
 
-                                            <cusomControls:IconLabel HorizontalOptions="End" TextIcon="monitor_heart" FontSize="18">
+                                            <cusomControls:IconLabel HorizontalOptions="End" TextIcon="monitor_heart" FontSize="18" TextColor="{Binding CommonRecord.Status, Converter={StaticResource StatisticStatusToColorConverter}}">
                                                 <cusomControls:IconLabel.Behaviors>
                                                     <behaviors:GoogleMaterialFontBehavior />
                                                 </cusomControls:IconLabel.Behaviors>

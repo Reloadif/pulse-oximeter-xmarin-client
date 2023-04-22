@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PulseOximeterApp.Data.DataBase;
+using System;
 
 namespace PulseOximeterApp.Models.HeartRate
 {
@@ -9,12 +10,12 @@ namespace PulseOximeterApp.Models.HeartRate
         public double IARP { get; private set; }
         public double VI { get; private set; }
 
-        public BaevskyIndicators(double abi, double vri, double iarp, double vi)
+        public BaevskyIndicators(BaevskyIndicatorsRecord baevskyIndicatorsRecord)
         {
-            ABI = abi;
-            VRI = vri;
-            IARP = iarp;
-            VI = vi;
+            ABI = baevskyIndicatorsRecord.ABI;
+            VRI = baevskyIndicatorsRecord.VRI;
+            IARP = baevskyIndicatorsRecord.IARP;
+            VI = baevskyIndicatorsRecord.VI;
         }
 
         public BaevskyIndicators(HeartRateVariability heartRateVariability)

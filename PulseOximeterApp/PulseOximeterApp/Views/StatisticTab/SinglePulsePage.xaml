@@ -30,6 +30,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1*"/>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
                 <Frame Opacity="0.95">
@@ -37,6 +38,10 @@
                 </Frame>
 
                 <Frame Grid.Row="1">
+                    <customViews:PulseCommonInformationView CommonInformation="{Binding CommonInformation}"/>
+                </Frame>
+
+                <Frame Grid.Row="2">
                     <customViews:BaevskyIndicatorsView Baevsky="{Binding Baevsky}"/>
                 </Frame>
             </Grid>

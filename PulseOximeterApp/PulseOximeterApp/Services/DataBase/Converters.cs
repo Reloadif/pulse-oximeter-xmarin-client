@@ -2,7 +2,7 @@
 
 namespace PulseOximeterApp.Services.DataBase
 {
-    public class ConverterMeasurementPoints
+    public class MeasurementPointsConverter
     {
         public static string To(IList<int> points)
         {

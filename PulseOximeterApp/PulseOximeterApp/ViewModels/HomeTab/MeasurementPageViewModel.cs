@@ -80,16 +80,36 @@ namespace PulseOximeterApp.ViewModels.HomeTab
         {
             if (isSave)
             {
-                await App.StatisticDataBase.SavePulseStatisticAsync(new PulseStatistic()
+                var pulseStatistic = new PulseStatistic()
                 {
                     AddedDate = DateTime.Now.ToString(),
-                    MeasurementPoints = ConverterMeasurementPoints.To(MeasurePulseVM.MainChart.Entries.Select(e => Convert.ToInt32(e.Value)).ToList()),
+                    MeasurementPoints = MeasurementPointsConverter.To(MeasurePulseVM.MainChart.Entries.Select(e => Convert.ToInt32(e.Value)).ToList()),
                     PointsCount = MeasurePulseVM.NumberMeasure,
+                };
+                await App.StatisticDataBase.InsertPulseStatisticAsync(pulseStatistic);
+
+                var commonRecord = new PulseCommonInformationRecord()
+                {
+                    Status = MeasurePulseVM.CommonInformation.Status,
+                    AverageBPM = MeasurePulseVM.CommonInformation.AverageBPM,
+                    NormalPulseMeasurement = MeasurePulseVM.CommonInformation.NormalPulseMeasurement,
+                    Recommendation = MeasurePulseVM.CommonInformation.Recommendation,
+                };
+                await App.StatisticDataBase.SavePulseCommonInformationRecordAsync(commonRecord);
+
+                var baevskyRecord = new BaevskyIndicatorsRecord()
+                {
                     ABI = MeasurePulseVM.Baevsky.ABI,
                     VRI = MeasurePulseVM.Baevsky.VRI,
                     IARP = MeasurePulseVM.Baevsky.IARP,
                     VI = MeasurePulseVM.Baevsky.VI,
-                });
+                };
+                await App.StatisticDataBase.SaveBaevskyIndicatorsRecordAsync(baevskyRecord);
+
+                pulseStatistic.CommonRecord = commonRecord;
+                pulseStatistic.BaevskyRecord = baevskyRecord;
+
+                await App.StatisticDataBase.UpdatePulseStatisticAsync(pulseStatistic);
             }
 
             await Shell.Current.Navigation.PopAsync();

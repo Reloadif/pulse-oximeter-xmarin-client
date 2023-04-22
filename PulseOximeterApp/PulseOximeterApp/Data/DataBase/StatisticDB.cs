@@ -1,4 +1,5 @@
 ﻿using SQLite;
+using SQLiteNetExtensionsAsync.Extensions;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -15,6 +16,9 @@ namespace PulseOximeterApp.Data.DataBase
         {
             _db = new SQLiteAsyncConnection(connectionString);
 
+            _db.CreateTableAsync<PulseCommonInformationRecord>().GetAwaiter().GetResult();
+            _db.CreateTableAsync<BaevskyIndicatorsRecord>().GetAwaiter().GetResult();
+
             _db.CreateTableAsync<PulseStatistic>().GetAwaiter().GetResult();
             _db.CreateTableAsync<SaturationStatistic>().GetAwaiter().GetResult();
         }
@@ -29,10 +33,34 @@ namespace PulseOximeterApp.Data.DataBase
             return _db.DeleteAllAsync<SaturationStatistic>();
         }
 
+        #region PulseCommonInformationRecord
+        public Task<int> SavePulseCommonInformationRecordAsync(PulseCommonInformationRecord pulseCommonInformationRecord)
+        {
+            return pulseCommonInformationRecord.ID != 0 ? _db.UpdateAsync(pulseCommonInformationRecord) : _db.InsertAsync(pulseCommonInformationRecord);
+        }
+
+        public Task<int> DeletPulseCommonInformationRecordAsync(PulseCommonInformationRecord pulseCommonInformationRecord)
+        {
+            return _db.DeleteAsync(pulseCommonInformationRecord);
+        }
+        #endregion
+
+        #region BaevskyIndicatorsRecord
+        public Task<int> SaveBaevskyIndicatorsRecordAsync(BaevskyIndicatorsRecord baevskyIndicators)
+        {
+            return baevskyIndicators.ID != 0 ? _db.UpdateAsync(baevskyIndicators) : _db.InsertAsync(baevskyIndicators);
+        }
+
+        public Task<int> DeletBaevskyIndicatorsRecordAsync(BaevskyIndicatorsRecord baevskyIndicators)
+        {
+            return _db.DeleteAsync(baevskyIndicators);
+        }
+        #endregion
+
         #region PulseRecord
         public Task<List<PulseStatistic>> GetPulseStatisticsAsync()
         {
-            return _db.Table<PulseStatistic>().ToListAsync();
+            return _db.GetAllWithChildrenAsync<PulseStatistic>();
         }
 
         public Task<PulseStatistic> GetPulseStatisticAsync(int id)
@@ -40,9 +68,14 @@ namespace PulseOximeterApp.Data.DataBase
             return _db.Table<PulseStatistic>().Where(el => el.ID == id).FirstOrDefaultAsync();
         }
 
-        public Task<int> SavePulseStatisticAsync(PulseStatistic pulseStatistic)
+        public Task<int> InsertPulseStatisticAsync(PulseStatistic pulseStatistic)
         {
-            return pulseStatistic.ID != 0 ? _db.UpdateAsync(pulseStatistic) : _db.InsertAsync(pulseStatistic);
+            return _db.InsertAsync(pulseStatistic);
+        }
+
+        public Task UpdatePulseStatisticAsync(PulseStatistic pulseStatistic)
+        {
+            return _db.UpdateWithChildrenAsync(pulseStatistic);
         }
 
         public Task<int> DeletePulseStatisticAsync(PulseStatistic pulseStatistic)

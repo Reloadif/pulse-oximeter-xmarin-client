@@ -2,7 +2,6 @@
 using PulseOximeterApp.Services;
 using PulseOximeterApp.Services.BluetoothLE;
 using PulseOximeterApp.ViewModels.Base;
-using SkiaSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PulseOximeterApp.Infrastructure.CustomViews.PulseCommonInformationView">
+    
+    <Grid RowSpacing="20">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.85*"/>
+            <ColumnDefinition Width="0.15*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Label Grid.ColumnSpan="2" HorizontalTextAlignment="Center" Text="Общая информация" FontSize="18" FontAttributes="Bold"/>
+
+        <Label Grid.Row="1" Text="Средняя ЧСС в минуту:"/>
+        <Label x:Name="XamlAverageBPM" Grid.Column="1" Grid.Row="1" VerticalTextAlignment="End"/>
+
+        <Label Grid.Row="2" Text="Процент измерений в норме:"/>
+        <Label x:Name="XamlNormalPulseMeasurement" Grid.Column="1" Grid.Row="2"  VerticalTextAlignment="End"/>
+
+        <Label Grid.Row="3" Text="Рекомендация:"/>
+        <Label x:Name="XamlRecommendation" Grid.Column="1" Grid.Row="3"  VerticalTextAlignment="End"/>
+    </Grid>
+    
+</ContentView>
