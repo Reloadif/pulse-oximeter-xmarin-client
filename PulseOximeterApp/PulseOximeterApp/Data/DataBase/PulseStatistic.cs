@@ -13,7 +13,7 @@ namespace PulseOximeterApp.Data.DataBase
         public int PointsCount { get; set; }
 
         [OneToOne]
-        public PulseCommonInformationRecord CommonRecord { get; set; }
+        public PulseCommonInformationRecord CommonInformationRecord { get; set; }
         [OneToOne]
         public BaevskyIndicatorsRecord BaevskyRecord { get; set; }
     }

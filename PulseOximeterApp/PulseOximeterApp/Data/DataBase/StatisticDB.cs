@@ -18,19 +18,20 @@ namespace PulseOximeterApp.Data.DataBase
 
             _db.CreateTableAsync<PulseCommonInformationRecord>().GetAwaiter().GetResult();
             _db.CreateTableAsync<BaevskyIndicatorsRecord>().GetAwaiter().GetResult();
-
             _db.CreateTableAsync<PulseStatistic>().GetAwaiter().GetResult();
+
+            _db.CreateTableAsync<SaturationCommonInformationRecord>().GetAwaiter().GetResult();
             _db.CreateTableAsync<SaturationStatistic>().GetAwaiter().GetResult();
         }
 
-        public Task<int> ClearPulseStatisticTable()
+        public Task ClearPulseStatisticTable()
         {
-            return _db.DeleteAllAsync<PulseStatistic>();
+            return Task.WhenAll(_db.DeleteAllAsync<PulseCommonInformationRecord>(), _db.DeleteAllAsync<BaevskyIndicatorsRecord>(), _db.DeleteAllAsync<PulseStatistic>());
         }
 
-        public Task<int> ClearSaturationStatisticTable()
+        public Task ClearSaturationStatisticTable()
         {
-            return _db.DeleteAllAsync<SaturationStatistic>();
+            return Task.WhenAll(_db.DeleteAllAsync<SaturationCommonInformationRecord>(), _db.DeleteAllAsync<SaturationStatistic>());
         }
 
         #region PulseCommonInformationRecord
@@ -39,7 +40,7 @@ namespace PulseOximeterApp.Data.DataBase
             return pulseCommonInformationRecord.ID != 0 ? _db.UpdateAsync(pulseCommonInformationRecord) : _db.InsertAsync(pulseCommonInformationRecord);
         }
 
-        public Task<int> DeletPulseCommonInformationRecordAsync(PulseCommonInformationRecord pulseCommonInformationRecord)
+        public Task<int> DeletePulseCommonInformationRecordAsync(PulseCommonInformationRecord pulseCommonInformationRecord)
         {
             return _db.DeleteAsync(pulseCommonInformationRecord);
         }
@@ -51,9 +52,21 @@ namespace PulseOximeterApp.Data.DataBase
             return baevskyIndicators.ID != 0 ? _db.UpdateAsync(baevskyIndicators) : _db.InsertAsync(baevskyIndicators);
         }
 
-        public Task<int> DeletBaevskyIndicatorsRecordAsync(BaevskyIndicatorsRecord baevskyIndicators)
+        public Task<int> DeleteBaevskyIndicatorsRecordAsync(BaevskyIndicatorsRecord baevskyIndicators)
         {
             return _db.DeleteAsync(baevskyIndicators);
+        }
+        #endregion
+
+        #region SaturationCommonInformationRecord
+        public Task<int> SaveSaturationCommonInformationRecordAsync(SaturationCommonInformationRecord saturationCommonInformationRecord)
+        {
+            return saturationCommonInformationRecord.ID != 0 ? _db.UpdateAsync(saturationCommonInformationRecord) : _db.InsertAsync(saturationCommonInformationRecord);
+        }
+
+        public Task<int> DeleteSaturationCommonInformationRecordAsync(SaturationCommonInformationRecord saturationCommonInformationRecord)
+        {
+            return _db.DeleteAsync(saturationCommonInformationRecord);
         }
         #endregion
 
@@ -87,7 +100,7 @@ namespace PulseOximeterApp.Data.DataBase
         #region SaturationStatistic
         public Task<List<SaturationStatistic>> GetSaturationStatisticsAsync()
         {
-            return _db.Table<SaturationStatistic>().ToListAsync();
+            return _db.GetAllWithChildrenAsync<SaturationStatistic>();
         }
 
         public Task<SaturationStatistic> GetSaturationStatisticAsync(int id)
@@ -95,9 +108,14 @@ namespace PulseOximeterApp.Data.DataBase
             return _db.Table<SaturationStatistic>().Where(el => el.ID == id).FirstOrDefaultAsync();
         }
 
-        public Task<int> SaveSaturationStatisticAsync(SaturationStatistic saturationStatistic)
+        public Task<int> InsertSaturationStatisticsync(SaturationStatistic saturationStatistic)
         {
-            return saturationStatistic.ID != 0 ? _db.UpdateAsync(saturationStatistic) : _db.InsertAsync(saturationStatistic);
+            return _db.InsertAsync(saturationStatistic);
+        }
+
+        public Task UpdateSaturationStatisticAsync(SaturationStatistic saturationStatistic)
+        {
+            return _db.UpdateWithChildrenAsync(saturationStatistic);
         }
 
         public Task<int> DeleteSaturationStatisticAsync(SaturationStatistic saturationStatistic)

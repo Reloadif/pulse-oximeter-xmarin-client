@@ -1,30 +1,25 @@
 ﻿using PulseOximeterApp.Data.DataBase;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 
-namespace PulseOximeterApp.Models
+namespace PulseOximeterApp.Models.CommonInformation
 {
-    public class PulseCommonInformation
+    public class SaturationCommonInformation
     {
         public StatisticStatus Status { get; private set; }
-        public int AverageBPM { get; private set; }
         public int NormalPulseMeasurement { get; private set; }
         public string Recommendation { get; private set; }
 
-        public PulseCommonInformation(PulseCommonInformationRecord pulseCommonInformationRecord)
+        public SaturationCommonInformation(SaturationCommonInformationRecord saturationCommonInformationRecord)
         {
-            Status = pulseCommonInformationRecord.Status;
-            AverageBPM = pulseCommonInformationRecord.AverageBPM;
-            NormalPulseMeasurement = pulseCommonInformationRecord.NormalPulseMeasurement;
-            Recommendation = pulseCommonInformationRecord.Recommendation;
+            Status = saturationCommonInformationRecord.Status;
+            NormalPulseMeasurement = saturationCommonInformationRecord.NormalPulseMeasurement;
+            Recommendation = saturationCommonInformationRecord.Recommendation;
         }
 
-        public PulseCommonInformation(IList<int> values)
+        public SaturationCommonInformation(int veryBad, int bad, int good, int measurementPoits)
         {
-            int normalPulseMeasurement = Convert.ToInt32(values.Where(v => v >= 45 && v <= 80).Count() / Convert.ToDouble(values.Count) * 100);
+            int normalPulseMeasurement = Convert.ToInt32(Convert.ToDouble(good) / measurementPoits * 100);
 
-            AverageBPM = Convert.ToInt32(values.Average());
             NormalPulseMeasurement = normalPulseMeasurement;
             Status = CalculateStatisticStatus(normalPulseMeasurement);
             Recommendation = CalculateRecommendetion(normalPulseMeasurement);

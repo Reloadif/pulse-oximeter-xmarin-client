@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:statisticTab="clr-namespace:PulseOximeterApp.ViewModels.StatisticTab" x:DataType="statisticTab:SingleSaturationPageViewModel"
+             xmlns:customViews="clr-namespace:PulseOximeterApp.Infrastructure.CustomViews"
              xmlns:microcharts="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms"
              x:Class="PulseOximeterApp.Views.StatisticTab.SingleSaturationPage">
     
@@ -26,12 +27,16 @@
 
         <Grid Grid.Column="1" Grid.Row="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="0.6*"/>
-                <RowDefinition Height="0.4*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
             <Frame Opacity="0.95">
                 <microcharts:ChartView Chart="{Binding MainChart}" />
+            </Frame>
+
+            <Frame Grid.Row="1">
+                <customViews:SaturationCommonInformationView CommonInformation="{Binding CommonInformation}"/>
             </Frame>
         </Grid>
     </Grid>

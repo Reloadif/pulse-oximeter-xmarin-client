@@ -72,7 +72,7 @@
                                                 <Label FontSize="18" Text="{Binding ID}"/>
                                             </StackLayout>
 
-                                            <cusomControls:IconLabel HorizontalOptions="End" TextIcon="monitor_heart" FontSize="18" TextColor="{Binding CommonRecord.Status, Converter={StaticResource StatisticStatusToColorConverter}}">
+                                            <cusomControls:IconLabel HorizontalOptions="End" TextIcon="monitor_heart" FontSize="18" TextColor="{Binding CommonInformationRecord.Status, Converter={StaticResource StatisticStatusToColorConverter}}">
                                                 <cusomControls:IconLabel.Behaviors>
                                                     <behaviors:GoogleMaterialFontBehavior />
                                                 </cusomControls:IconLabel.Behaviors>

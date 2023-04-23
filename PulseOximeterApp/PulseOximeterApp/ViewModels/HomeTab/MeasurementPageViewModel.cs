@@ -88,14 +88,14 @@ namespace PulseOximeterApp.ViewModels.HomeTab
                 };
                 await App.StatisticDataBase.InsertPulseStatisticAsync(pulseStatistic);
 
-                var commonRecord = new PulseCommonInformationRecord()
+                var commonInformationRecord = new PulseCommonInformationRecord()
                 {
                     Status = MeasurePulseVM.CommonInformation.Status,
                     AverageBPM = MeasurePulseVM.CommonInformation.AverageBPM,
                     NormalPulseMeasurement = MeasurePulseVM.CommonInformation.NormalPulseMeasurement,
                     Recommendation = MeasurePulseVM.CommonInformation.Recommendation,
                 };
-                await App.StatisticDataBase.SavePulseCommonInformationRecordAsync(commonRecord);
+                await App.StatisticDataBase.SavePulseCommonInformationRecordAsync(commonInformationRecord);
 
                 var baevskyRecord = new BaevskyIndicatorsRecord()
                 {
@@ -106,7 +106,7 @@ namespace PulseOximeterApp.ViewModels.HomeTab
                 };
                 await App.StatisticDataBase.SaveBaevskyIndicatorsRecordAsync(baevskyRecord);
 
-                pulseStatistic.CommonRecord = commonRecord;
+                pulseStatistic.CommonInformationRecord = commonInformationRecord;
                 pulseStatistic.BaevskyRecord = baevskyRecord;
 
                 await App.StatisticDataBase.UpdatePulseStatisticAsync(pulseStatistic);
@@ -119,14 +119,27 @@ namespace PulseOximeterApp.ViewModels.HomeTab
         {
             if (isSave)
             {
-                await App.StatisticDataBase.SaveSaturationStatisticAsync(new SaturationStatistic()
+                var saturationStatistic = new SaturationStatistic()
                 {
                     AddedDate = DateTime.Now.ToString(),
                     PointsCount = MeasureSaturationVM.NumberMeasure,
-                    VeryLow = MeasureSaturationVM.VeryLowValues,
-                    Low = MeasureSaturationVM.LowValues,
-                    Normal = MeasureSaturationVM.NormalValues,
-                });
+                    VeryBad = MeasureSaturationVM.VeryLowValues,
+                    Bad = MeasureSaturationVM.LowValues,
+                    Good = MeasureSaturationVM.NormalValues,
+                };
+
+                await App.StatisticDataBase.InsertSaturationStatisticsync(saturationStatistic);
+
+                var commonInformationRecord = new SaturationCommonInformationRecord()
+                {
+                    Status = MeasureSaturationVM.CommonInformation.Status,
+                    NormalPulseMeasurement = MeasureSaturationVM.CommonInformation.NormalPulseMeasurement,
+                    Recommendation = MeasureSaturationVM.CommonInformation.Recommendation,
+                };
+                await App.StatisticDataBase.SaveSaturationCommonInformationRecordAsync(commonInformationRecord);
+
+                saturationStatistic .CommonInformationRecord = commonInformationRecord;
+                await App.StatisticDataBase.UpdateSaturationStatisticAsync(saturationStatistic);
             }
 
             await Shell.Current.Navigation.PopAsync();

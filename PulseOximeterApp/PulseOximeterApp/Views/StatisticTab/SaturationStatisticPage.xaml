@@ -10,7 +10,7 @@
              x:Class="PulseOximeterApp.Views.StatisticTab.SaturationStatisticPage">
 
     <ContentPage.Resources>
-        <converters:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
+        <converters:StatisticStatusToColorConverter x:Key="StatisticStatusToColorConverter"/>
     </ContentPage.Resources>
 
     <ContentPage.Style>
@@ -72,7 +72,7 @@
                                                 <Label FontSize="18" Text="{Binding ID}"/>
                                             </StackLayout>
 
-                                            <cusomControls:IconLabel HorizontalOptions="End" TextIcon="looks_two" FontSize="18">
+                                            <cusomControls:IconLabel HorizontalOptions="End" TextIcon="looks_two" FontSize="18" TextColor="{Binding CommonInformationRecord.Status, Converter={StaticResource StatisticStatusToColorConverter}}">
                                                 <cusomControls:IconLabel.Behaviors>
                                                     <behaviors:GoogleMaterialFontBehavior/>
                                                 </cusomControls:IconLabel.Behaviors>

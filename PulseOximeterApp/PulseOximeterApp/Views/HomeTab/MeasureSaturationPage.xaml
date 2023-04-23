@@ -3,8 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:microcharts="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms"
              xmlns:hometab="clr-namespace:PulseOximeterApp.ViewModels.HomeTab" x:DataType="hometab:MeasureSaturationPageViewModel"
-             xmlns:customControls="clr-namespace:PulseOximeterApp.Infrastructure.CustomControls"
              xmlns:converters="clr-namespace:PulseOximeterApp.Infrastructure.Converters"
+             xmlns:customControls="clr-namespace:PulseOximeterApp.Infrastructure.CustomControls"
+             xmlns:customViews="clr-namespace:PulseOximeterApp.Infrastructure.CustomViews"
              x:Class="PulseOximeterApp.Views.HomeTab.MeasureSaturationPage">
 
     <ContentPage.Resources>
@@ -63,6 +64,10 @@
 
             <Frame Grid.Row="1">
                 <microcharts:ChartView Chart="{Binding MainChart}" />
+            </Frame>
+
+            <Frame Grid.Row="2">
+                <customViews:SaturationCommonInformationView CommonInformation="{Binding CommonInformation}"/>
             </Frame>
         </Grid>
     </Grid>

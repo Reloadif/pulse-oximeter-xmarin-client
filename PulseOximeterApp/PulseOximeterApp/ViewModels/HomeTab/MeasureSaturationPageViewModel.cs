@@ -1,4 +1,5 @@
 ﻿using Microcharts;
+using PulseOximeterApp.Models.CommonInformation;
 using PulseOximeterApp.Services;
 using PulseOximeterApp.Services.BluetoothLE;
 using PulseOximeterApp.ViewModels.Base;
@@ -25,6 +26,8 @@ namespace PulseOximeterApp.ViewModels.HomeTab
         private int _veryLowValues;
         private int _lowValues;
         private int _normalValues;
+
+        private SaturationCommonInformation _commonInformation;
         #endregion
 
         #region Properties
@@ -62,6 +65,12 @@ namespace PulseOximeterApp.ViewModels.HomeTab
         public int NormalValues
         {
             get => _normalValues;
+        }
+
+        public SaturationCommonInformation CommonInformation
+        {
+            get => _commonInformation;
+            set => Set(ref _commonInformation, value);
         }
         #endregion
 
@@ -137,6 +146,8 @@ namespace PulseOximeterApp.ViewModels.HomeTab
                         LabelTextSize = 30,
                         Entries = CalculateChartEntries(),
                     };
+                    CommonInformation = new SaturationCommonInformation(_veryLowValues, _lowValues, _normalValues, _numberMeasure);
+
                     IsCompleteMeasure = true;
                 }
             }

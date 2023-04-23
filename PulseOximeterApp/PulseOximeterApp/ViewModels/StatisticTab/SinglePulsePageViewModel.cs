@@ -72,7 +72,7 @@ namespace PulseOximeterApp.ViewModels.StatisticTab
                 }).ToList(),
             };
 
-            CommonInformation = new PulseCommonInformation(pulseStatistic.CommonRecord);
+            CommonInformation = new PulseCommonInformation(pulseStatistic.CommonInformationRecord);
             Baevsky = new BaevskyIndicators(Statistic.BaevskyRecord);
         }
     }

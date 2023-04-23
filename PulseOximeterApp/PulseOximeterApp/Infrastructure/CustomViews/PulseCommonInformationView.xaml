@@ -24,7 +24,7 @@
         <Label Grid.Row="2" Text="Процент измерений в норме:"/>
         <Label x:Name="XamlNormalPulseMeasurement" Grid.Column="1" Grid.Row="2"  VerticalTextAlignment="End"/>
 
-        <Label Grid.Row="3" Text="Рекомендация:"/>
+        <Label Grid.ColumnSpan="2" Grid.Row="3" Text="Рекомендация:"/>
         <Label x:Name="XamlRecommendation" Grid.ColumnSpan="2" Grid.Row="4"/>
     </Grid>
     
