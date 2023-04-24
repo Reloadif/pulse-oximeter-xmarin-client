@@ -47,7 +47,7 @@ namespace PulseOximeterApp.Models
 
             if (normalPulseMeasurement < 80) result = "Состояние оценивается, как очень плохое!";
             else if (normalPulseMeasurement < 90) result = "Состояние оценивается, как плохое!";
-            else if (normalPulseMeasurement <= 100) result = "Состояние оценивается, как хорошое!";
+            else if (normalPulseMeasurement <= 100) result = "Состояние оценивается, как хорошее!";
 
             return result;
         }
