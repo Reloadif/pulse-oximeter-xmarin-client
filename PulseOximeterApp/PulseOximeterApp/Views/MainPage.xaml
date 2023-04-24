@@ -14,7 +14,7 @@
             <ShellContent ContentTemplate="{DataTemplate views:StatisticPage}" />
         </Tab>
 
-        <Tab Title="Настройки" Icon="setting.png" IsEnabled="{Binding SettingTabIsEnabled}">
+        <Tab x:Name="SettingTab" Title="Настройки" Icon="setting.png" IsEnabled="{Binding SettingTabIsEnabled}">
             <ShellContent ContentTemplate="{DataTemplate views:SettingPage}" />
         </Tab>
     </TabBar>

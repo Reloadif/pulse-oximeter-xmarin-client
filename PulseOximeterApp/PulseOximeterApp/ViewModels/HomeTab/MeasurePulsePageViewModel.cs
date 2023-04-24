@@ -25,6 +25,7 @@ namespace PulseOximeterApp.ViewModels.HomeTab
         private bool _isCompleteMeasure;
 
         private BaevskyIndicators _baevskyIndicators;
+        private PulseCommonInformation _commonInformation;
         #endregion
 
         #region Properties
@@ -55,6 +56,12 @@ namespace PulseOximeterApp.ViewModels.HomeTab
         {
             get => _baevskyIndicators;
             set => Set(ref _baevskyIndicators, value);
+        }
+
+        public PulseCommonInformation CommonInformation
+        {
+            get => _commonInformation;
+            set => Set(ref _commonInformation, value);
         }
         #endregion
 
@@ -130,6 +137,7 @@ namespace PulseOximeterApp.ViewModels.HomeTab
                     };
 
                     Baevsky = new BaevskyIndicators(new HeartRateVariability(_cardioIntervals));
+                    CommonInformation = new PulseCommonInformation(MainChart.Entries.Select(e => Convert.ToInt32(e.Value)).ToList());
                     IsCompleteMeasure = true;
                 }
             }
@@ -144,15 +152,32 @@ namespace PulseOximeterApp.ViewModels.HomeTab
             int elementsInBatch = interim.Count / 30;
             for (int i = 0; i < 30; ++i)
             {
-                result.Add(interim.GetRange(i * elementsInBatch, elementsInBatch).Sum() / elementsInBatch);
+                result.Add(CalculateAverageBPM(interim, i, elementsInBatch));
             }
 
             return result.Select(v => new ChartEntry(v)
             {
                 Label = "ЧСС",
                 ValueLabel = v.ToString(),
-                Color = ChartEntryColorConverter.FromPulse(v),
+                Color = ChartEntryToSKColorConverter.FromPulse(v),
             }).ToList();
+        }
+
+        private int CalculateAverageBPM(List<int> values, int currentV, int valuesInBatch) 
+        {
+            int result;
+            valuesInBatch = valuesInBatch >= 4 ? valuesInBatch : 4;
+
+            if (currentV + valuesInBatch <= values.Count - 1)
+            {
+                result = values.GetRange(currentV, valuesInBatch).Sum() / valuesInBatch;
+            }
+            else
+            {
+                result = values.GetRange(currentV - valuesInBatch, valuesInBatch).Sum() / valuesInBatch;
+            }
+
+            return result;
         }
     }
 }

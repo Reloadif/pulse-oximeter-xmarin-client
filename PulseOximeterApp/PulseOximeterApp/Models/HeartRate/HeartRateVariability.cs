@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace PulseOximeterApp.Models
 {
-    internal class HeartRateVariability
+    public class HeartRateVariability
     {
         private readonly IList<double> _sampleCardioIntervals;
 

@@ -1,6 +1,9 @@
 ﻿using Microcharts;
 using PulseOximeterApp.Data.DataBase;
+using PulseOximeterApp.Models;
+using PulseOximeterApp.Models.HeartRate;
 using PulseOximeterApp.Services;
+using PulseOximeterApp.Services.DataBase;
 using PulseOximeterApp.ViewModels.Base;
 using System.Linq;
 
@@ -11,6 +14,9 @@ namespace PulseOximeterApp.ViewModels.StatisticTab
         #region Fields
         private PulseStatistic _statistic;
         private LineChart _lineChart;
+
+        private PulseCommonInformation _commonInformation;
+        private BaevskyIndicators _baevsky;
         #endregion
 
         #region Properties
@@ -19,11 +25,21 @@ namespace PulseOximeterApp.ViewModels.StatisticTab
             get => _statistic;
             set => Set(ref _statistic, value);
         }
-
         public LineChart MainChart
         {
             get => _lineChart;
             set => Set(ref _lineChart, value);
+        }
+
+        public PulseCommonInformation CommonInformation
+        {
+            get => _commonInformation;
+            set => Set(ref _commonInformation, value);
+        }
+        public BaevskyIndicators Baevsky
+        {
+            get => _baevsky;
+            set => Set(ref _baevsky, value);
         }
         #endregion
 
@@ -47,14 +63,17 @@ namespace PulseOximeterApp.ViewModels.StatisticTab
             Statistic = pulseStatistic;
 
             MainChart = new LineChart 
-            { 
-                Entries = ConverterMeasurementPoints.From(pulseStatistic.MeasurementPoints).Select(mp => new ChartEntry(mp)
+            {
+                Entries = MeasurementPointsConverter.From(pulseStatistic.MeasurementPoints).Select(mp => new ChartEntry(mp)
                 {
                     Label = "ЧСС",
                     ValueLabel = mp.ToString(),
-                    Color = ChartEntryColorConverter.FromPulse(mp),
+                    Color = ChartEntryToSKColorConverter.FromPulse(mp),
                 }).ToList(),
             };
+
+            CommonInformation = new PulseCommonInformation(pulseStatistic.CommonInformationRecord);
+            Baevsky = new BaevskyIndicators(Statistic.BaevskyRecord);
         }
     }
 }

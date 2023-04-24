@@ -1,9 +1,10 @@
 ﻿using Microcharts;
 using PulseOximeterApp.Data.DataBase;
+using PulseOximeterApp.Models;
+using PulseOximeterApp.Models.CommonInformation;
+using PulseOximeterApp.Services;
 using PulseOximeterApp.ViewModels.Base;
-using SkiaSharp;
-using System.Linq;
-using static SQLite.SQLite3;
+using System.Collections.Generic;
 
 namespace PulseOximeterApp.ViewModels.StatisticTab
 {
@@ -11,9 +12,9 @@ namespace PulseOximeterApp.ViewModels.StatisticTab
     {
         #region Fields
         private SaturationStatistic _statistic;
-        private DonutChart _donutChart;
+        private BarChart _mainChart;
 
-        private int _colorCounter;
+        private SaturationCommonInformation _commonInformation;
         #endregion
 
         #region Properties
@@ -22,11 +23,16 @@ namespace PulseOximeterApp.ViewModels.StatisticTab
             get => _statistic;
             set => Set(ref _statistic, value);
         }
-
-        public DonutChart MainChart
+        public BarChart MainChart
         {
-            get => _donutChart;
-            set => Set(ref _donutChart, value);
+            get => _mainChart;
+            set => Set(ref _mainChart, value);
+        }
+
+        public SaturationCommonInformation CommonInformation
+        {
+            get => _commonInformation;
+            set => Set(ref _commonInformation, value);
         }
         #endregion
 
@@ -48,49 +54,36 @@ namespace PulseOximeterApp.ViewModels.StatisticTab
         public SingleSaturationPageViewModel(SaturationStatistic saturationStatistic)
         {
             Statistic = saturationStatistic;
-            _colorCounter = 0;
 
-            MainChart = new DonutChart
+            MainChart = new BarChart()
             {
-                Entries = ConverterMeasurementPoints.From(saturationStatistic.MeasurementPoints).Select(mp => new ChartEntry(mp)
+                LabelOrientation = Orientation.Horizontal,
+                ValueLabelOrientation = Orientation.Horizontal,
+                LabelTextSize = 30,
+                Entries = new List<ChartEntry>()
                 {
-                    Label = GetLabel(),
-                    ValueLabel = mp.ToString(),
-                    Color = GetColor(),
-                }).ToList(),
+                    new ChartEntry(Statistic.VeryBad)
+                    {
+                        Label = "Очень низкий",
+                        ValueLabel = Statistic.VeryBad.ToString(),
+                        Color = ChartEntryColor.SaturationVeryLow,
+                    },
+                    new ChartEntry(Statistic.Bad)
+                    {
+                        Label = "Низкий",
+                        ValueLabel = Statistic.Bad.ToString(),
+                        Color = ChartEntryColor.SaturationLow,
+                    },
+                    new ChartEntry(Statistic.Good)
+                    {
+                        Label = "В норме",
+                        ValueLabel = Statistic.Good.ToString(),
+                        Color = ChartEntryColor.SaturationNormal,
+                    },
+                }
             };
-        }
 
-        private string GetLabel()
-        {
-            string result = "";
-
-            if (_colorCounter == 0)
-            {
-                result = "< 90%";
-            }
-            else if (_colorCounter == 1)
-            {
-                result = "90% <=...< 95%";
-            }
-            else if (_colorCounter == 2)
-            {
-                result = "95% <=...<= 100%";
-            }
-
-            return result;
-        }
-
-        private SKColor GetColor()
-        {
-            SKColor result = SKColor.Parse("f24518");
-
-            if (_colorCounter == 0) result = SKColor.Parse("f24518");
-            else if (_colorCounter == 1) result = SKColor.Parse("f1f518");
-            else if (_colorCounter == 2) result = SKColor.Parse("2bf518");
-
-            _colorCounter += 1;
-            return result;
+            CommonInformation = new SaturationCommonInformation(Statistic.CommonInformationRecord);
         }
     }
 }

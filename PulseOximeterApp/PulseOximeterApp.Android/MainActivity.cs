@@ -4,6 +4,7 @@ using Android.Content.PM;
 using Android.Locations;
 using Android.OS;
 using Android.Runtime;
+using Android.Views;
 using AndroidX.AppCompat.App;
 using PulseOximeterApp.Droid.Services;
 
@@ -34,6 +35,7 @@ namespace PulseOximeterApp.Droid
             LoadApplication(new App());
 
             AppCompatDelegate.DefaultNightMode = AppCompatDelegate.ModeNightNo;
+            Window.DecorView.SystemUiVisibility = (StatusBarVisibility)SystemUiFlags.LightStatusBar;
 
             Instance = this;
         }

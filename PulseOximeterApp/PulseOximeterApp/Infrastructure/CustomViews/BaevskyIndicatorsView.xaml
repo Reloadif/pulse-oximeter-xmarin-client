@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:effects="clr-namespace:PulseOximeterApp.Infrastructure.Effects"
+             x:Class="PulseOximeterApp.Infrastructure.CustomViews.BaevskyIndicatorsView">
+
+    <Grid RowSpacing="20">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.85*"/>
+            <ColumnDefinition Width="0.15*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Label Grid.ColumnSpan="2" HorizontalTextAlignment="Center" Text="Показатели Баевского" FontSize="18" FontAttributes="Bold"/>
+
+        <Label Grid.Row="1" Text="Индекс вегетативного равновесия:"
+               effects:TooltipEffect.HasTooltip="True"
+               effects:TooltipEffect.Position="Top"
+               effects:TooltipEffect.BackgroundColor="#2A388A"
+               effects:TooltipEffect.Text="Определение соотношения симпатической и парасимпатической регуляции работы сердца"/>
+        <Label x:Name="XamlABI" Grid.Column="1" Grid.Row="1" VerticalTextAlignment="End"/>
+
+        <Label Grid.Row="2" Text="Вегетативный показатель ритма:"
+               effects:TooltipEffect.HasTooltip="True"
+               effects:TooltipEffect.Position="Top"
+               effects:TooltipEffect.BackgroundColor="#2A388A"
+               effects:TooltipEffect.Text="Оценка вегетативного баланса"/>
+        <Label x:Name="XamlVRI" Grid.Column="1" Grid.Row="2"  VerticalTextAlignment="End"/>
+
+        <Label Grid.Row="3" Text="Показатель адекватности процессов регуляции:"
+               effects:TooltipEffect.HasTooltip="True"
+               effects:TooltipEffect.Position="Top"
+               effects:TooltipEffect.BackgroundColor="#2A388A"
+               effects:TooltipEffect.Text="Соответствие между уровнем функционирования СУ и симпатической активностью"/>
+        <Label x:Name="XamlIARP" Grid.Column="1" Grid.Row="3"  VerticalTextAlignment="End"/>
+
+        <Label Grid.Row="4" Text="Индекс напряжения регуляторных систем:"
+               effects:TooltipEffect.HasTooltip="True"
+               effects:TooltipEffect.Position="Top"
+               effects:TooltipEffect.BackgroundColor="#2A388A"
+               effects:TooltipEffect.Text="Степень централизации управления сердечным ритмом"/>
+        <Label x:Name="XamlVI" Grid.Column="1" Grid.Row="4" VerticalTextAlignment="End"/>
+    </Grid>
+
+</ContentView>

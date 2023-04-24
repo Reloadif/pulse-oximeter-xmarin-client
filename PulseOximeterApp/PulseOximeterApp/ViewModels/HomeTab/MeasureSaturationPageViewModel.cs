@@ -1,7 +1,8 @@
 ﻿using Microcharts;
+using PulseOximeterApp.Models.CommonInformation;
+using PulseOximeterApp.Services;
 using PulseOximeterApp.Services.BluetoothLE;
 using PulseOximeterApp.ViewModels.Base;
-using SkiaSharp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,18 +17,24 @@ namespace PulseOximeterApp.ViewModels.HomeTab
         #region Fields
         private readonly ISaturationService _saturationService;
         private readonly IList<int> _saturationValues;
-        private DonutChart _donutChart;
+        private BarChart _mainChart;
 
         private readonly int _numberMeasure;
         private int _counterValue;
         private bool _isCompleteMeasure;
+
+        private int _veryLowValues;
+        private int _lowValues;
+        private int _normalValues;
+
+        private SaturationCommonInformation _commonInformation;
         #endregion
 
         #region Properties
-        public DonutChart MainChart
+        public BarChart MainChart
         {
-            get => _donutChart;
-            set => Set(ref _donutChart, value);
+            get => _mainChart;
+            set => Set(ref _mainChart, value);
         }
 
         public int NumberMeasure
@@ -45,6 +52,25 @@ namespace PulseOximeterApp.ViewModels.HomeTab
         {
             get => _isCompleteMeasure;
             set => Set(ref _isCompleteMeasure, value);
+        }
+
+        public int VeryLowValues
+        {
+            get => _veryLowValues;
+        }
+        public int LowValues
+        {
+            get => _lowValues;
+        }
+        public int NormalValues
+        {
+            get => _normalValues;
+        }
+
+        public SaturationCommonInformation CommonInformation
+        {
+            get => _commonInformation;
+            set => Set(ref _commonInformation, value);
         }
         #endregion
 
@@ -113,10 +139,15 @@ namespace PulseOximeterApp.ViewModels.HomeTab
                 if (CounterValue == 0)
                 {
                     _saturationService.StopMeasureSaturation();
-                    MainChart = new DonutChart()
+                    MainChart = new BarChart()
                     {
+                        LabelOrientation = Orientation.Horizontal,
+                        ValueLabelOrientation = Orientation.Horizontal,
+                        LabelTextSize = 30,
                         Entries = CalculateChartEntries(),
                     };
+                    CommonInformation = new SaturationCommonInformation(_veryLowValues, _lowValues, _normalValues, _numberMeasure);
+
                     IsCompleteMeasure = true;
                 }
             }
@@ -127,28 +158,28 @@ namespace PulseOximeterApp.ViewModels.HomeTab
         {
             List<ChartEntry> result = new List<ChartEntry>();
 
-            int L90 = _saturationValues.Where(sv => sv < 90).Count();
-            result.Add(new ChartEntry(L90)
+            _veryLowValues = _saturationValues.Where(sv => sv < 90).Count();
+            result.Add(new ChartEntry(_veryLowValues)
             {
-                Label = "< 90%",
-                ValueLabel = L90.ToString(),
-                Color = SKColor.Parse("f24518"),
+                Label = "Очень низкий",
+                ValueLabel = _veryLowValues.ToString(),
+                Color = ChartEntryColor.SaturationVeryLow,
             });
 
-            int LE95 = _saturationValues.Where(sv => 90 <= sv && sv < 95).Count();
-            result.Add(new ChartEntry(LE95)
+            _lowValues = _saturationValues.Where(sv => 90 <= sv && sv < 95).Count();
+            result.Add(new ChartEntry(_lowValues)
             {
-                Label = "90% <=...< 95%",
-                ValueLabel = LE95.ToString(),
-                Color = SKColor.Parse("f1f518"),
+                Label = "Низкий",
+                ValueLabel = _lowValues.ToString(),
+                Color = ChartEntryColor.SaturationLow,
             });
 
-            int LE100 = _saturationValues.Where(sv => 95 <= sv && sv <= 100).Count();
-            result.Add(new ChartEntry(LE100)
+            _normalValues = _saturationValues.Where(sv => 95 <= sv && sv <= 100).Count();
+            result.Add(new ChartEntry(_normalValues)
             {
-                Label = "95% <=...<= 100%",
-                ValueLabel = LE100.ToString(),
-                Color = SKColor.Parse("2bf518"),
+                Label = "В норме",
+                ValueLabel = _normalValues.ToString(),
+                Color = ChartEntryColor.SaturationNormal,
             });
 
             return result;

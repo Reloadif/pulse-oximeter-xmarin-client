@@ -1,26 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using PulseOximeterApp.Data.DataBase;
+using System;
 
 namespace PulseOximeterApp.Models.HeartRate
 {
-    internal class BaevskyIndicators
+    public class BaevskyIndicators
     {
-        private readonly HeartRateVariability _heartRateVariability;
-
         public double ABI { get; private set; }
         public double VRI { get; private set; }
         public double IARP { get; private set; }
         public double VI { get; private set; }
 
+        public BaevskyIndicators(BaevskyIndicatorsRecord baevskyIndicatorsRecord)
+        {
+            ABI = baevskyIndicatorsRecord.ABI;
+            VRI = baevskyIndicatorsRecord.VRI;
+            IARP = baevskyIndicatorsRecord.IARP;
+            VI = baevskyIndicatorsRecord.VI;
+        }
+
         public BaevskyIndicators(HeartRateVariability heartRateVariability)
         {
-            _heartRateVariability = heartRateVariability;
-
-            ABI = Math.Round(_heartRateVariability.AMo / _heartRateVariability.SDNN, 2);
-            VRI = Math.Round(1 / (_heartRateVariability.Mo * _heartRateVariability.SDNN), 2);
-            IARP = Math.Round(_heartRateVariability.AMo / _heartRateVariability.Mo, 2);
-            VI = Math.Round(_heartRateVariability.AMo / (2 * _heartRateVariability.SDNN * _heartRateVariability.Mo), 2);
+            ABI = Math.Round(heartRateVariability.AMo / heartRateVariability.SDNN, 2);
+            VRI = Math.Round(1 / (heartRateVariability.Mo * heartRateVariability.SDNN), 2);
+            IARP = Math.Round(heartRateVariability.AMo / heartRateVariability.Mo, 2);
+            VI = Math.Round(heartRateVariability.AMo / (2 * heartRateVariability.SDNN * heartRateVariability.Mo), 2);
         }
     }
 }

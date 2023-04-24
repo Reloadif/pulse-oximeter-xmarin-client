@@ -2,7 +2,7 @@
 <resources>
 	<style name="MainTheme" parent="MainTheme.Base">
 		<item name="colorPrimary">@color/colorPrimary</item>
-		<item name="colorPrimaryDark">@color/colorPrimaryDark</item>
 		<item name="colorAccent">@color/colorAccent</item>
+		<item name="colorPrimaryDark">#f7f7f7</item>
 	</style>
 </resources>

@@ -1,11 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-        xmlns:hometab="clr-namespace:PulseOximeterApp.ViewModels.HomeTab" x:DataType="hometab:MeasurePulsePageViewModel"
-        xmlns:customControls="clr-namespace:PulseOximeterApp.Infrastructure.CustomControls"
-        xmlns:converters="clr-namespace:PulseOximeterApp.Infrastructure.Converters"
-        xmlns:microcharts="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms"
-        x:Class="PulseOximeterApp.Views.HomeTab.MeasurePulsePage">
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:hometab="clr-namespace:PulseOximeterApp.ViewModels.HomeTab" x:DataType="hometab:MeasurePulsePageViewModel"
+             xmlns:customControls="clr-namespace:PulseOximeterApp.Infrastructure.CustomControls"
+             xmlns:converters="clr-namespace:PulseOximeterApp.Infrastructure.Converters"
+             xmlns:customViews="clr-namespace:PulseOximeterApp.Infrastructure.CustomViews"
+             xmlns:microcharts="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms"
+             x:Class="PulseOximeterApp.Views.HomeTab.MeasurePulsePage">
 
     <ContentPage.Resources>
         <converters:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
@@ -17,39 +18,40 @@
         </Style>
     </ContentPage.Style>
 
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.025*"/>
-            <ColumnDefinition Width="0.95*"/>
-            <ColumnDefinition Width="0.025*"/>
-        </Grid.ColumnDefinitions>
+    <ScrollView>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.025*"/>
+                <ColumnDefinition Width="0.95*"/>
+                <ColumnDefinition Width="0.025*"/>
+            </Grid.ColumnDefinitions>
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="0.025*"/>
-            <RowDefinition Height="0.95*"/>
-            <RowDefinition Height="0.025*"/>
-        </Grid.RowDefinitions>
-
-        <Grid Grid.Column="1" Grid.Row="1" IsVisible="{Binding IsCompleteMeasure, Converter={StaticResource InverseBooleanConverter}}">
             <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="0.025*"/>
+                <RowDefinition Height="0.95*"/>
+                <RowDefinition Height="0.025*"/>
             </Grid.RowDefinitions>
 
-            <StackLayout Grid.Row="1" VerticalOptions="Center" HorizontalOptions="Center">
-                <customControls:VisualizationCounter HeightRequest="150" WidthRequest="150" Value="{Binding CounterValue}"/>
-            </StackLayout>
-
-            <Label Grid.Row="2" Text="Держите палец на датчике" FontSize="20" HorizontalOptions="Center"/>
-        </Grid>
-
-        <ScrollView Grid.Column="1" Grid.Row="1" IsVisible="{Binding IsCompleteMeasure}">
-            <Grid>
+            <Grid Grid.Column="1" Grid.Row="1" IsVisible="{Binding IsCompleteMeasure, Converter={StaticResource InverseBooleanConverter}}">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="0.1*"/>
-                    <RowDefinition Height="0.6*"/>
-                    <RowDefinition Height="0.3*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <StackLayout Grid.Row="1" VerticalOptions="Center" HorizontalOptions="Center">
+                    <customControls:VisualizationCounter HeightRequest="150" WidthRequest="150" Value="{Binding CounterValue}"/>
+                </StackLayout>
+
+                <Label Grid.Row="2" Text="Держите палец на датчике" FontSize="20" HorizontalOptions="Center"/>
+            </Grid>
+
+            <Grid Grid.Column="1" Grid.Row="1" IsVisible="{Binding IsCompleteMeasure}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.2*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
                 <Grid VerticalOptions="Center">
@@ -58,8 +60,8 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
 
-                    <Button Text="Назад" Command="{Binding HeadBack}"/>
-                    <Button Grid.Column="1" Text="Сохранить" Command="{Binding SaveBack}"/>
+                    <Button Text="Назад" CornerRadius="5" Command="{Binding HeadBack}"/>
+                    <Button Grid.Column="1" Text="Сохранить" CornerRadius="5" Command="{Binding SaveBack}"/>
                 </Grid>
 
                 <Frame Grid.Row="1">
@@ -67,32 +69,13 @@
                 </Frame>
 
                 <Frame Grid.Row="2">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="0.8*"/>
-                            <ColumnDefinition Width="0.2*"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                        </Grid.RowDefinitions>
-
-                        <Label Text="Индекс вегетативного равновесия:"/>
-                        <Label Grid.Column="1" Text="{Binding Baevsky.ABI}"/>
-
-                        <Label Grid.Row="1" Text="Вегетативный показатель ритма:"/>
-                        <Label Grid.Column="1" Grid.Row="1" Text="{Binding Baevsky.VRI}"/>
-
-                        <Label Grid.Row="2" Text="Показатель адекватности процессов регуляции:"/>
-                        <Label Grid.Column="1" Grid.Row="2" Text="{Binding Baevsky.IARP}"/>
-
-                        <Label Grid.Row="3" Text="Индекс напряжения регуляторных систем:"/>
-                        <Label Grid.Column="1" Grid.Row="3" Text="{Binding Baevsky.VI}"/>
-                    </Grid>
+                    <customViews:PulseCommonInformationView CommonInformation="{Binding CommonInformation}"/>
+                </Frame>
+                
+                <Frame Grid.Row="3">
+                    <customViews:BaevskyIndicatorsView Baevsky="{Binding Baevsky}"/>
                 </Frame>
             </Grid>
-        </ScrollView>
-    </Grid>
+        </Grid>
+    </ScrollView>
 </ContentPage>

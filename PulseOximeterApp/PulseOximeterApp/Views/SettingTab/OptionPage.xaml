@@ -28,7 +28,7 @@
             <StackLayout>
                 <Grid>
                     <Label VerticalOptions="Center" Text="Число измерений пульса:"/>
-                    <Entry HorizontalOptions="End" WidthRequest="80" HorizontalTextAlignment="Center" Keyboard="Numeric" Text="{Binding NumberOfPulseMeasure, Mode=TwoWay}">
+                    <Entry HorizontalOptions="End" WidthRequest="80" HorizontalTextAlignment="Center" MaxLength="10" Keyboard="Numeric" Text="{Binding NumberOfPulseMeasure, Mode=TwoWay}">
                         <Entry.Behaviors>
                             <behaviors:IntegerValidationBehavior MinValue="30" MaxValue="600" />
                         </Entry.Behaviors>
@@ -39,7 +39,7 @@
 
                 <Grid>
                     <Label VerticalOptions="Center" Text="Число измерений сатурации:"/>
-                    <Entry HorizontalOptions="End" WidthRequest="80" HorizontalTextAlignment="Center" Keyboard="Numeric" Text="{Binding NumberOfOxigenMeasure, Mode=TwoWay}">
+                    <Entry HorizontalOptions="End" WidthRequest="80" HorizontalTextAlignment="Center" MaxLength="10" Keyboard="Numeric" Text="{Binding NumberOfOxigenMeasure, Mode=TwoWay}">
                         <Entry.Behaviors>
                             <behaviors:IntegerValidationBehavior MinValue="30" MaxValue="600" />
                         </Entry.Behaviors>

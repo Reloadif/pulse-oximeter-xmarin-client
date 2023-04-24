@@ -11,8 +11,11 @@ namespace PulseOximeterApp.Infrastructure.Behaviors
 
         private static readonly Dictionary<string, char> iconCodeDict = new Dictionary<string, char>
         {
+            {"done", '\ue876'},
+            {"close", '\ue5cd'},
             {"monitor_heart", '\ueaa2'},
             {"looks_two", '\ue401' },
+            {"delete_forever", '\ue92b' },
         };
 
         protected override void OnAttachedTo(IconLabel bindable)
@@ -32,7 +35,7 @@ namespace PulseOximeterApp.Infrastructure.Behaviors
         {
             var label = (IconLabel)sender;
 
-            if (label?.Text?.Length >= 2 && iconCodeDict.TryGetValue(label.Text, out var icon))
+            if (label?.TextIcon?.Length >= 2 && iconCodeDict.TryGetValue(label.TextIcon, out var icon))
             {
                 label.FontFamily = fontFamily;
                 label.Text = icon.ToString();
