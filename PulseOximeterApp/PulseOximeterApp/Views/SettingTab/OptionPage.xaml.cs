@@ -1,16 +1,19 @@
 ﻿using PulseOximeterApp.ViewModels.Base;
+using PulseOximeterApp.ViewModels.SettingTab;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace PulseOximeterApp.Views.SettingTab
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class OptionPage : ContentPage
-	{
-		public OptionPage ()
-		{
-			InitializeComponent ();
-		}
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class OptionPage : ContentPage
+    {
+        public OptionPage()
+        {
+            InitializeComponent();
+
+            BindingContext = new OptionPageViewModel();
+        }
 
         protected override void OnAppearing()
         {

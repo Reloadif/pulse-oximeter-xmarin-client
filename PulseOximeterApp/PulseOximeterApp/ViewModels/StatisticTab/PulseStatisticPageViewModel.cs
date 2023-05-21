@@ -45,8 +45,14 @@ namespace PulseOximeterApp.ViewModels.StatisticTab
         #endregion
 
         #region Base Methods
-        public override void OnAppearing()
+        public override async void OnAppearing()
         {
+            var statistics = await App.StatisticDataBase.GetPulseStatisticsAsync();
+            PulseCollection = new ObservableCollection<PulseStatisticGroup>(statistics.OrderByDescending(s => s.ID).
+                GroupBy(s => DateTime.Parse(s.AddedDate).ToString("D"),
+                (key, group) => new PulseStatisticGroup(key, new ObservableCollection<PulseStatistic>(group.ToList())))
+                );
+
             base.OnAppearing();
         }
 
@@ -58,12 +64,6 @@ namespace PulseOximeterApp.ViewModels.StatisticTab
 
         public PulseStatisticPageViewModel()
         {
-            PulseCollection = new ObservableCollection<PulseStatisticGroup>(App.StatisticDataBase.GetPulseStatisticsAsync().GetAwaiter().GetResult().
-                OrderByDescending(s => s.ID).
-                GroupBy(s => DateTime.Parse(s.AddedDate).ToString("D"),
-                (key, group) => new PulseStatisticGroup(key, new ObservableCollection<PulseStatistic>(group.ToList())))
-                );
-
             CollectionItemSelected = new Command(ExecuteCollectionItemSelected);
             DeleteCollectionItem = new Command(ExecuteDeleteCollectionItem);
         }
@@ -77,7 +77,7 @@ namespace PulseOximeterApp.ViewModels.StatisticTab
             {
                 PulseCollection.Remove(pulseGroup);
 
-                if (PulseCollection.Count == 0) 
+                if (PulseCollection.Count == 0)
                 {
                     PulseCollection = null;
                 }

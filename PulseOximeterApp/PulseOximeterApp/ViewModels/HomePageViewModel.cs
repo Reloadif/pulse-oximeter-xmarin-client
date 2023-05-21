@@ -1,10 +1,13 @@
 ﻿using Plugin.BLE;
 using Plugin.BLE.Abstractions.EventArgs;
+using Plugin.Permissions.Abstractions;
+using Plugin.Permissions;
 using PulseOximeterApp.Infrastructure.DependencyServices;
 using PulseOximeterApp.Services.BluetoothLE;
 using PulseOximeterApp.ViewModels.Base;
 using PulseOximeterApp.ViewModels.HomeTab;
 using PulseOximeterApp.Views.HomeTab;
+using System;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -67,17 +70,38 @@ namespace PulseOximeterApp.ViewModels
 
         private async void ExecuteConnectToMicrocontroller(object obj)
         {
-            IsActivityIndicator = true;
-
-            if (await App.Microcontroller.Connect())
+            try
             {
-                var Measurement = new MeasurementPage();
-                var MeasurementVM = new MeasurementPageViewModel(new PulseOximeterService(App.Microcontroller.GetDevice));
-                Measurement.BindingContext = MeasurementVM;
-                await Shell.Current.Navigation.PushAsync(Measurement);
-            }
+                PermissionStatus status = await CrossPermissions.Current.CheckPermissionStatusAsync<LocationPermission>();
+                if (status != PermissionStatus.Granted)
+                {
+                    await CrossPermissions.Current.ShouldShowRequestPermissionRationaleAsync(Permission.Location);
+                    status = await CrossPermissions.Current.RequestPermissionAsync<LocationPermission>();
+                }
 
-            IsActivityIndicator = false;
+                if (status == PermissionStatus.Granted)
+                {
+                    IsActivityIndicator = true;
+
+                    if (await App.Microcontroller.Connect())
+                    {
+                        var Measurement = new MeasurementPage();
+                        var MeasurementVM = new MeasurementPageViewModel(App.Microcontroller.BLEDevice);
+                        Measurement.BindingContext = MeasurementVM;
+                        await Shell.Current.Navigation.PushAsync(Measurement);
+                    }
+
+                    IsActivityIndicator = false;
+                }
+                else if (status != PermissionStatus.Unknown)
+                {
+                    //location denied
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         private bool CanExecuteConnectToMicrocontroller(object obj)
         {

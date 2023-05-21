@@ -1,9 +1,11 @@
 ﻿using PulseOximeterApp.ViewModels;
 using PulseOximeterApp.Views;
 using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
 
 namespace PulseOximeterApp
 {
+    [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MainPage : Shell
     {
         public MainPage()

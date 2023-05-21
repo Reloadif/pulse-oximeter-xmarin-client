@@ -4,7 +4,7 @@
              xmlns:effects="clr-namespace:PulseOximeterApp.Infrastructure.Effects"
              x:Class="PulseOximeterApp.Infrastructure.CustomViews.BaevskyIndicatorsView">
 
-    <Grid RowSpacing="20">
+    <Grid x:Name="XamlMainLayout" RowSpacing="20">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.85*"/>
             <ColumnDefinition Width="0.15*"/>
@@ -17,35 +17,39 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <Label Grid.ColumnSpan="2" HorizontalTextAlignment="Center" Text="Показатели Баевского" FontSize="18" FontAttributes="Bold"/>
+        <Grid.GestureRecognizers>
+            <TapGestureRecognizer Tapped="HandleMainLayoutTapped"/>
+        </Grid.GestureRecognizers>
 
-        <Label Grid.Row="1" Text="Индекс вегетативного равновесия:"
+        <Label Grid.ColumnSpan="2" HorizontalTextAlignment="Center" Text="Показатели Баевского" Style="{StaticResource BoldMediumLabelStyle}"/>
+
+        <Label Grid.Row="1" Text="Индекс вегетативного равновесия:" Style="{StaticResource SmallLabelStyle}"
                effects:TooltipEffect.HasTooltip="True"
                effects:TooltipEffect.Position="Top"
-               effects:TooltipEffect.BackgroundColor="#2A388A"
+               effects:TooltipEffect.BackgroundColor="{StaticResource Primary}"
                effects:TooltipEffect.Text="Определение соотношения симпатической и парасимпатической регуляции работы сердца"/>
-        <Label x:Name="XamlABI" Grid.Column="1" Grid.Row="1" VerticalTextAlignment="End"/>
+        <Label x:Name="XamlABI" Grid.Column="1" Grid.Row="1" VerticalTextAlignment="End" Style="{StaticResource SmallLabelStyle}"/>
 
-        <Label Grid.Row="2" Text="Вегетативный показатель ритма:"
+        <Label Grid.Row="2" Text="Вегетативный показатель ритма:" Style="{StaticResource SmallLabelStyle}"
                effects:TooltipEffect.HasTooltip="True"
                effects:TooltipEffect.Position="Top"
-               effects:TooltipEffect.BackgroundColor="#2A388A"
+               effects:TooltipEffect.BackgroundColor="{StaticResource Primary}"
                effects:TooltipEffect.Text="Оценка вегетативного баланса"/>
-        <Label x:Name="XamlVRI" Grid.Column="1" Grid.Row="2"  VerticalTextAlignment="End"/>
+        <Label x:Name="XamlVRI" Grid.Column="1" Grid.Row="2" VerticalTextAlignment="End" Style="{StaticResource SmallLabelStyle}"/>
 
-        <Label Grid.Row="3" Text="Показатель адекватности процессов регуляции:"
+        <Label Grid.Row="3" Text="Показатель адекватности процессов регуляции:" Style="{StaticResource SmallLabelStyle}"
                effects:TooltipEffect.HasTooltip="True"
                effects:TooltipEffect.Position="Top"
-               effects:TooltipEffect.BackgroundColor="#2A388A"
+               effects:TooltipEffect.BackgroundColor="{StaticResource Primary}"
                effects:TooltipEffect.Text="Соответствие между уровнем функционирования СУ и симпатической активностью"/>
-        <Label x:Name="XamlIARP" Grid.Column="1" Grid.Row="3"  VerticalTextAlignment="End"/>
+        <Label x:Name="XamlIARP" Grid.Column="1" Grid.Row="3" VerticalTextAlignment="End"/>
 
-        <Label Grid.Row="4" Text="Индекс напряжения регуляторных систем:"
+        <Label Grid.Row="4" Text="Индекс напряжения регуляторных систем:" Style="{StaticResource SmallLabelStyle}"
                effects:TooltipEffect.HasTooltip="True"
                effects:TooltipEffect.Position="Top"
-               effects:TooltipEffect.BackgroundColor="#2A388A"
+               effects:TooltipEffect.BackgroundColor="{StaticResource Primary}"
                effects:TooltipEffect.Text="Степень централизации управления сердечным ритмом"/>
-        <Label x:Name="XamlVI" Grid.Column="1" Grid.Row="4" VerticalTextAlignment="End"/>
+        <Label x:Name="XamlVI" Grid.Column="1" Grid.Row="4" VerticalTextAlignment="End" Style="{StaticResource SmallLabelStyle}"/>
     </Grid>
 
 </ContentView>

@@ -4,13 +4,8 @@
              xmlns:statisticTab="clr-namespace:PulseOximeterApp.ViewModels.StatisticTab" x:DataType="statisticTab:SingleSaturationPageViewModel"
              xmlns:customViews="clr-namespace:PulseOximeterApp.Infrastructure.CustomViews"
              xmlns:microcharts="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms"
-             x:Class="PulseOximeterApp.Views.StatisticTab.SingleSaturationPage">
-    
-    <ContentPage.Style>
-        <Style TargetType="ContentPage">
-            <Setter Property="BackgroundColor" Value="#f7f7f7"/>
-        </Style>
-    </ContentPage.Style>
+             x:Class="PulseOximeterApp.Views.StatisticTab.SingleSaturationPage"
+             Style="{StaticResource BaseContentPageStyle}">
 
     <Grid>
         <Grid.ColumnDefinitions>

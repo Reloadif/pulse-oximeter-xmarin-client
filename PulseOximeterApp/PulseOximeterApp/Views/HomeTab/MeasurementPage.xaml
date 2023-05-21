@@ -1,20 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-        xmlns:hometab="clr-namespace:PulseOximeterApp.ViewModels.HomeTab"
-        xmlns:converters="clr-namespace:PulseOximeterApp.Infrastructure.Converters"
-        x:DataType="hometab:MeasurementPageViewModel"
-        x:Class="PulseOximeterApp.Views.HomeTab.MeasurementPage">
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:hometab="clr-namespace:PulseOximeterApp.ViewModels.HomeTab"
+             xmlns:converters="clr-namespace:PulseOximeterApp.Infrastructure.Converters"
+             x:DataType="hometab:MeasurementPageViewModel"
+             x:Class="PulseOximeterApp.Views.HomeTab.MeasurementPage"
+             Style="{StaticResource BaseContentPageStyle}">
 
     <ContentPage.Resources>
         <converters:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
     </ContentPage.Resources>
-
-    <ContentPage.Style>
-        <Style TargetType="ContentPage">
-            <Setter Property="BackgroundColor" Value="#f7f7f7"/>
-        </Style>
-    </ContentPage.Style>
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -28,8 +23,8 @@
 
             <Grid VerticalOptions="Center" IsVisible="{Binding IsActivityIndicator, Converter={StaticResource InverseBooleanConverter}}">
                 <StackLayout Spacing="20">
-                    <Button Text="Пульс" Padding="20" CornerRadius="5" Command="{Binding PulseMeasure}"/>
-                    <Button Text="Сатурация" Padding="20" CornerRadius="5" Command="{Binding SaturationMesure}"/>
+                    <Button Text="Пульс" Command="{Binding PulseMeasure}" Style="{StaticResource MainButtonStyle}"/>
+                    <Button Text="Сатурация" Command="{Binding SaturationMesure}" Style="{StaticResource MainButtonStyle}"/>
                 </StackLayout>
             </Grid>
         </Grid>

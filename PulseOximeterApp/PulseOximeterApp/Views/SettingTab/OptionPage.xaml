@@ -3,13 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewmodels="clr-namespace:PulseOximeterApp.ViewModels.SettingTab" x:DataType="viewmodels:OptionPageViewModel"
              xmlns:behaviors="clr-namespace:PulseOximeterApp.Infrastructure.Behaviors"
-             x:Class="PulseOximeterApp.Views.SettingTab.OptionPage">
-
-    <ContentPage.Style>
-        <Style TargetType="ContentPage">
-            <Setter Property="BackgroundColor" Value="#f7f7f7"/>
-        </Style>
-    </ContentPage.Style>
+             x:Class="PulseOximeterApp.Views.SettingTab.OptionPage"
+             Style="{StaticResource BaseContentPageStyle}">
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -27,19 +22,19 @@
         <Grid Grid.Column="1" Grid.Row="1">
             <StackLayout>
                 <Grid>
-                    <Label VerticalOptions="Center" Text="Число измерений пульса:"/>
-                    <Entry HorizontalOptions="End" WidthRequest="80" HorizontalTextAlignment="Center" MaxLength="10" Keyboard="Numeric" Text="{Binding NumberOfPulseMeasure, Mode=TwoWay}">
+                    <Label VerticalOptions="Center" Text="Число измерений пульса" Style="{StaticResource SmallLabelStyle}"/>
+                    <Entry HorizontalOptions="End" Text="{Binding NumberOfPulseMeasure, Mode=TwoWay}" Style="{StaticResource OptionNumericEntryStyle}">
                         <Entry.Behaviors>
                             <behaviors:IntegerValidationBehavior MinValue="30" MaxValue="600" />
                         </Entry.Behaviors>
                     </Entry>
                 </Grid>
 
-                <Rectangle Fill="DarkGray" HeightRequest="2"/>
+                <Rectangle Fill="Black" HeightRequest="2"/>
 
                 <Grid>
-                    <Label VerticalOptions="Center" Text="Число измерений сатурации:"/>
-                    <Entry HorizontalOptions="End" WidthRequest="80" HorizontalTextAlignment="Center" MaxLength="10" Keyboard="Numeric" Text="{Binding NumberOfOxigenMeasure, Mode=TwoWay}">
+                    <Label VerticalOptions="Center" Text="Число измерений сатурации" Style="{StaticResource SmallLabelStyle}"/>
+                    <Entry HorizontalOptions="End" Text="{Binding NumberOfOxigenMeasure, Mode=TwoWay}" Style="{StaticResource OptionNumericEntryStyle}">
                         <Entry.Behaviors>
                             <behaviors:IntegerValidationBehavior MinValue="30" MaxValue="600" />
                         </Entry.Behaviors>
