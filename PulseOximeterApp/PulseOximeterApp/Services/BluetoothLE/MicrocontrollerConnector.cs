@@ -12,13 +12,13 @@ namespace PulseOximeterApp.Services.BluetoothLE
     public class MicrocontrollerConnector
     {
         private readonly IAdapter _adapter;
-        private IDevice _device;
+        private IDevice _bleDevice;
 
         private CancellationTokenSource _cancelTokenSource;
 
-        public IDevice GetDevice
+        public IDevice BLEDevice
         {
-            get => _device;
+            get => _bleDevice;
         }
 
         public event Action<string> ExceptionGenerated;
@@ -26,7 +26,7 @@ namespace PulseOximeterApp.Services.BluetoothLE
         public MicrocontrollerConnector()
         {
             _adapter = CrossBluetoothLE.Current.Adapter;
-            _device = null;
+            _bleDevice = null;
 
             _adapter.DeviceDiscovered += OnDeviceDiscovered;
             _adapter.DeviceConnectionLost += OnDeviceConnectionLost;
@@ -40,9 +40,9 @@ namespace PulseOximeterApp.Services.BluetoothLE
 
         public async Task<bool> Connect()
         {
-            if (_device != null && _device.State != Plugin.BLE.Abstractions.DeviceState.Disconnected) return true;
+            if (_bleDevice != null && _bleDevice.State != Plugin.BLE.Abstractions.DeviceState.Disconnected) return true;
 
-            _device = null;
+            _bleDevice = null;
             _cancelTokenSource = new CancellationTokenSource();
 
             try
@@ -65,7 +65,7 @@ namespace PulseOximeterApp.Services.BluetoothLE
             }
 
 
-            if (_device is null)
+            if (_bleDevice is null)
             {
                 ExceptionGenerated.Invoke("Устройство не найдено!");
                 return false;
@@ -74,7 +74,7 @@ namespace PulseOximeterApp.Services.BluetoothLE
             {
                 try
                 {
-                    await _adapter.ConnectToDeviceAsync(_device);
+                    await _adapter.ConnectToDeviceAsync(_bleDevice);
                     return true;
                 }
                 catch (DeviceConnectionException dce)
@@ -94,7 +94,7 @@ namespace PulseOximeterApp.Services.BluetoothLE
         {
             if (args.Device.Name != null && args.Device.Name.Equals(Config.Config.DeviceName))
             {
-                _device = args.Device;
+                _bleDevice = args.Device;
                 _cancelTokenSource.Cancel();
             }
         }

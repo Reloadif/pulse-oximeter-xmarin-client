@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ResourceDictionary
+    xmlns="http://xamarin.com/schemas/2014/forms" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="PulseOximeterApp.Infrastructure.Styles.Colors.LightColors">
+
+    <Color x:Key="Accent">#2a688a</Color>
+    <Color x:Key="Primary">#2A388A</Color>
+    <Color x:Key="PrimaryDark">#1d2774</Color>
+
+    <Color x:Key="PageBackground">#f7f7f7</Color>
+    <Color x:Key="ButtonBackground">White</Color>
+
+    <Color x:Key="PrimaryTextColor">Black</Color>
+
+</ResourceDictionary>

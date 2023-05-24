@@ -1,5 +1,4 @@
 ﻿using PulseOximeterApp.ViewModels.Base;
-using PulseOximeterApp.ViewModels.StatisticTab;
 using PulseOximeterApp.Views.StatisticTab;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -27,10 +26,7 @@ namespace PulseOximeterApp.ViewModels
         {
             IsActivityIndicator = true;
 
-            var PulseStatistic = new PulseStatisticPage();
-            var PulseStatisticVM = new PulseStatisticPageViewModel();
-            PulseStatistic.BindingContext = PulseStatisticVM;
-            await Shell.Current.Navigation.PushAsync(PulseStatistic);
+            await Shell.Current.Navigation.PushAsync(new PulseStatisticPage());
 
             IsActivityIndicator = false;
         }
@@ -41,10 +37,7 @@ namespace PulseOximeterApp.ViewModels
         {
             IsActivityIndicator = true;
 
-            var SaturationStatistic = new SaturationStatisticPage();
-            var SaturationStatisticVM = new SaturationStatisticPageViewModel();
-            SaturationStatistic.BindingContext = SaturationStatisticVM;
-            await Shell.Current.Navigation.PushAsync(SaturationStatistic);
+            await Shell.Current.Navigation.PushAsync(new SaturationStatisticPage());
 
             IsActivityIndicator = false;
         }

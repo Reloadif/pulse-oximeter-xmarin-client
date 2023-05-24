@@ -6,17 +6,12 @@
              xmlns:converters="clr-namespace:PulseOximeterApp.Infrastructure.Converters"
              xmlns:customViews="clr-namespace:PulseOximeterApp.Infrastructure.CustomViews"
              xmlns:microcharts="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms"
-             x:Class="PulseOximeterApp.Views.HomeTab.MeasurePulsePage">
+             x:Class="PulseOximeterApp.Views.HomeTab.MeasurePulsePage"
+             Style="{StaticResource BaseContentPageStyle}">
 
     <ContentPage.Resources>
         <converters:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
     </ContentPage.Resources>
-
-    <ContentPage.Style>
-        <Style TargetType="ContentPage">
-            <Setter Property="BackgroundColor" Value="#f7f7f7"/>
-        </Style>
-    </ContentPage.Style>
 
     <ScrollView>
         <Grid>
@@ -33,17 +28,9 @@
             </Grid.RowDefinitions>
 
             <Grid Grid.Column="1" Grid.Row="1" IsVisible="{Binding IsCompleteMeasure, Converter={StaticResource InverseBooleanConverter}}">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-
-                <StackLayout Grid.Row="1" VerticalOptions="Center" HorizontalOptions="Center">
-                    <customControls:VisualizationCounter HeightRequest="150" WidthRequest="150" Value="{Binding CounterValue}"/>
+                <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
+                    <customControls:ProgressRingWithCounter HeightRequest="150" WidthRequest="150" Value="{Binding CounterValue}" MaximumValue="{Binding NumberMeasure}"/>
                 </StackLayout>
-
-                <Label Grid.Row="2" Text="Держите палец на датчике" FontSize="20" HorizontalOptions="Center"/>
             </Grid>
 
             <Grid Grid.Column="1" Grid.Row="1" IsVisible="{Binding IsCompleteMeasure}">

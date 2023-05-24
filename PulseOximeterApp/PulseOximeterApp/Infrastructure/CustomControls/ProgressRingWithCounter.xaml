@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prControl="clr-namespace:ProgressRingControl.Forms.Plugin;assembly=ProgressRing.Forms.Plugin"
+             x:Class="PulseOximeterApp.Infrastructure.CustomControls.ProgressRingWithCounter">
+
+    <Grid>
+        <prControl:ProgressRing x:Name="XamlProgressRing" RingThickness="5" RotationY="180"/>
+        <Label x:Name="XamlCounterLabel" FontSize="50" VerticalOptions="Center" HorizontalOptions="Center"/>
+    </Grid>
+    
+</ContentView>

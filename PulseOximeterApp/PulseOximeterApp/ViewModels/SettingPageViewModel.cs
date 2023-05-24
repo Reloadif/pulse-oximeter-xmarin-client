@@ -1,5 +1,4 @@
 ﻿using PulseOximeterApp.ViewModels.Base;
-using PulseOximeterApp.ViewModels.SettingTab;
 using PulseOximeterApp.Views.SettingTab;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -19,20 +18,14 @@ namespace PulseOximeterApp.ViewModels
 
         private async void ExecuteGoOptionPage(object obj)
         {
-            var option = new OptionPage();
-            var optionVM = new OptionPageViewModel();
-            option.BindingContext = optionVM;
-            await Shell.Current.Navigation.PushAsync(option);
+            await Shell.Current.Navigation.PushAsync(new OptionPage());
         }
 
         public ICommand GoMemoryPage { get; private set; }
 
         private async void ExecuteGoMemoryPage(object obj)
         {
-            var memory = new MemoryPage();
-            var memoryVM = new MemoryPageViewModel();
-            memory.BindingContext = memoryVM;
-            await Shell.Current.Navigation.PushAsync(memory);
+            await Shell.Current.Navigation.PushAsync(new MemoryPage());
         }
         #endregion
 

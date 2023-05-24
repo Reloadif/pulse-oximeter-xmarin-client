@@ -1,10 +1,6 @@
 ﻿using PulseOximeterApp.Infrastructure.DependencyServices;
-using PulseOximeterApp.Services.BluetoothLE;
 using PulseOximeterApp.ViewModels.Base;
-using PulseOximeterApp.ViewModels.HomeTab;
-using PulseOximeterApp.Views.HomeTab;
 using System.Windows.Input;
-using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace PulseOximeterApp.ViewModels.SettingTab
@@ -55,7 +51,7 @@ namespace PulseOximeterApp.ViewModels.SettingTab
             base.OnAppearing();
         }
 
-        public async override void OnDisappearing()
+        public override void OnDisappearing()
         {
             base.OnDisappearing();
         }

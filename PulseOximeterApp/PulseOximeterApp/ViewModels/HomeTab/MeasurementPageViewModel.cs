@@ -1,5 +1,6 @@
-﻿using PulseOximeterApp.Data.DataBase;
-using PulseOximeterApp.Services.BluetoothLE;
+﻿using Plugin.BLE.Abstractions.Contracts;
+using PulseOximeterApp.Data.DataBase;
+using PulseOximeterApp.Services.BluetoothLE.Services;
 using PulseOximeterApp.Services.DataBase;
 using PulseOximeterApp.ViewModels.Base;
 using PulseOximeterApp.Views.HomeTab;
@@ -15,7 +16,7 @@ namespace PulseOximeterApp.ViewModels.HomeTab
         #region Fields
         private bool _isActivityIndicator;
 
-        private readonly PulseOximeterService _pulseOximeterService;
+        private readonly IDevice _connectedDevice;
         #endregion
 
         #region Properties
@@ -43,7 +44,7 @@ namespace PulseOximeterApp.ViewModels.HomeTab
             if (MeasurePulseVM != null) MeasurePulseVM.Closing -= OnMeasurePulseClosing;
 
             MeasurePulse = new MeasurePulsePage();
-            MeasurePulseVM = new MeasurePulsePageViewModel(_pulseOximeterService);
+            MeasurePulseVM = new MeasurePulsePageViewModel(new PulseService(_connectedDevice));
             MeasurePulseVM.Closing += OnMeasurePulseClosing;
             MeasurePulse.BindingContext = MeasurePulseVM;
 
@@ -58,7 +59,7 @@ namespace PulseOximeterApp.ViewModels.HomeTab
             if (MeasureSaturationVM != null) MeasureSaturationVM.Closing -= OnMeasureSaturationClosing;
 
             MeasureSaturation = new MeasureSaturationPage();
-            MeasureSaturationVM = new MeasureSaturationPageViewModel(_pulseOximeterService);
+            MeasureSaturationVM = new MeasureSaturationPageViewModel(new SaturationService(_connectedDevice));
             MeasureSaturationVM.Closing += OnMeasureSaturationClosing;
             MeasureSaturation.BindingContext = MeasureSaturationVM;
 
@@ -67,9 +68,27 @@ namespace PulseOximeterApp.ViewModels.HomeTab
         }
         #endregion
 
-        public MeasurementPageViewModel(PulseOximeterService pulseOximeterService)
+        #region Base Methods
+        public override void OnAppearing()
         {
-            _pulseOximeterService = pulseOximeterService;
+            base.OnAppearing();
+
+            if (MeasurePulseVM != null) MeasurePulseVM.Closing += OnMeasurePulseClosing;
+            if (MeasureSaturationVM != null) MeasureSaturationVM.Closing += OnMeasureSaturationClosing;
+        }
+
+        public override void OnDisappearing()
+        {
+            if (MeasurePulseVM != null) MeasurePulseVM.Closing -= OnMeasurePulseClosing;
+            if (MeasureSaturationVM != null) MeasureSaturationVM.Closing -= OnMeasureSaturationClosing;
+
+            base.OnDisappearing();
+        }
+        #endregion
+
+        public MeasurementPageViewModel(IDevice connectedDevice)
+        {
+            _connectedDevice = connectedDevice;
 
             PulseMeasure = new Command(ExecutePulseMeasure);
             SaturationMesure = new Command(ExecuteSaturationMesure);

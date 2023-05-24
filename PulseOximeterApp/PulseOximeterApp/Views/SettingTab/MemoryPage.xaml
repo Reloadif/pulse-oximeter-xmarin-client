@@ -3,13 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewmodels="clr-namespace:PulseOximeterApp.ViewModels.SettingTab" x:DataType="viewmodels:MemoryPageViewModel"
              xmlns:cusomControls="clr-namespace:PulseOximeterApp.Infrastructure.CustomControls"
-             x:Class="PulseOximeterApp.Views.SettingTab.MemoryPage">
-
-    <ContentPage.Style>
-        <Style TargetType="ContentPage">
-            <Setter Property="BackgroundColor" Value="#f7f7f7"/>
-        </Style>
-    </ContentPage.Style>
+             x:Class="PulseOximeterApp.Views.SettingTab.MemoryPage"
+             Style="{StaticResource BaseContentPageStyle}">
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -30,43 +25,8 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <cusomControls:IconButton Padding="0, 10, 0, 10" CornerRadius="10" BackgroundColor="White" TextColor="Black" IconFontSize="24" HasShadow="True"
-                                      Icon="monitor_heart" Text="Удалить данные пульса" Command="{Binding ClearPulseStatistics}">
-                <VisualStateManager.VisualStateGroups>
-                    <VisualStateGroup x:Name="CommonStates">
-                        <VisualState x:Name="Normal">
-                            <VisualState.Setters>
-                                <Setter Property="TextColor" Value="Black" />
-                            </VisualState.Setters>
-                        </VisualState>
-
-                        <VisualState x:Name="Disabled">
-                            <VisualState.Setters>
-                                <Setter Property="TextColor" Value="DarkGray" />
-                            </VisualState.Setters>
-                        </VisualState>
-                    </VisualStateGroup>
-                </VisualStateManager.VisualStateGroups>
-            </cusomControls:IconButton>
-
-            <cusomControls:IconButton Grid.Row="1" Padding="0, 10, 0, 10" CornerRadius="10" BackgroundColor="White" TextColor="Black" IconFontSize="24" HasShadow="True"
-                                      Icon="looks_two" Text="Удалить данные сатурации" Command="{Binding ClearSaturationStatistics}">
-                <VisualStateManager.VisualStateGroups>
-                    <VisualStateGroup x:Name="CommonStates">
-                        <VisualState x:Name="Normal">
-                            <VisualState.Setters>
-                                <Setter Property="TextColor" Value="Black" />
-                            </VisualState.Setters>
-                        </VisualState>
-
-                        <VisualState x:Name="Disabled">
-                            <VisualState.Setters>
-                                <Setter Property="TextColor" Value="DarkGray" />
-                            </VisualState.Setters>
-                        </VisualState>
-                    </VisualStateGroup>
-                </VisualStateManager.VisualStateGroups>
-            </cusomControls:IconButton>
+            <cusomControls:IconButton Icon="monitor_heart" Text="Удалить данные пульса" Command="{Binding ClearPulseStatistics}" Style="{StaticResource MainIconButtonStyle}"/>
+            <cusomControls:IconButton Grid.Row="1" Icon="looks_two" Text="Удалить данные сатурации" Command="{Binding ClearSaturationStatistics}" Style="{StaticResource MainIconButtonStyle}"/>
         </Grid>
     </Grid>
 

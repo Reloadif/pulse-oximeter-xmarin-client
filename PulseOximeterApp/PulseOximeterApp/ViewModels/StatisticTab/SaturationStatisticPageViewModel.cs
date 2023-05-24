@@ -45,8 +45,14 @@ namespace PulseOximeterApp.ViewModels.StatisticTab
         #endregion
 
         #region Base Methods
-        public override void OnAppearing()
+        public override async void OnAppearing()
         {
+            var statistics = await App.StatisticDataBase.GetSaturationStatisticsAsync();
+            SaturationCollection = new ObservableCollection<SaturationStatisticGroup>(statistics.OrderByDescending(s => s.ID).
+                GroupBy(s => DateTime.Parse(s.AddedDate).ToString("D"),
+                (key, group) => new SaturationStatisticGroup(key, new ObservableCollection<SaturationStatistic>(group.ToList())))
+                );
+
             base.OnAppearing();
         }
 
@@ -58,12 +64,6 @@ namespace PulseOximeterApp.ViewModels.StatisticTab
 
         public SaturationStatisticPageViewModel()
         {
-            SaturationCollection = new ObservableCollection<SaturationStatisticGroup>(App.StatisticDataBase.GetSaturationStatisticsAsync().GetAwaiter().GetResult().
-                OrderByDescending(s => s.ID).
-                GroupBy(s => DateTime.Parse(s.AddedDate).ToString("D"),
-                (key, group) => new SaturationStatisticGroup(key, new ObservableCollection<SaturationStatistic>(group.ToList())))
-                );
-
             CollectionItemSelected = new Command(ExecuteCollectionItemSelected);
             DeleteCollectionItem = new Command(ExecuteDeleteCollectionItem);
         }

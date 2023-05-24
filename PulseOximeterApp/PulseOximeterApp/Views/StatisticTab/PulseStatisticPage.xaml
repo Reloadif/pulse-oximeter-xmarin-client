@@ -7,17 +7,12 @@
              xmlns:cusomControls="clr-namespace:PulseOximeterApp.Infrastructure.CustomControls"
              xmlns:database="clr-namespace:PulseOximeterApp.Data.DataBase"
              xmlns:groupCollection="clr-namespace:PulseOximeterApp.Models.GroupCollection"
-             x:Class="PulseOximeterApp.Views.StatisticTab.PulseStatisticPage">
+             x:Class="PulseOximeterApp.Views.StatisticTab.PulseStatisticPage"
+             Style="{StaticResource BaseContentPageStyle}">
 
     <ContentPage.Resources>
         <converters:StatisticStatusToColorConverter x:Key="StatisticStatusToColorConverter"/>
     </ContentPage.Resources>
-
-    <ContentPage.Style>
-        <Style TargetType="ContentPage">
-            <Setter Property="BackgroundColor" Value="#f7f7f7"/>
-        </Style>
-    </ContentPage.Style>
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -42,10 +37,10 @@
 
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <SwipeView BackgroundColor="#f7f7f7">
+                        <SwipeView BackgroundColor="{StaticResource PageBackground}">
                             <SwipeView.RightItems>
                                 <SwipeItems>
-                                    <SwipeItemView BackgroundColor="#f7f7f7" Command="{Binding Source={x:Reference collectionView}, Path=BindingContext.DeleteCollectionItem}"
+                                    <SwipeItemView BackgroundColor="{StaticResource PageBackground}" Command="{Binding Source={x:Reference collectionView}, Path=BindingContext.DeleteCollectionItem}"
                                                    CommandParameter="{Binding Source={RelativeSource Self}, Path=BindingContext}">
                                         <Frame Margin="2, 5, 2, 5" Padding="8" CornerRadius="10" IsClippedToBounds="True">
                                             <cusomControls:IconLabel HorizontalTextAlignment="Center" VerticalTextAlignment="Center" TextIcon="delete_forever" FontSize="40" TextColor="Red">
@@ -91,7 +86,7 @@
                 </CollectionView.ItemTemplate>
 
                 <CollectionView.EmptyView>
-                    <Label HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Text="Пусто" FontSize="24"/>
+                    <Label HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Text="Пусто" Style="{StaticResource LargeLabelStyle}"/>
                 </CollectionView.EmptyView>
 
                 <CollectionView.Behaviors>

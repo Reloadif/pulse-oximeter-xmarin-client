@@ -1,0 +1,136 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ResourceDictionary 
+    xmlns="http://xamarin.com/schemas/2014/forms" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:colors="clr-namespace:PulseOximeterApp.Infrastructure.Styles.Colors"
+    xmlns:cusomControls="clr-namespace:PulseOximeterApp.Infrastructure.CustomControls"
+    x:Class="PulseOximeterApp.Infrastructure.Styles.LightTheme">
+
+    <ResourceDictionary.MergedDictionaries>
+        <colors:LightColors/>
+    </ResourceDictionary.MergedDictionaries>
+
+    <!-- ContentPage -->
+    <Style x:Key="BaseContentPageStyle" TargetType="ContentPage">
+        <Setter Property="BackgroundColor" Value="{StaticResource PageBackground}"/>
+    </Style>
+    <!-- \ContentPage -->
+
+    <!-- Labels -->
+    <Style x:Key="BaseLabelStyle" TargetType="Label">
+        <Setter Property="TextColor" Value="{StaticResource PrimaryTextColor}" />
+    </Style>
+
+    <Style x:Key="LargeLabelStyle" BasedOn="{StaticResource BaseLabelStyle}" TargetType="Label">
+        <Setter Property="FontSize" Value="26" />
+    </Style>
+
+    <Style x:Key="MediumLabelStyle" BasedOn="{StaticResource BaseLabelStyle}" TargetType="Label">
+        <Setter Property="FontSize" Value="20" />
+    </Style>
+
+    <Style x:Key="SmallLabelStyle" BasedOn="{StaticResource BaseLabelStyle}" TargetType="Label">
+        <Setter Property="FontSize" Value="14" />
+    </Style>
+
+    <Style x:Key="BoldMediumLabelStyle" BasedOn="{StaticResource BaseLabelStyle}" TargetType="Label">
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="FontAttributes" Value="Bold" />
+    </Style>
+    <!-- \Labels -->
+
+    <!-- IconLabel -->
+    <Style x:Key="StatusIconLabelStyle" TargetType="cusomControls:IconLabel">
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="HasAnimation" Value="True" />
+
+        <Style.Triggers>
+            <DataTrigger TargetType="cusomControls:IconLabel" 
+                         Binding="{Binding Source={RelativeSource Self}, Path=TextIcon}" Value="done">
+                <Setter Property="TextColor" Value="Green" />
+            </DataTrigger>
+            <DataTrigger TargetType="cusomControls:IconLabel" 
+                         Binding="{Binding Source={RelativeSource Self}, Path=TextIcon}" Value="close">
+                <Setter Property="TextColor" Value="Red" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    <!-- \IconLabel -->
+
+    <!-- Buttons -->
+    <Style x:Key="MainButtonStyle" TargetType="Button">
+        <Setter Property="TextColor" Value="{StaticResource Primary}" />
+        <Setter Property="BorderColor" Value="{StaticResource Primary}" />
+        <Setter Property="BackgroundColor" Value="{StaticResource ButtonBackground}" />
+        <Setter Property="CornerRadius" Value="10" />
+        <Setter Property="BorderWidth" Value="1" />
+        <Setter Property="Padding" Value="20" />
+
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal">
+                        <VisualState.Setters>
+                            <Setter Property="TextColor" Value="{StaticResource Primary}" />
+                            <Setter Property="BorderColor" Value="{StaticResource Primary}" />
+                        </VisualState.Setters>
+                    </VisualState>
+
+                    <VisualState x:Name="Disabled">
+                        <VisualState.Setters>
+                            <Setter Property="TextColor" Value="DarkGray" />
+                            <Setter Property="BorderColor" Value="DarkGray" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+    <!-- \Buttons -->
+
+    <!-- IconButtons -->
+    <Style x:Key="MainIconButtonStyle" TargetType="cusomControls:IconButton">
+        <Setter Property="TextColor" Value="{StaticResource Primary}" />
+        <Setter Property="BackgroundColor" Value="{StaticResource ButtonBackground}" />
+        <Setter Property="IconFontSize" Value="24" />
+        <Setter Property="HasShadow" Value="True" />
+        <Setter Property="CornerRadius" Value="10" />
+        <Setter Property="Padding" Value="0, 10, 0, 10" />
+
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal">
+                        <VisualState.Setters>
+                            <Setter Property="TextColor" Value="{StaticResource Primary}" />
+                        </VisualState.Setters>
+                    </VisualState>
+
+                    <VisualState x:Name="Pressed">
+                        <VisualState.Setters>
+                            <Setter Property="BackgroundColor" Value="LightGray" />
+                        </VisualState.Setters>
+                    </VisualState>
+
+                    <VisualState x:Name="Disabled">
+                        <VisualState.Setters>
+                            <Setter Property="TextColor" Value="DarkGray" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+    <!-- \IconButtons -->
+
+    <!-- Entry -->
+    <Style x:Key="OptionNumericEntryStyle" TargetType="Entry">
+        <Setter Property="TextColor" Value="{StaticResource Primary}" />
+        <Setter Property="HorizontalTextAlignment" Value="Center"/>
+        <Setter Property="WidthRequest" Value="80" />
+        <Setter Property="MaxLength" Value="10" />
+        <Setter Property="Keyboard" Value="Numeric" />
+    </Style>
+    <!-- \Entry -->
+
+</ResourceDictionary>

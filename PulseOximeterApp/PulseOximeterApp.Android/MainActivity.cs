@@ -6,7 +6,9 @@ using Android.OS;
 using Android.Runtime;
 using Android.Views;
 using AndroidX.AppCompat.App;
+using PulseOximeterApp.Droid.Permission;
 using PulseOximeterApp.Droid.Services;
+using Xamarin.Essentials;
 
 namespace PulseOximeterApp.Droid
 {
@@ -23,7 +25,7 @@ namespace PulseOximeterApp.Droid
             get { return locationSwitchStateReceiver; }
         }
 
-        protected override void OnCreate(Bundle savedInstanceState)
+        protected override async void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
 
@@ -38,6 +40,8 @@ namespace PulseOximeterApp.Droid
             Window.DecorView.SystemUiVisibility = (StatusBarVisibility)SystemUiFlags.LightStatusBar;
 
             Instance = this;
+
+            await Permissions.RequestAsync<BLEPermission>();
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)

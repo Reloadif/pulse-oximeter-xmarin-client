@@ -88,7 +88,7 @@ namespace PulseOximeterApp.Infrastructure.Effects
 
     public class ControlTooltipEffect : RoutingEffect
     {
-        public ControlTooltipEffect() : base("PulseOximeterApp.TooltipEffect") {}
+        public ControlTooltipEffect() : base("PulseOximeterApp.TooltipEffect") { }
     }
 
     public enum TooltipPosition

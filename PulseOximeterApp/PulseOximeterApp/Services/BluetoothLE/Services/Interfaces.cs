@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Threading;
 
 namespace PulseOximeterApp.Services.BluetoothLE
 {
-    internal interface IPulseService
+    public interface IPulseService
     {
         event Action<int> PulseNotify;
 
@@ -11,7 +10,7 @@ namespace PulseOximeterApp.Services.BluetoothLE
         void StopMeasurePulse();
     }
 
-    internal interface ISaturationService
+    public interface ISaturationService
     {
         event Action<int> SaturationNotify;
 

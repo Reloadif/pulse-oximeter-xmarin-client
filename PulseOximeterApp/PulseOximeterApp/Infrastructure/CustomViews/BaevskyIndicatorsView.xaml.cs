@@ -1,4 +1,5 @@
-﻿using PulseOximeterApp.Models.HeartRate;
+﻿using PulseOximeterApp.Infrastructure.Effects;
+using PulseOximeterApp.Models.HeartRate;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -25,6 +26,18 @@ namespace PulseOximeterApp.Infrastructure.CustomViews
             XamlVRI.SetBinding(Label.TextProperty, new Binding("Baevsky.VRI", source: this));
             XamlIARP.SetBinding(Label.TextProperty, new Binding("Baevsky.IARP", source: this));
             XamlVI.SetBinding(Label.TextProperty, new Binding("Baevsky.VI", source: this));
+        }
+
+        void HandleMainLayoutTapped(object sender, System.EventArgs e)
+        {
+            foreach (var children in XamlMainLayout.Children)
+            {
+                if (TooltipEffect.GetHasTooltip(children))
+                {
+                    TooltipEffect.SetHasTooltip(children, false);
+                    TooltipEffect.SetHasTooltip(children, true);
+                }
+            }
         }
     }
 }
