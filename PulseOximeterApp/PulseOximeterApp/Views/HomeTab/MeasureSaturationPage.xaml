@@ -13,50 +13,52 @@
         <converters:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
     </ContentPage.Resources>
 
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.025*"/>
-            <ColumnDefinition Width="0.95*"/>
-            <ColumnDefinition Width="0.025*"/>
-        </Grid.ColumnDefinitions>
+    <ScrollView>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.025*"/>
+                <ColumnDefinition Width="0.95*"/>
+                <ColumnDefinition Width="0.025*"/>
+            </Grid.ColumnDefinitions>
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="0.025*"/>
-            <RowDefinition Height="0.95*"/>
-            <RowDefinition Height="0.025*"/>
-        </Grid.RowDefinitions>
-
-        <Grid Grid.Column="1" Grid.Row="1" IsVisible="{Binding IsCompleteMeasure, Converter={StaticResource InverseBooleanConverter}}">
-            <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
-                <customControls:VisualizationCounter HeightRequest="150" WidthRequest="150" Value="{Binding CounterValue}"/>
-            </StackLayout>
-        </Grid>
-
-        <Grid Grid.Column="1" Grid.Row="1" IsVisible="{Binding IsCompleteMeasure}">
             <Grid.RowDefinitions>
-                <RowDefinition Height="0.2*"/>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="0.025*"/>
+                <RowDefinition Height="0.95*"/>
+                <RowDefinition Height="0.025*"/>
             </Grid.RowDefinitions>
 
-            <Grid VerticalOptions="Center">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-
-                <Button Text="Назад" CornerRadius="5" Command="{Binding HeadBack}"/>
-                <Button Grid.Column="1" Text="Сохранить" CornerRadius="5" Command="{Binding SaveBack}"/>
+            <Grid Grid.Column="1" Grid.Row="1" IsVisible="{Binding IsCompleteMeasure, Converter={StaticResource InverseBooleanConverter}}">
+                <StackLayout VerticalOptions="Center" HorizontalOptions="Center">
+                    <customControls:VisualizationCounter HeightRequest="150" WidthRequest="150" Value="{Binding CounterValue}"/>
+                </StackLayout>
             </Grid>
 
-            <Frame Grid.Row="1">
-                <microcharts:ChartView Chart="{Binding MainChart}" />
-            </Frame>
+            <Grid Grid.Column="1" Grid.Row="1" IsVisible="{Binding IsCompleteMeasure}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="0.2*"/>
+                </Grid.RowDefinitions>
 
-            <Frame Grid.Row="2">
-                <customViews:SaturationCommonInformationView CommonInformation="{Binding CommonInformation}"/>
-            </Frame>
+                <Frame>
+                    <microcharts:ChartView Chart="{Binding MainChart}" />
+                </Frame>
+
+                <Frame Grid.Row="1">
+                    <customViews:SaturationCommonInformationView CommonInformation="{Binding CommonInformation}"/>
+                </Frame>
+
+                <Grid Grid.Row="2" VerticalOptions="Center" Margin="0, 20, 0, 0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button Text="Назад" Command="{Binding HeadBack}" Style="{StaticResource MainButtonStyle}"/>
+                    <Button Grid.Column="1" Text="Сохранить" Command="{Binding SaveBack}" Style="{StaticResource MainButtonStyle}"/>
+                </Grid>
+            </Grid>
         </Grid>
-    </Grid>
+    </ScrollView>
 
 </ContentPage>

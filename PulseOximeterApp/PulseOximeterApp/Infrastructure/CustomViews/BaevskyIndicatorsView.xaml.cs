@@ -27,17 +27,5 @@ namespace PulseOximeterApp.Infrastructure.CustomViews
             XamlIARP.SetBinding(Label.TextProperty, new Binding("Baevsky.IARP", source: this));
             XamlVI.SetBinding(Label.TextProperty, new Binding("Baevsky.VI", source: this));
         }
-
-        void HandleMainLayoutTapped(object sender, System.EventArgs e)
-        {
-            foreach (var children in XamlMainLayout.Children)
-            {
-                if (TooltipEffect.GetHasTooltip(children))
-                {
-                    TooltipEffect.SetHasTooltip(children, false);
-                    TooltipEffect.SetHasTooltip(children, true);
-                }
-            }
-        }
     }
 }

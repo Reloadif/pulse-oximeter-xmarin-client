@@ -5,7 +5,7 @@
 
     <Grid>
         <Ellipse x:Name="XamlStrokeEllipse" Stroke="Black" StrokeThickness="5"/>
-        <Label x:Name="XamlCounterLabel" FontSize="50" VerticalOptions="Center" HorizontalOptions="Center"/>
+        <Label x:Name="XamlCounterLabel" VerticalOptions="Center" HorizontalOptions="Center" Style="{StaticResource ExtraLargePrimaryLabelStyle}"/>
     </Grid>
 
 </ContentView>

@@ -72,16 +72,10 @@ namespace PulseOximeterApp.ViewModels.HomeTab
         public override void OnAppearing()
         {
             base.OnAppearing();
-
-            if (MeasurePulseVM != null) MeasurePulseVM.Closing += OnMeasurePulseClosing;
-            if (MeasureSaturationVM != null) MeasureSaturationVM.Closing += OnMeasureSaturationClosing;
         }
 
         public override void OnDisappearing()
         {
-            if (MeasurePulseVM != null) MeasurePulseVM.Closing -= OnMeasurePulseClosing;
-            if (MeasureSaturationVM != null) MeasureSaturationVM.Closing -= OnMeasureSaturationClosing;
-
             base.OnDisappearing();
         }
         #endregion

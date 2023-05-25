@@ -35,33 +35,33 @@
 
             <Grid Grid.Column="1" Grid.Row="1" IsVisible="{Binding IsCompleteMeasure}">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="0.2*"/>
                     <RowDefinition Height="1*"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="0.2*"/>
                 </Grid.RowDefinitions>
 
-                <Grid VerticalOptions="Center">
+                <Frame>
+                    <microcharts:ChartView Chart="{Binding MainChart}" />
+                </Frame>
+
+                <Frame Grid.Row="1">
+                    <customViews:PulseCommonInformationView CommonInformation="{Binding CommonInformation}"/>
+                </Frame>
+                
+                <Frame Grid.Row="2">
+                    <customViews:BaevskyIndicatorsView Baevsky="{Binding Baevsky}"/>
+                </Frame>
+
+                <Grid Grid.Row="3" VerticalOptions="Center" Margin="0, 20, 0, 0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
 
-                    <Button Text="Назад" CornerRadius="5" Command="{Binding HeadBack}"/>
-                    <Button Grid.Column="1" Text="Сохранить" CornerRadius="5" Command="{Binding SaveBack}"/>
+                    <Button Text="Назад" Command="{Binding HeadBack}" Style="{StaticResource MainButtonStyle}"/>
+                    <Button Grid.Column="1" Text="Сохранить" Command="{Binding SaveBack}" Style="{StaticResource MainButtonStyle}"/>
                 </Grid>
-
-                <Frame Grid.Row="1">
-                    <microcharts:ChartView Chart="{Binding MainChart}" />
-                </Frame>
-
-                <Frame Grid.Row="2">
-                    <customViews:PulseCommonInformationView CommonInformation="{Binding CommonInformation}"/>
-                </Frame>
-                
-                <Frame Grid.Row="3">
-                    <customViews:BaevskyIndicatorsView Baevsky="{Binding Baevsky}"/>
-                </Frame>
             </Grid>
         </Grid>
     </ScrollView>

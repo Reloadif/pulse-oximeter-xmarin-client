@@ -37,7 +37,6 @@ namespace PulseOximeterApp.Infrastructure.CustomControls
             set => SetValue(MaximumValueProperty, value);
         }
         #endregion
-        private double _xamlProgressRingScale;
 
         public ProgressRingWithCounter()
         {
@@ -45,15 +44,11 @@ namespace PulseOximeterApp.Infrastructure.CustomControls
 
             XamlProgressRing.SetBinding(ProgressRing.ProgressProperty, new Binding("NormalizedValue", source: this));
             XamlCounterLabel.SetBinding(Label.TextProperty, new Binding("Value", source: this));
-            _xamlProgressRingScale = XamlProgressRing.Scale;
         }
 
-        private async void HandleValuePropertyChanged()
+        private void HandleValuePropertyChanged()
         {
-            NormalizedValue = Value / (double)MaximumValue;
-
-            await XamlProgressRing.ScaleTo(_xamlProgressRingScale * 1.15);
-            await XamlProgressRing.ScaleTo(_xamlProgressRingScale);
+            NormalizedValue = (MaximumValue - Value) / (double)MaximumValue;
         }
     }
 }

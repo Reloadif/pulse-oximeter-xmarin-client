@@ -83,16 +83,16 @@ namespace PulseOximeterApp.Infrastructure.CustomControls
 
         private static void CommandPropertyChanged(BindableObject bindable, object oldValue, object newValue)
         {
-            if (!(newValue is Command)) return;
+            if (!(newValue is ICommand)) return;
 
             var iconButton = bindable as IconButton;
             var command = newValue as ICommand;
 
             iconButton.ChangeEnabledState(command.CanExecute(iconButton.CommandParameter));
-            command.CanExecuteChanged += (sender, args) => IconButton_CanExecuteChanged(sender, args, bindable);
+            command.CanExecuteChanged += (sender, args) => IconButtonCanExecuteChanged(sender, bindable);
         }
 
-        private static void IconButton_CanExecuteChanged(object sender, EventArgs e, BindableObject bindable)
+        private static void IconButtonCanExecuteChanged(object sender, BindableObject bindable)
         {
             var iconButton = bindable as IconButton;
             iconButton.ChangeEnabledState((sender as ICommand).CanExecute(iconButton.CommandParameter));
@@ -115,7 +115,9 @@ namespace PulseOximeterApp.Infrastructure.CustomControls
                     if (Command != null)
                     {
                         if (Command.CanExecute(CommandParameter))
+                        {
                             Command.Execute(CommandParameter);
+                        }  
                     }
                 })
             });

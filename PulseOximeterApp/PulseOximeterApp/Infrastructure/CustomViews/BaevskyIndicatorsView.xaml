@@ -4,7 +4,7 @@
              xmlns:effects="clr-namespace:PulseOximeterApp.Infrastructure.Effects"
              x:Class="PulseOximeterApp.Infrastructure.CustomViews.BaevskyIndicatorsView">
 
-    <Grid x:Name="XamlMainLayout" RowSpacing="20">
+    <Grid RowSpacing="20">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.85*"/>
             <ColumnDefinition Width="0.15*"/>
@@ -16,10 +16,6 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-
-        <Grid.GestureRecognizers>
-            <TapGestureRecognizer Tapped="HandleMainLayoutTapped"/>
-        </Grid.GestureRecognizers>
 
         <Label Grid.ColumnSpan="2" HorizontalTextAlignment="Center" Text="Показатели Баевского" Style="{StaticResource BoldMediumLabelStyle}"/>
 
@@ -42,7 +38,7 @@
                effects:TooltipEffect.Position="Top"
                effects:TooltipEffect.BackgroundColor="{StaticResource Primary}"
                effects:TooltipEffect.Text="Соответствие между уровнем функционирования СУ и симпатической активностью"/>
-        <Label x:Name="XamlIARP" Grid.Column="1" Grid.Row="3" VerticalTextAlignment="End"/>
+        <Label x:Name="XamlIARP" Grid.Column="1" Grid.Row="3" VerticalTextAlignment="End" Style="{StaticResource SmallLabelStyle}"/>
 
         <Label Grid.Row="4" Text="Индекс напряжения регуляторных систем:" Style="{StaticResource SmallLabelStyle}"
                effects:TooltipEffect.HasTooltip="True"

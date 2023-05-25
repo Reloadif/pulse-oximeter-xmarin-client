@@ -5,8 +5,8 @@
              x:Class="PulseOximeterApp.Infrastructure.CustomControls.ProgressRingWithCounter">
 
     <Grid>
-        <prControl:ProgressRing x:Name="XamlProgressRing" RingThickness="5" RotationY="180"/>
-        <Label x:Name="XamlCounterLabel" FontSize="50" VerticalOptions="Center" HorizontalOptions="Center"/>
+        <prControl:ProgressRing x:Name="XamlProgressRing" RingThickness="5" RingBaseColor="Black" RingProgressColor="{StaticResource Accent}" RotationY="180"/>
+        <Label x:Name="XamlCounterLabel" VerticalOptions="Center" HorizontalOptions="Center" Style="{StaticResource ExtraLargePrimaryLabelStyle}"/>
     </Grid>
     
 </ContentView>
