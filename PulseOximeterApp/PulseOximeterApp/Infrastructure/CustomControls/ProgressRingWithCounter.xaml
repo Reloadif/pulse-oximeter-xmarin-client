@@ -6,7 +6,7 @@
 
     <Grid>
         <prControl:ProgressRing x:Name="XamlProgressRing" RingThickness="5" RingBaseColor="Black" RingProgressColor="{StaticResource Accent}" RotationY="180"/>
-        <Label x:Name="XamlCounterLabel" VerticalOptions="Center" HorizontalOptions="Center" Style="{StaticResource ExtraLargePrimaryLabelStyle}"/>
+        <Label x:Name="XamlCounterLabel" VerticalOptions="Center" HorizontalOptions="Center" Style="{StaticResource ExtraLargeLabelStyle}"/>
     </Grid>
     
 </ContentView>

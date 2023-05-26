@@ -1,5 +1,6 @@
 ﻿using PulseOximeterApp.Infrastructure.DependencyServices;
 using PulseOximeterApp.ViewModels.Base;
+using System.Windows.Input;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
@@ -8,8 +9,8 @@ namespace PulseOximeterApp.ViewModels.SettingTab
     class OptionPageViewModel : BaseViewModel
     {
         #region Fields
-        private readonly int _oldNumberOfPulseMeasure;
-        private readonly int _oldNumberOfOxigenMeasure;
+        private int _oldNumberOfPulseMeasure;
+        private int _oldNumberOfOxigenMeasure;
 
         private int _numberOfPulseMeasure;
         private int _numberOfOxigenMeasure;
@@ -19,17 +20,60 @@ namespace PulseOximeterApp.ViewModels.SettingTab
         public int NumberOfPulseMeasure
         {
             get => _numberOfPulseMeasure;
-            set => Set(ref _numberOfPulseMeasure, value);
+            set
+            {
+                if (Set(ref _numberOfPulseMeasure, value))
+                {
+                    (ResetNumberMeasures as Command)?.ChangeCanExecute();
+                    (SaveNumberMeasures as Command)?.ChangeCanExecute();
+                }
+            }
         }
 
         public int NumberOfOxigenMeasure
         {
             get => _numberOfOxigenMeasure;
-            set => Set(ref _numberOfOxigenMeasure, value);
+            set
+            {
+                if (Set(ref _numberOfOxigenMeasure, value))
+                {
+                    (ResetNumberMeasures as Command)?.ChangeCanExecute();
+                    (SaveNumberMeasures as Command)?.ChangeCanExecute();
+                }
+            }
         }
         #endregion
 
         #region Commands
+        public ICommand ResetNumberMeasures { get; private set; }
+        private async void ExecuteResetNumberMeasures(object obj)
+        {
+            if (await DependencyService.Get<IShowMessageDependencyService>().ShowQuestionAsync("Подтвердить действие", "Сбросить число измерений?"))
+            {
+                NumberOfPulseMeasure = 30;
+                NumberOfOxigenMeasure = 30;
+            }
+        }
+        private bool CanResetNumberMeasures(object obj)
+        {
+            return _numberOfPulseMeasure != 30 || _numberOfOxigenMeasure != 30;
+        }
+
+        public ICommand SaveNumberMeasures { get; private set; }
+        private void ExecuteSaveNumberMeasures(object obj)
+        {
+            _oldNumberOfPulseMeasure = _numberOfPulseMeasure;
+            _oldNumberOfOxigenMeasure = _numberOfOxigenMeasure;
+
+            Preferences.Set("NumberOfPulseMeasure", _numberOfPulseMeasure);
+            Preferences.Set("NumberOfOxigenMeasure", _numberOfOxigenMeasure);
+
+            (SaveNumberMeasures as Command)?.ChangeCanExecute();
+        }
+        private bool CanSaveNumberMeasures(object obj)
+        {
+            return _oldNumberOfPulseMeasure != _numberOfPulseMeasure || _oldNumberOfOxigenMeasure != _numberOfOxigenMeasure;
+        }
         #endregion
 
         #region Base Methods
@@ -66,6 +110,9 @@ namespace PulseOximeterApp.ViewModels.SettingTab
 
             _oldNumberOfPulseMeasure = _numberOfPulseMeasure;
             _oldNumberOfOxigenMeasure = _numberOfOxigenMeasure;
+
+            ResetNumberMeasures = new Command(ExecuteResetNumberMeasures, CanResetNumberMeasures);
+            SaveNumberMeasures = new Command(ExecuteSaveNumberMeasures, CanSaveNumberMeasures);
         }
     }
 }

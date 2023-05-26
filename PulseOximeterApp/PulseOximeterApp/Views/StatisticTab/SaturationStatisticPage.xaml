@@ -31,7 +31,7 @@
             <CollectionView x:Name="collectionView" SelectionMode="Single" IsGrouped="True" ItemsSource="{Binding SaturationCollection}">
                 <CollectionView.GroupHeaderTemplate>
                     <DataTemplate x:DataType="groupCollection:SaturationStatisticGroup">
-                        <Label  Margin="0, 0, 0, 5" FontSize="20" FontAttributes="Bold" Text="{Binding Title}"/>
+                        <Label Margin="0, 0, 0, 5" Text="{Binding Title}" Style="{StaticResource BoldMediumLabelStyle}"/>
                     </DataTemplate>
                 </CollectionView.GroupHeaderTemplate>
                 
@@ -62,12 +62,17 @@
                                         </Grid.RowDefinitions>
 
                                         <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="0.9*"/>
+                                                <ColumnDefinition Width="0.1*"/>
+                                            </Grid.ColumnDefinitions>
+                                            
                                             <StackLayout Orientation="Horizontal">
-                                                <Label Text="Статистика №" FontSize="18"/>
-                                                <Label FontSize="18" Text="{Binding ID}"/>
+                                                <Label Text="Статистика №" Style="{StaticResource MediumLabelStyle}"/>
+                                                <Label Text="{Binding ID}" Style="{StaticResource MediumLabelStyle}"/>
                                             </StackLayout>
 
-                                            <cusomControls:IconLabel HorizontalOptions="End" TextIcon="looks_two" FontSize="18" TextColor="{Binding CommonInformationRecord.Status, Converter={StaticResource StatisticStatusToColorConverter}}">
+                                            <cusomControls:IconLabel Grid.Column="1" TextIcon="looks_two" FontSize="20" TextColor="{Binding CommonInformationRecord.Status, Converter={StaticResource StatisticStatusToColorConverter}}">
                                                 <cusomControls:IconLabel.Behaviors>
                                                     <behaviors:GoogleMaterialFontBehavior/>
                                                 </cusomControls:IconLabel.Behaviors>
@@ -75,8 +80,8 @@
                                         </Grid>
 
                                         <StackLayout Grid.Row="1" Orientation="Horizontal">
-                                            <Label Text="Количество измерений:" FontSize="12"/>
-                                            <Label FontSize="12" Text="{Binding PointsCount}"/>
+                                            <Label Text="Количество измерений:" Style="{StaticResource MinimalLabelStyle}"/>
+                                            <Label Text="{Binding PointsCount}" Style="{StaticResource MinimalLabelStyle}"/>
                                         </StackLayout>
                                     </Grid>
                                 </Frame>

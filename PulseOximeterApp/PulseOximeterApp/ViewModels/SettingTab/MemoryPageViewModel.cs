@@ -15,9 +15,7 @@ namespace PulseOximeterApp.ViewModels.SettingTab
 
         #region Commands
         public ICommand ClearPulseStatistics { get; private set; }
-        public ICommand ClearSaturationStatistics { get; private set; }
-
-        private async void ExecuteDeletePulseStatistics(object obj)
+        private async void ExecuteClearPulseStatistics(object obj)
         {
             if (await DependencyService.Get<IShowMessageDependencyService>().ShowQuestionAsync("Подтвердить действие", "Удалить все данные о статистике измерений пульса?"))
             {
@@ -25,11 +23,12 @@ namespace PulseOximeterApp.ViewModels.SettingTab
                 (ClearPulseStatistics as Command).ChangeCanExecute();
             }
         }
-        private bool CanExecuteDeletePulseStatistics(object obj)
+        private bool CanExecuteClearPulseStatistics(object obj)
         {
             return App.StatisticDataBase.PulseRecordCount != 0;
         }
 
+        public ICommand ClearSaturationStatistics { get; private set; }
         private async void ExecuteClearSaturationStatistics(object obj)
         {
             if (await DependencyService.Get<IShowMessageDependencyService>().ShowQuestionAsync("Подтвердить действие", "Удалить все данные о статистике измерений сатурации?"))
@@ -38,7 +37,6 @@ namespace PulseOximeterApp.ViewModels.SettingTab
                 (ClearSaturationStatistics as Command).ChangeCanExecute();
             }
         }
-
         private bool CanExecuteClearSaturationStatistics(object obj)
         {
             return App.StatisticDataBase.SaturationRecordCount != 0;
@@ -59,7 +57,7 @@ namespace PulseOximeterApp.ViewModels.SettingTab
 
         public MemoryPageViewModel()
         {
-            ClearPulseStatistics = new Command(ExecuteDeletePulseStatistics, CanExecuteDeletePulseStatistics);
+            ClearPulseStatistics = new Command(ExecuteClearPulseStatistics, CanExecuteClearPulseStatistics);
             ClearSaturationStatistics = new Command(ExecuteClearSaturationStatistics, CanExecuteClearSaturationStatistics);
         }
     }

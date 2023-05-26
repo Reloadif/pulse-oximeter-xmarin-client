@@ -20,14 +20,10 @@
 
         <Grid Grid.Column="1" Grid.Row="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <Label Text="На текущей вкладке Вы сможете настроить приложение в соответствии с вашими предпочтениями."
-                   HorizontalTextAlignment="Center" Style="{StaticResource SmallLabelStyle}"/>
-
-            <StackLayout Grid.Row="1" Spacing="20" VerticalOptions="Center">
+            <StackLayout Spacing="20" VerticalOptions="Center">
                 <Button Text="Параметры" Command="{Binding GoOptionPage}" Style="{StaticResource MainButtonStyle}"/>
                 <Button Text="Память" Command="{Binding GoMemoryPage}" Style="{StaticResource MainButtonStyle}"/>
             </StackLayout>

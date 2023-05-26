@@ -16,6 +16,8 @@ namespace PulseOximeterApp.Infrastructure.Behaviors
             {"monitor_heart", '\ueaa2'},
             {"looks_two", '\ue401' },
             {"delete_forever", '\ue92b' },
+            {"restart_alt", '\uf053' },
+            {"save", '\ue161' },
         };
 
         protected override void OnAttachedTo(IconLabel bindable)

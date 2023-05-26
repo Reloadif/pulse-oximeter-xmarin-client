@@ -28,14 +28,10 @@
 
             <Grid Grid.Column="1" Grid.Row="1">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
-                <Label Text="На текущей вкладке Вы можете просмотреть список всех прошлых измерений пульса или насыщения кислорода в крови, которые были проведены с помощью приложения."
-                       HorizontalTextAlignment="Center" Style="{StaticResource SmallLabelStyle}"/>
-
-                <StackLayout Grid.Row="1" Spacing="20" VerticalOptions="Center">
+                <StackLayout Spacing="20" VerticalOptions="Center">
                     <Button Text="Пульс" Command="{Binding GoPulseStatistic}" Style="{StaticResource MainButtonStyle}"/>
                     <Button Text="Сатурация" Command="{Binding GoSaturationStatistic}" Style="{StaticResource MainButtonStyle}"/>
                 </StackLayout>

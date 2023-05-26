@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewmodels="clr-namespace:PulseOximeterApp.ViewModels.SettingTab" x:DataType="viewmodels:OptionPageViewModel"
              xmlns:behaviors="clr-namespace:PulseOximeterApp.Infrastructure.Behaviors"
+             xmlns:cusomControls="clr-namespace:PulseOximeterApp.Infrastructure.CustomControls"
              x:Class="PulseOximeterApp.Views.SettingTab.OptionPage"
              Style="{StaticResource BaseContentPageStyle}">
 
@@ -20,27 +21,52 @@
         </Grid.RowDefinitions>
 
         <Grid Grid.Column="1" Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            
             <StackLayout>
                 <Grid>
-                    <Label VerticalOptions="Center" Text="Число измерений пульса" Style="{StaticResource SmallLabelStyle}"/>
-                    <Entry HorizontalOptions="End" Text="{Binding NumberOfPulseMeasure, Mode=TwoWay}" Style="{StaticResource OptionNumericEntryStyle}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.8*"/>
+                        <ColumnDefinition Width="0.2*"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <Label VerticalOptions="Center" Text="Число измерений пульса" Style="{StaticResource BoldSmallLabelStyle}"/>
+                    <Entry Grid.Column="1" Text="{Binding NumberOfPulseMeasure, Mode=TwoWay}" Style="{StaticResource OptionNumericEntryStyle}">
                         <Entry.Behaviors>
                             <behaviors:IntegerValidationBehavior MinValue="30" MaxValue="600" />
                         </Entry.Behaviors>
                     </Entry>
                 </Grid>
 
-                <Rectangle Fill="Black" HeightRequest="2"/>
+                <Rectangle Fill="{StaticResource Primary}" HeightRequest="2"/>
 
                 <Grid>
-                    <Label VerticalOptions="Center" Text="Число измерений сатурации" Style="{StaticResource SmallLabelStyle}"/>
-                    <Entry HorizontalOptions="End" Text="{Binding NumberOfOxigenMeasure, Mode=TwoWay}" Style="{StaticResource OptionNumericEntryStyle}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.8*"/>
+                        <ColumnDefinition Width="0.2*"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <Label VerticalOptions="Center" Text="Число измерений сатурации" Style="{StaticResource BoldSmallLabelStyle}"/>
+                    <Entry Grid.Column="1" Text="{Binding NumberOfOxigenMeasure, Mode=TwoWay}" Style="{StaticResource OptionNumericEntryStyle}">
                         <Entry.Behaviors>
                             <behaviors:IntegerValidationBehavior MinValue="30" MaxValue="600" />
                         </Entry.Behaviors>
                     </Entry>
                 </Grid>
             </StackLayout>
+
+            <Grid Grid.Row="1" VerticalOptions="Center" Margin="0, 20, 0, 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <cusomControls:IconButton Icon="restart_alt" Text="Сбросить" Command="{Binding ResetNumberMeasures}" Style="{StaticResource MainIconButtonStyle}"/>
+                <cusomControls:IconButton Grid.Column="1" Icon="save" Text="Сохранить" Command="{Binding SaveNumberMeasures}" Style="{StaticResource MainIconButtonStyle}"/>
+            </Grid>
         </Grid>
     </Grid>
 </ContentPage>

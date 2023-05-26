@@ -2,12 +2,22 @@
 using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using TouchTracking.Forms;
+using TouchTracking;
 
 namespace PulseOximeterApp.Infrastructure.CustomControls
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class IconButton : ContentView
     {
+        #region Fields
+        private bool _isEnabled = true;
+
+        private long? _currentTouchId = null;
+        private object _touchEffectLock = new object();
+        private bool isVisuallyPressed = false;
+        #endregion
+
         #region BindableProperty
         public static readonly new BindableProperty PaddingProperty = BindableProperty.Create(nameof(Padding), typeof(Thickness), typeof(IconButton), default(Thickness));
         public static readonly new BindableProperty BackgroundColorProperty = BindableProperty.Create(nameof(BackgroundColor), typeof(Color), typeof(IconButton), Color.Default);
@@ -98,29 +108,41 @@ namespace PulseOximeterApp.Infrastructure.CustomControls
             iconButton.ChangeEnabledState((sender as ICommand).CanExecute(iconButton.CommandParameter));
         }
 
-        private void ChangeEnabledState(bool state) => VisualStateManager.GoToState(this, state ? "Normal" : "Disabled");
+        private void ChangeEnabledState(bool state)
+        {
+            _isEnabled = state;
+            VisualStateManager.GoToState(this, state ? "Normal" : "Disabled");
+        }
         #endregion
 
         public event EventHandler Clicked;
+        public event EventHandler Pressed;
+        public event EventHandler Released;
+
+        public event EventHandler<bool> VisuallyPressedChanged;
+
+        #region Override methods 
+        protected override void OnChildAdded(Element child)
+        {
+            base.OnChildAdded(child);
+
+            if (child is VisualElement visualChild)
+            {
+                visualChild.InputTransparent = true;
+            }
+        }
+        #endregion
 
         public IconButton()
         {
             InitializeComponent();
 
-            GestureRecognizers.Add(new TapGestureRecognizer
+            var touchEffect = new TouchEffect
             {
-                Command = new Command(() =>
-                {
-                    Clicked?.Invoke(this, EventArgs.Empty);
-                    if (Command != null)
-                    {
-                        if (Command.CanExecute(CommandParameter))
-                        {
-                            Command.Execute(CommandParameter);
-                        }  
-                    }
-                })
-            });
+                Capture = true
+            };
+            touchEffect.TouchAction += TouchEffectTouchAction;
+            Effects.Add(touchEffect);
 
             XamlWrapperFrame.SetBinding(Frame.PaddingProperty, new Binding("Padding", source: this));
             XamlWrapperFrame.SetBinding(Frame.BackgroundColorProperty, new Binding("BackgroundColor", source: this));
@@ -134,6 +156,66 @@ namespace PulseOximeterApp.Infrastructure.CustomControls
             XamlText.SetBinding(Label.TextColorProperty, new Binding("TextColor", source: this));
             XamlText.SetBinding(Label.TextProperty, new Binding("Text", source: this));
             XamlText.SetBinding(Label.FontSizeProperty, new Binding("TextFontSize", source: this));
+        }
+
+        private void TouchEffectTouchAction(object sender, TouchActionEventArgs e)
+        {
+            if (!_isEnabled || (_currentTouchId != e.Id && e.Type != TouchActionType.Pressed))
+            {
+                return;
+            }
+
+            lock (_touchEffectLock)
+            {
+                switch (e.Type)
+                {
+                    case TouchActionType.Pressed:
+                        _currentTouchId = e.Id;
+                        Pressed?.Invoke(this, EventArgs.Empty);
+
+                        isVisuallyPressed = true;
+                        VisuallyPressedChanged?.Invoke(this, true);
+                        VisualStateManager.GoToState(this, "Pressed");
+                        break;
+
+                    case TouchActionType.Moved:
+                        if (isVisuallyPressed)
+                        {
+                            if (!(e.Location.X >= 0 && e.Location.Y >= 0 && e.Location.X <= Bounds.Width && e.Location.Y <= Bounds.Height))
+                            {
+                                isVisuallyPressed = false;
+                                VisuallyPressedChanged?.Invoke(this, false);
+                                VisualStateManager.GoToState(this, "Normal");
+                            }
+                        }
+                        break;
+
+                    case TouchActionType.Cancelled:
+                        _currentTouchId = null;
+                        isVisuallyPressed = false;
+                        VisuallyPressedChanged?.Invoke(this, false);
+                        VisualStateManager.GoToState(this, "Normal");
+                        break;
+
+                    case TouchActionType.Released:
+                        _currentTouchId = null;
+
+                        if (isVisuallyPressed)
+                        {
+                            VisualStateManager.GoToState(this, "Normal");
+                            Released?.Invoke(this, EventArgs.Empty);
+                            Clicked?.Invoke(this, EventArgs.Empty);
+                            if (Command != null && Command.CanExecute(CommandParameter))
+                            {
+                                Command.Execute(CommandParameter);
+                            }
+
+                            isVisuallyPressed = false;
+                            VisuallyPressedChanged?.Invoke(this, false);
+                        }
+                        break;
+                }
+            }
         }
     }
 }
